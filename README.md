@@ -16,7 +16,7 @@ npm install
 
 ### Arquivos necessários
 
-Por questão de segurança, para que o projeto possa ser executado, é necessário configurar algumas variáveis de ambiente (como o link de acesso ao bando de dados, usuário e senha...).
+Por questão de segurança, para que o projeto possa ser executado, é necessário configurar algumas variáveis de ambiente (como o link de acesso ao banco de dados, usuário e senha...).
 
 Para realizar essa configuração, crie um arquivo chamado __.env__ no diretório raíz do projeto e configure as seguintes variáveis:
 
