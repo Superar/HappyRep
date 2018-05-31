@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Pessoa CASCADE;
 
 CREATE TABLE Pessoa
 (
-    cpf VARCHAR(11) NOT NULL,
+    cpf CHAR(11) NOT NULL,
     sexo VARCHAR NOT NULL,
     rg VARCHAR(10) NOT NULL,
     nome_prenome VARCHAR(30) NOT NULL,
@@ -25,6 +25,17 @@ CREATE TABLE PessoaTelefone
 
     CONSTRAINT pessoatelefone_pk PRIMARY KEY (cpf_pessoa, telefone),
     CONSTRAINT pessoatelefone_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
+);
+
+-- Table: faxineira
+
+CREATE TABLE faxineira
+(
+  cpf_pessoa character(11) NOT NULL,
+  CONSTRAINT faxineira_pk PRIMARY KEY (cpf_pessoa),
+  CONSTRAINT faxineira_fk_pessoa FOREIGN KEY (cpf_pessoa)
+      REFERENCES public.pessoa (cpf) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 -- Table: morador
