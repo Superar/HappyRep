@@ -1,6 +1,9 @@
 DROP TABLE IF EXISTS nutricionista CASCADE;
 DROP TABLE IF EXISTS morador CASCADE;
+DROP TABLE IF EXISTS faxineira CASCADE;
 DROP TABLE IF EXISTS Pessoa CASCADE;
+
+-- Table: pessoa
 
 CREATE TABLE Pessoa (
     cpf VARCHAR(11) NOT NULL,
@@ -12,6 +15,17 @@ CREATE TABLE Pessoa (
     email VARCHAR(100),
 
     CONSTRAINT pk_pessoa PRIMARY KEY (cpf)
+);
+
+-- Table: faxineira
+
+CREATE TABLE faxineira
+(
+  cpf_pessoa character(11) NOT NULL,
+  CONSTRAINT faxineira_pk PRIMARY KEY (cpf_pessoa),
+  CONSTRAINT faxineira_fk_pessoa FOREIGN KEY (cpf_pessoa)
+      REFERENCES public.pessoa (cpf) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 -- Table: morador
