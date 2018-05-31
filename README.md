@@ -51,18 +51,28 @@ Para a correta execução do projeto no servidor, é necessário obedecer certa 
 
 ```
 HappyRep
+│
 │   .env
 │   app.js
 │   package.json
 │   README.md
 │
 └───bin
+│   │
 │   │   www
 │
+└───database
+│   │   index.js
+│   │
+│   └───sql
+│
 └───public
-│   │   images
-│   │   javascripts
-│   │   stylesheets
+│   │
+│   └───images
+│   │
+│   └───javascripts
+│   │
+│   └───stylesheets
 │
 └───routes
 │
@@ -78,3 +88,7 @@ A pasta __routes__ contém os arquivos que indicam como será o roteamento de p�
 A pasta __views__ contém os arquivos HBS que gerarão o conteúdo dinamicamente. Estes arquivos são praticamente iguais a um HTML, porém com algumas _tags_ específicas para inclusão de conteúdo dinâmico. Todas as páginas utilizarão o arquivo `layout.hbs` como padrão, então não são necessárias as _tags_ `<head>` e `<body>`, pois estas estão presentes no _layout_. O conteúdo da página será inserido no lugar da _tag_ `{{{body}}}` do _layout_.
 
 Para mais informações sobre como criar páginas utilizando HBS, é indicado [este tutorial](https://webapplog.com/handlebars/).
+
+A pasta __database__ possui os arquivos necessários para o acesso ao banco de dados. O arquivo ``index.js`` possui um exemplo de como realizar o acesso e realizar uma _query_ para o banco.
+
+Os scripts SQL devem ser criados e mantidos na pasta __database/sql__ para controle de versão, porém serão executados no pgAdmin.
