@@ -6,6 +6,9 @@
 
 CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+	RAISE EXCEPTION 'CPF Invalido';
+    END IF;
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
         INSERT INTO Reparador VALUES (_cpf);
         RETURN (TRUE);

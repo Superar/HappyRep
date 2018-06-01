@@ -19,150 +19,162 @@
     </div>
 </div>
 
-<form method="POST" action="/cadastrar_{{{pessoa}}}">
-    <div class="columns is-multiline">
-        <div class="column is-9">
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        CPF
-                        <span class="has-text-danger">*</span>
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control is-expanded has-icons-left">
-                            <input class="input" type="text" placeholder="CPF">
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-address-card"></i>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        RG
-                        <span class="has-text-danger">*</span>
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control is-expanded has-icons-left">
-                            <input class="input" type="text" placeholder="RG">
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-address-card"></i>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        Nome Completo
-                        <span class="has-text-danger">*</span>
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control is-expanded has-icons-left">
-                            <input class="input" type="text" placeholder="Primeiro Nome">
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-user"></i>
-                            </span>
-                        </p>
-                    </div>
-
-                    <div class="field">
-                        <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="Sobrenome">
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-grouped">
-                <div class="field-label">
-                    <label class="label">
-                        Sexo
-                        <span class="has-text-danger">*</span>
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field is-narrow">
-                        <div class="control">
-                            <label class="radio">
-                                <input type="radio" name="member"> Feminino
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="member"> Masculino
+<div class="columns">
+    <div class="column">
+        <form method="POST" action="/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}">
+            <div class="columns is-multiline">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CPF
+                                <span class="has-text-danger">*</span>
                             </label>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        Data de Nascimento
-                        <span class="has-text-danger">*</span>
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control is-expanded has-icons-left">
-                            <input class="input" type="text" placeholder="Data de Nascimento">
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        Email
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control is-expanded has-icons-left">
-                            <input class="input" type="text" placeholder="Email">
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-at"></i>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label"></div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-primary">
-                                Cadastrar
-                            </button>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cpf" class="input" type="text" placeholder="CPF" value="{{cpf_value}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                RG
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="rg" class="input" type="text" placeholder="RG" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Nome Completo
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="prenome" class="input" type="text" placeholder="Primeiro Nome" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input name="sobrenome" class="input" type="text" placeholder="Sobrenome" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="field-label">
+                            <label class="label">
+                                Sexo
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Feminino
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Masculino
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Data de Nascimento
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Email
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="email" class="input" type="text" placeholder="Email" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-at"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary">
+                                        Cadastrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label" />
+                        <p class="help is-danger is-right">
+                            Campos com * são obrigatórios.
+                        </p>
+                    </div>
+
                 </div>
             </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label" />
-                <p class="help is-danger is-right">
-                    Campos com * são obrigatórios.
-                </p>
-            </div>
-
-        </div>
+        </form>
     </div>
-</form>
+</div>
+
+<div class="column">
+    {{#if erro}}
+    <div class="notification is-danger">
+        {{erro}}
+    </div>
+    {{/if}}
+</div>

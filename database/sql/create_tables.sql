@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS Pessoa CASCADE;
 
 CREATE TABLE Pessoa
 (
-    cpf VARCHAR(11) NOT NULL,
-    sexo VARCHAR NOT NULL,
+    cpf CHAR(11) NOT NULL,
+    sexo CHAR NOT NULL,
     rg VARCHAR(10) NOT NULL,
     nome_prenome VARCHAR(30) NOT NULL,
     nome_sobrenome VARCHAR(70) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE Pessoa
 
 CREATE TABLE PessoaTelefone
 (
-    cpf_pessoa VARCHAR(11) NOT NULL,
+    cpf_pessoa CHAR(11) NOT NULL,
     telefone VARCHAR(11) NOT NULL,
 
     CONSTRAINT pessoatelefone_pk PRIMARY KEY (cpf_pessoa, telefone),
@@ -55,7 +55,7 @@ CREATE TABLE nutricionista
 
 CREATE TABLE Cozinheira
 (
-    cpf_pessoa VARCHAR(11) NOT NULL,
+    cpf_pessoa CHAR(11) NOT NULL,
 
     CONSTRAINT cozinheira_pk PRIMARY KEY (cpf_pessoa),
     CONSTRAINT cozinheira_pk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa (cpf)
@@ -65,7 +65,7 @@ CREATE TABLE Cozinheira
 
 CREATE TABLE Reparador
 (
-    cpf_pessoa VARCHAR(11) NOT NULL,
+    cpf_pessoa CHAR(11) NOT NULL,
 
     CONSTRAINT reparador_pk PRIMARY KEY (cpf_pessoa),
     CONSTRAINT reparador_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
