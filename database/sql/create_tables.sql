@@ -27,6 +27,17 @@ CREATE TABLE PessoaTelefone
     CONSTRAINT pessoatelefone_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
 );
 
+-- Table: faxineira
+
+CREATE TABLE faxineira
+(
+  cpf_pessoa character(11) NOT NULL,
+  CONSTRAINT faxineira_pk PRIMARY KEY (cpf_pessoa),
+  CONSTRAINT faxineira_fk_pessoa FOREIGN KEY (cpf_pessoa)
+      REFERENCES public.pessoa (cpf) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 -- Table: morador
 
 CREATE TABLE morador
