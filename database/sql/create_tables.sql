@@ -57,7 +57,7 @@ CREATE TABLE nutricionista
 
 CREATE TABLE Republica
 (
-  id smallint NOT NULL,
+  id_republica smallint NOT NULL,
   status smallint NOT NULL,
   endereco_cep character varying(8) NOT NULL,
   endereco_logradouro character varying(50) NOT NULL,
