@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS Comodo CASCADE;
 DROP TABLE IF EXISTS Republica CASCADE;
 DROP TABLE IF EXISTS nutricionista CASCADE;
 DROP TABLE IF EXISTS morador CASCADE;
@@ -64,5 +65,16 @@ CREATE TABLE Republica
   endereco_numero smallint NOT NULL,
   endereco_complemento character varying(50),
   endereco_observacoes character varying(100),
-  CONSTRAINT pk_republica PRIMARY KEY (id)
+  CONSTRAINT pk_republica PRIMARY KEY (id_republica)
+);
+
+-- Table: Comodo
+
+CREATE TABLE Comodo
+(
+  id_comodo smallint NOT NULL,
+  id_republica smallint NOT NULL,
+  CONSTRAINT fk_comodo_republica FOREIGN KEY (id_republica) 
+    REFERENCES public.Republica (id_republica) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 );
