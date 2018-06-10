@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS morador CASCADE;
 DROP TABLE IF EXISTS PessoaTelefone;
 DROP TABLE IF EXISTS Pessoa CASCADE;
 
+-- Table: pessoa
+
 CREATE TABLE Pessoa
 (
     cpf CHAR(11) NOT NULL,
@@ -17,6 +19,8 @@ CREATE TABLE Pessoa
 
     CONSTRAINT pk_pessoa PRIMARY KEY (cpf)
 );
+
+-- Table: pessoatelefone
 
 CREATE TABLE PessoaTelefone
 (
@@ -61,7 +65,7 @@ CREATE TABLE nutricionista
       REFERENCES public.pessoa (cpf) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
- 
+
 -- Table: cozinheira
 
 CREATE TABLE Cozinheira
@@ -80,4 +84,29 @@ CREATE TABLE Reparador
 
     CONSTRAINT reparador_pk PRIMARY KEY (cpf_pessoa),
     CONSTRAINT reparador_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
+);
+
+-- Table: Republica
+
+CREATE TABLE Republica
+(
+  id_republica smallint NOT NULL,
+  status smallint NOT NULL,
+  endereco_cep character varying(8) NOT NULL,
+  endereco_logradouro character varying(50) NOT NULL,
+  endereco_numero smallint NOT NULL,
+  endereco_complemento character varying(50),
+  endereco_observacoes character varying(100),
+  CONSTRAINT pk_republica PRIMARY KEY (id_republica)
+);
+
+-- Table: Comodo
+
+CREATE TABLE Comodo
+(
+  id_comodo smallint NOT NULL,
+  id_republica smallint NOT NULL,
+  CONSTRAINT fk_comodo_republica FOREIGN KEY (id_republica) 
+    REFERENCES public.Republica (id_republica) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 );
