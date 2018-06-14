@@ -19,8 +19,8 @@ router.get('/CadastrarReparador', function (req, res) {
 });
 
 router.post('/CadastrarReparador', function (req, res) {
-  if (req.body.tipo == null) {
-    req.body.tipo = [];
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
   }
 
   db.query('SELECT insert_reparador ($1, $2)', [req.body.cpf, '{' + req.body.tipo.join(', ') + '}'], function (ret) {
@@ -47,8 +47,8 @@ router.post('/CadastrarReparador', function (req, res) {
 });
 
 router.post('/CadastrarPessoaReparador', function (req, res) {
-  if (req.body.tipo == null) {
-    req.body.tipo = [];
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
   }
 
   db.query('SELECT insert_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email, '{' + req.body.tipo.join(', ') + '}'],
@@ -62,6 +62,11 @@ router.post('/CadastrarPessoaReparador', function (req, res) {
       values.pessoa = 'Reparador';
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
       values.erro = err;
 
       res.render('formularios/cadastrar_reparador', values);

@@ -6,7 +6,7 @@
 
 CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR, tipos VARCHAR[]) RETURNS boolean AS $$
 DECLARE
-    tipo ReparadorTipo.tipo%TYPE;
+    _tipo ReparadorTipo.tipo%TYPE;
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
 	    RAISE EXCEPTION 'CPF Invalido';
@@ -16,11 +16,17 @@ BEGIN
     END IF;
 
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
-        INSERT INTO Reparador VALUES (_cpf);
-        FOREACH tipo IN ARRAY tipos
-        LOOP
-            INSERT INTO ReparadorTipo VALUES (_cpf, tipo);
-        END LOOP;
+        IF NOT EXISTS (SELECT 1 FROM Reparador r WHERE r.cpf_pessoa = _cpf) THEN
+            INSERT INTO Reparador VALUES (_cpf);
+            FOREACH _tipo IN ARRAY tipos
+            LOOP
+                IF NOT EXISTS (SELECT 1 FROM ReparadorTipo rt WHERE rt.cpf_reparador = _cpf AND rt.tipo = _tipo) THEN
+                    INSERT INTO ReparadorTipo VALUES (_cpf, _tipo);
+                END IF;
+            END LOOP;
+        ELSE
+            RAISE EXCEPTION 'Reparador já cadastrado';
+        END IF;
         RETURN (TRUE);
     ELSE
         RETURN (FALSE);
@@ -33,12 +39,17 @@ CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
                                             _rg VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
-                                            _data_de_nascimento DATE,
+                                            _data_de_nascimento VARCHAR,
                                             _email VARCHAR,
                                             tipos VARCHAR[]) RETURNS void AS $$
+DECLARE
+    tipo ReparadorTipo.tipo%TYPE;
 BEGIN
-    INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo)
-        VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email, tipos);
+    FOREACH tipo IN ARRAY tipos
+    LOOP
+        INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo)
+        VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email, tipo);
+    END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 
