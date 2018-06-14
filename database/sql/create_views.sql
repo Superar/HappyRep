@@ -1,9 +1,11 @@
+DROP VIEW IF EXISTS view_reparador;
+
 -- View: view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE VIEW view_reparador AS
-SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
-FROM Reparador r, Pessoa p
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo
+FROM Pessoa p, Reparador r LEFT OUTER JOIN ReparadorTipo t ON t.cpf_reparador = r.cpf_pessoa
 WHERE r.cpf_pessoa = p.cpf;
 
 -- View: view_nutricionista

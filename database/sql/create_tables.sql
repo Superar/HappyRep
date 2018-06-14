@@ -1,7 +1,11 @@
+DROP TABLE IF EXISTS Comodo CASCADE;
+DROP TABLE IF EXISTS Republica CASCADE;
+DROP TABLE IF EXISTS ReparadorTipo CASCADE;
 DROP TABLE IF EXISTS Reparador CASCADE;
 DROP TABLE IF EXISTS Cozinheira CASCADE;
 DROP TABLE IF EXISTS nutricionista CASCADE;
 DROP TABLE IF EXISTS morador CASCADE;
+DROP TABLE IF EXISTS Faxineira CASCADE;
 DROP TABLE IF EXISTS PessoaTelefone;
 DROP TABLE IF EXISTS Pessoa CASCADE;
 
@@ -84,6 +88,19 @@ CREATE TABLE Reparador
 
     CONSTRAINT reparador_pk PRIMARY KEY (cpf_pessoa),
     CONSTRAINT reparador_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
+);
+
+-- Table: reparadortipo
+
+CREATE TABLE ReparadorTipo
+(
+    cpf_reparador CHAR(11) NOT NULL,
+    tipo VARCHAR(11) NOT NULL,
+
+    CHECK (tipo IN ('pedreiro', 'encanador', 'chaveiro', 'eletricista')),
+
+    CONSTRAINT reparadortipo_pk PRIMARY KEY (cpf_reparador, tipo),
+    CONSTRAINT reparadortipo_fk_reparador FOREIGN KEY (cpf_reparador) REFERENCES Reparador ON DELETE CASCADE
 );
 
 -- Table: Republica

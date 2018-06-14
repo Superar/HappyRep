@@ -4,23 +4,41 @@
 -- Para inserir na view do reaparador, é necessário uma Trigger para fazer a inserção nas tabelas correspondentes.
 -- Autor: Marcio Lima Inácio
 
-CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR, tipos VARCHAR[]) RETURNS boolean AS $$
+DECLARE
+    tipo ReparadorTipo.tipo%TYPE;
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
-	RAISE EXCEPTION 'CPF Invalido';
+	    RAISE EXCEPTION 'CPF Invalido';
     END IF;
+    IF tipos = '{}' THEN
+        RAISE EXCEPTION 'Selecione os tipos do Reparador';
+    END IF;
+
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
-      INSERT INTO Reparador VALUES (_cpf);
-      RETURN (TRUE);
+        INSERT INTO Reparador VALUES (_cpf);
+        FOREACH tipo IN ARRAY tipos
+        LOOP
+            INSERT INTO ReparadorTipo VALUES (_cpf, tipo);
+        END LOOP;
+        RETURN (TRUE);
     ELSE
         RETURN (FALSE);
     END IF;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
+                                            _sexo VARCHAR,
+                                            _rg VARCHAR,
+                                            _nome_prenome VARCHAR,
+                                            _nome_sobrenome VARCHAR,
+                                            _data_de_nascimento DATE,
+                                            _email VARCHAR,
+                                            tipos VARCHAR[]) RETURNS void AS $$
 BEGIN
-    INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email) VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+    INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo)
+        VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email, tipos);
 END;
 $$ LANGUAGE plpgsql;
 
