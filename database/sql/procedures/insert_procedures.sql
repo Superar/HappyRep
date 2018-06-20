@@ -53,6 +53,43 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Inserir cozinheira
+-- Autor: Marcio Lima Inácio
+
+CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+	    RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf) THEN
+            INSERT INTO Cozinheira VALUES (_cpf);
+        ELSE
+            RAISE EXCEPTION 'Cozinheira já cadastrada';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
+                                            _sexo VARCHAR,
+                                            _rg VARCHAR,
+                                            _nome_prenome VARCHAR,
+                                            _nome_sobrenome VARCHAR,
+                                            _data_de_nascimento VARCHAR,
+                                            _email VARCHAR) RETURNS void AS $$
+DECLARE
+    tipo ReparadorTipo.tipo%TYPE;
+BEGIN
+    INSERT INTO Pessoa VALUES (_cpf, _seco, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    INSERT INTO Cozinheira VALUES (_cpf);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Inserir nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
