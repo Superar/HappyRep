@@ -21,3 +21,15 @@ BEGIN
     END LOOP;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Deleta o cadastro de uma Cozinheira
+-- Autor: Marcio Lima Inácio
+CREATE OR REPLACE FUNCTION delete_cozinheira(_cpf VARCHAR) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf) THEN
+		RAISE EXCEPTION 'Cozinheira não cadastrada';
+	END IF;
+
+    DELETE FROM Cozinheira c WHERE c.cpf_pessoa = _cpf;
+END;
+$$ LANGUAGE plpgsql;
