@@ -24,7 +24,7 @@ BEGIN
 	END IF;
         RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+        RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -61,7 +61,7 @@ BEGIN
 	END IF;
         RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+        RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
