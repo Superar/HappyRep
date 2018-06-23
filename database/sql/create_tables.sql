@@ -43,7 +43,7 @@ CREATE TABLE faxineira
   CONSTRAINT faxineira_pk PRIMARY KEY (cpf_pessoa),
   CONSTRAINT faxineira_fk_pessoa FOREIGN KEY (cpf_pessoa)
       REFERENCES public.pessoa (cpf) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Table: morador
@@ -56,7 +56,7 @@ CREATE TABLE morador
   CONSTRAINT morador_pk PRIMARY KEY (cpf_pessoa),
   CONSTRAINT morador_fk_pessoa FOREIGN KEY (cpf_pessoa)
       REFERENCES public.pessoa (cpf) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Table: nutricionista
@@ -67,7 +67,7 @@ CREATE TABLE nutricionista
   CONSTRAINT nutricionista_pk PRIMARY KEY (cpf_pessoa),
   CONSTRAINT nutricionista_pk_pessoa FOREIGN KEY (cpf_pessoa)
       REFERENCES public.pessoa (cpf) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Table: cozinheira
@@ -77,7 +77,9 @@ CREATE TABLE Cozinheira
     cpf_pessoa CHAR(11) NOT NULL,
 
     CONSTRAINT cozinheira_pk PRIMARY KEY (cpf_pessoa),
-    CONSTRAINT cozinheira_pk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa (cpf)
+    CONSTRAINT cozinheira_pk_pessoa FOREIGN KEY (cpf_pessoa)
+      REFERENCES public.pessoa (cpf) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Table: reparador
@@ -87,7 +89,9 @@ CREATE TABLE Reparador
     cpf_pessoa CHAR(11) NOT NULL,
 
     CONSTRAINT reparador_pk PRIMARY KEY (cpf_pessoa),
-    CONSTRAINT reparador_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
+    CONSTRAINT reparador_fk_pessoa FOREIGN KEY (cpf_pessoa)
+      REFERENCES public.pessoa (cpf) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Table: reparadortipo
