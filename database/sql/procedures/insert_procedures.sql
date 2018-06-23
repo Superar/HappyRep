@@ -86,7 +86,7 @@ DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
     INSERT INTO Pessoa VALUES (_cpf, _seco, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
-    INSERT INTO Cozinheira VALUES (_cpf);
+    INSERT INTO Reparador VALUES (_cpf);
 END;
 $$ LANGUAGE plpgsql;
 
