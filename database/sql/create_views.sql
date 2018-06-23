@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS view_morador;
+DROP VIEW IF EXISTS view_nutricionista;
 DROP VIEW IF EXISTS view_reparador;
 
 -- View: view_reparador
