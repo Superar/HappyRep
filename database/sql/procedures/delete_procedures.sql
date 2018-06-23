@@ -33,3 +33,27 @@ BEGIN
     DELETE FROM Cozinheira c WHERE c.cpf_pessoa = _cpf;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Deleta uma pessoa
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION delete_pessoa (_cpf VARCHAR) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        RAISE EXCEPTION 'Pessoa não cadastrada';
+    END IF;
+
+    DELETE FROM Pessoa p WHERE p.cpf = _cpf;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Deleta uma faxineira
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION delete_faxineira (_cpf VARCHAR) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
+        RAISE EXCEPTION 'Faxineira não cadastrada';
+    END IF;
+
+    DELETE FROM Faxineira f WHERE f.cpf_pessoa = _cpf;
+END;
+$$ LANGUAGE plpgsql;

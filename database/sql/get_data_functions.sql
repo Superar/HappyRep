@@ -46,7 +46,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --nome_prenome
-CREATE OR REPLACE FUNCTION get_prenome(_cpf VARCHAR) RETURNS VARCHAR(30) AS $$
+CREATE OR REPLACE FUNCTION get_nome_prenome(_cpf VARCHAR) RETURNS VARCHAR(30) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
         RETURN (SELECT nome_prenome FROM Pessoa p WHERE p.cpf = _cpf);

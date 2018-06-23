@@ -1,6 +1,23 @@
 DROP VIEW IF EXISTS view_morador;
 DROP VIEW IF EXISTS view_nutricionista;
 DROP VIEW IF EXISTS view_reparador;
+DROP VIEW IF EXISTS view_faxineira;
+DROP VIEW IF EXISTS view_pessoa;
+
+-- View: view_pessoa
+-- Autor: Luis Felipe Tomazini
+
+CREATE VIEW view_pessoa AS
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM Pessoa p;
+
+-- View: view_nutricionista
+-- Autor: Luis Felipe Tomazini
+
+CREATE VIEW view_faxineira AS
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM Faxineira f, Pessoa p
+WHERE f.cpf_pessoa = p.cpf;
 
 -- View: view_reparador
 -- Autor: Marcio Lima Inácio
