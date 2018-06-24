@@ -1,11 +1,12 @@
-const { Pool } = require('pg');
+const {Pool} = require('pg');
 
-const pool = new Pool({
-    connectionString : process.env.DATABASE_URL,
-    ssl: true
-});
+const pool =
+    new Pool({connectionString : process.env.DATABASE_URL, ssl : true});
 
-pool.query('SELECT NOW()', function(err, res){
-    console.log(err, res);
-    pool.end();
-});
+module.exports = {
+  query : function(text, values, ret_cb, err_cb) {
+    pool.connect(function(err, client, done) {
+        client.query(text, values).then(ret_cb).catch(err_cb);
+    });
+  }
+};
