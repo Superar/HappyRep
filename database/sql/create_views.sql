@@ -41,9 +41,6 @@ WHERE n.cpf_pessoa = p.cpf;
 CREATE VIEW view_morador AS
 SELECT trabalho, universidade, cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM Morador m, Pessoa p
-<<<<<<< HEAD
-WHERE m.cpf_pessoa = p.cpf;
-=======
 WHERE m.cpf_pessoa = p.cpf;
 
 
@@ -55,4 +52,3 @@ CREATE VIEW view_morador_sem_trab AS
 SELECT universidade, cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM Morador m, Pessoa p
 WHERE m.cpf_pessoa = p.cpf AND m.trabalho is NULL;
->>>>>>> origin/tiago
