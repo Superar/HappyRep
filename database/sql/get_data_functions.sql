@@ -1,7 +1,17 @@
---Pega dados de pessoas e seus derivados
---Autor: Tiago Bachiega de Almeida
+---------------------------------------------
+------------- DROP FUNCTIONS ----------------
+---------------------------------------------
 
---trabalho
+
+
+---------------------------------------------
+------------ CREATE FUNCTIONS ---------------
+---------------------------------------------
+
+-- Function: Pega dados de pessoas e seus derivados
+-- Autor: Tiago Bachiega de Almeida
+
+-- trabalho
 CREATE OR REPLACE FUNCTION get_trabalho(_cpf VARCHAR) RETURNS VARCHAR(100) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Morador m WHERE m.cpf_pessoa = _cpf) THEN
@@ -12,7 +22,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---universidade
+-- universidade
 CREATE OR REPLACE FUNCTION get_universidade(_cpf VARCHAR) RETURNS VARCHAR(100) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Morador m WHERE m.cpf_pessoa = _cpf) THEN
@@ -23,7 +33,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---sexo
+-- sexo
 CREATE OR REPLACE FUNCTION get_sexo(_cpf VARCHAR) RETURNS VARCHAR(11) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -34,7 +44,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---rg
+-- rg
 CREATE OR REPLACE FUNCTION get_rg(_cpf VARCHAR) RETURNS VARCHAR(10) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -45,7 +55,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---nome_prenome
+-- nome_prenome
 CREATE OR REPLACE FUNCTION get_nome_prenome(_cpf VARCHAR) RETURNS VARCHAR(30) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -56,7 +66,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---nome_sobrenome
+-- nome_sobrenome
 CREATE OR REPLACE FUNCTION get_sobrenome(_cpf VARCHAR) RETURNS VARCHAR(70) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -67,7 +77,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---data_de_nascimento
+-- data_de_nascimento
 CREATE OR REPLACE FUNCTION get_data(_cpf VARCHAR) RETURNS DATE AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -78,7 +88,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---email
+-- email
 CREATE OR REPLACE FUNCTION get_email(_cpf VARCHAR) RETURNS VARCHAR(100) AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
