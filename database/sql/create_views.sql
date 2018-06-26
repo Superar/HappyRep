@@ -67,5 +67,6 @@ WHERE m.cpf_pessoa = p.cpf AND m.trabalho is NULL;
 -- View: view_republica
 -- Autor: Victor Calefi Ramos
 
+
 -- View: view_comodo
 -- Autor: Victor Calefi Ramos

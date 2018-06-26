@@ -2,7 +2,14 @@
 ------------- DROP FUNCTIONS ----------------
 ---------------------------------------------
 
-
+DROP FUNCTION IF EXISTS get_email;
+DROP FUNCTION IF EXISTS get_data;
+DROP FUNCTION IF EXISTS get_sobrenome;
+DROP FUNCTION IF EXISTS get_nome_prenome;
+DROP FUNCTION IF EXISTS get_rg;
+DROP FUNCTION IF EXISTS get_sexo;
+DROP FUNCTION IF EXISTS get_universidade;
+DROP FUNCTION IF EXISTS get_trabalho;
 
 ---------------------------------------------
 ------------ CREATE FUNCTIONS ---------------
