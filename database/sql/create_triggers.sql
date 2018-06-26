@@ -1,4 +1,17 @@
--- Insere reparador em view_reparador
+---------------------------------------------
+-------------- DROP TRIGGERS ----------------
+---------------------------------------------
+
+DROP TRIGGER delete_row_view_reparador;
+DROP FUNCTION delete_row_view_reparador;
+DROP TRIGGER insert_view_reparador;
+DROP FUNCTION insert_view_reparador;
+
+---------------------------------------------
+-------------- CRATE TRIGGERS----------------
+---------------------------------------------
+
+-- Trigger: Insere reparador em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_view_reparador() RETURNS trigger AS $$
@@ -19,7 +32,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_reparador INSTEAD OF INSERT ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_reparador();
 
--- Deleta linha em view_reparador
+-- Trigger: Deleta linha em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION delete_row_view_reparador() RETURNS trigger AS $$
@@ -42,3 +55,6 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER delete_row_view_reparador INSTEAD OF DELETE ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_reparador();
+
+-- Trigger: 
+-- Autor: Victor Calefi Ramos
