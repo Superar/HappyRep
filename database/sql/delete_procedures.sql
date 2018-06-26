@@ -1,16 +1,16 @@
 ---------------------------------------------
-------------- DROP PROCEDURES ---------------
+------------- DROP FUNCTIONS ---------------
 ---------------------------------------------
 
-DROP PROCEDURE delete_faxineira;
-DROP PROCEDURE delete_pessoa;
-DROP PROCEDURE delete_cozinheira;
-DROP PROCEDURE delete_reparador;
-DROP PROCEDURE delete_morador;
-DROP PROCEDURE delete_nutricionista;
+DROP FUNCTION IF EXISTS delete_faxineira;
+DROP FUNCTION IF EXISTS delete_pessoa;
+DROP FUNCTION IF EXISTS delete_cozinheira;
+DROP FUNCTION IF EXISTS delete_reparador;
+DROP FUNCTION IF EXISTS delete_morador;
+DROP FUNCTION IF EXISTS delete_nutricionista;
 
 ---------------------------------------------
------------- CREATE PROCEDURES --------------
+------------ CREATE FUNCTIONS --------------
 ---------------------------------------------
 
 -- Procedure: Deletar nutricionista

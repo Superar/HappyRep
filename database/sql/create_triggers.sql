@@ -2,10 +2,10 @@
 -------------- DROP TRIGGERS ----------------
 ---------------------------------------------
 
-DROP TRIGGER delete_row_view_reparador;
-DROP FUNCTION delete_row_view_reparador;
-DROP TRIGGER insert_view_reparador;
-DROP FUNCTION insert_view_reparador;
+DROP TRIGGER IF EXISTS delete_row_view_reparador;
+DROP FUNCTION IF EXISTS delete_row_view_reparador;
+DROP TRIGGER IF EXISTS insert_view_reparador;
+DROP FUNCTION IF EXISTS insert_view_reparador;
 
 ---------------------------------------------
 -------------- CRATE TRIGGERS----------------
