@@ -1,0 +1,116 @@
+UPDATED 26 June 2018 11:23 AM
+
+#########################################################
+############### LOG "create_tables.sql" #################
+#########################################################
+
+NOTICE:  table "reparadortipo" does not exist, skipping
+NOTICE:  drop cascades to constraint fk_reparoreparador on table reparo
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to constraint fk_alimentacaocozinheira on table alimentacao
+drop cascades to view view_lista_cozinheira_nutricionista
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to view view_nutricionista
+drop cascades to constraint fk_alimentacaonutricionista on table alimentacao
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to view view_morador
+drop cascades to view view_morador_sem_trab
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to view view_faxineira
+drop cascades to constraint fk_faxinafaxineira on table faxina
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to view view_pessoa
+drop cascades to view view_operador_servico
+
+Query returned successfully with no result in 427 msec.
+
+#########################################################
+############### LOG "create_views.sql" ##################
+#########################################################
+
+NOTICE:  view "view_comodo" does not exist, skipping
+NOTICE:  view "view_republica" does not exist, skipping
+NOTICE:  view "view_reparador" does not exist, skipping
+
+
+ERROR:  relation "reparadortipo" does not exist
+LINE 38: FROM Pessoa p, Reparador r LEFT OUTER JOIN ReparadorTipo t O...
+                                                    ^
+********** Error **********
+
+ERROR: relation "reparadortipo" does not exist
+SQL state: 42P01
+Character: 1217
+
+#########################################################
+############# LOG "create_triggers.sql" #################
+#########################################################
+
+ERROR:  syntax error at or near ";"
+LINE 5: DROP TRIGGER IF EXISTS delete_row_view_reparador;
+                                                        ^
+
+********** Error **********
+
+ERROR: syntax error at or near ";"
+SQL state: 42601
+Character: 192
+
+#########################################################
+############ LOG "alter_procedures.sql" #################
+#########################################################
+
+NOTICE:  function update_reparador_tipo() does not exist, skipping
+
+
+ERROR:  invalid type name "ReparadorTipo.tipo%TYPE"
+LINE 20:  _tipo ReparadorTipo.tipo%TYPE;
+                ^
+********** Error **********
+
+ERROR: invalid type name "ReparadorTipo.tipo%TYPE"
+SQL state: 42601
+Character: 694
+
+#########################################################
+########### LOG "delete_procedures.sql" #################
+#########################################################
+
+NOTICE:  function delete_cozinheira() does not exist, skipping
+NOTICE:  function delete_reparador() does not exist, skipping
+ERROR:  invalid type name "ReparadorTipo.tipo%TYPE"
+LINE 57:     _tipo ReparadorTipo.tipo%TYPE;
+                   ^
+********** Error **********
+
+ERROR: invalid type name "ReparadorTipo.tipo%TYPE"
+SQL state: 42601
+Character: 1779
+
+#########################################################
+########## LOG "insert_procedures.sql" ##################
+#########################################################
+
+NOTICE:  function insert_faxineira() does not exist, skipping
+NOTICE:  function insert_morador() does not exist, skipping
+NOTICE:  function insert_cozinheira() does not exist, skipping
+NOTICE:  function insert_reparador() does not exist, skipping
+
+
+ERROR:  invalid type name "ReparadorTipo.tipo%TYPE"
+LINE 25:     _tipo ReparadorTipo.tipo%TYPE;
+                   ^
+********** Error **********
+
+ERROR: invalid type name "ReparadorTipo.tipo%TYPE"
+SQL state: 42601
+Character: 1044
+
+#########################################################
+########## LOG "get_data_functions.sql" #################
+#########################################################
+
+NOTICE:  function get_universidade() does not exist, skipping
+NOTICE:  function get_trabalho() does not exist, skipping
+
+Query returned successfully with no result in 168 msec.
