@@ -9,7 +9,7 @@ DECLARE
     _tipo ReparadorTipo.tipo%TYPE;
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
-	    RAISE EXCEPTION 'CPF Invalido';
+        RAISE EXCEPTION 'CPF Invalido';
     END IF;
     IF tipos = '{}' THEN
         RAISE EXCEPTION 'Selecione os tipos do Reparador';
@@ -59,7 +59,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
-	    RAISE EXCEPTION 'CPF Invalido';
+        RAISE EXCEPTION 'CPF Invalido';
     END IF;
 
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -86,23 +86,23 @@ DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
     INSERT INTO Pessoa VALUES (_cpf, _seco, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
-    INSERT INTO Cozinheira VALUES (_cpf);
+    INSERT INTO Reparador VALUES (_cpf);
 END;
 $$ LANGUAGE plpgsql;
 
 -- Inserir nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
-CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
-	RAISE EXCEPTION 'CPF Invalido';
+    RAISE EXCEPTION 'CPF Invalido';
     END IF;
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
         INSERT INTO Nutricionista VALUES (_cpf);
-        RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+    INSERT INTO Pessoa VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+        INSERT INTO Nutricionista VALUES (_cpf);
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -110,16 +110,56 @@ $$ LANGUAGE plpgsql;
 -- Inserir morador
 -- Autor: Tiago Bachiega de Almeida
 
-CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
-	RAISE EXCEPTION 'CPF Invalido';
+    RAISE EXCEPTION 'CPF Invalido';
     END IF;
     IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
         INSERT INTO Morador VALUES (_trabalho, _universidade, _cpf);
-        RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+    INSERT INTO Pessoa VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    INSERT INTO Morador VALUES (_trabalho, _universidade, _cpf);
     END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Inserir pessoa
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION insert_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento date, _email VARCHAR) RETURNS boolean AS $$
+  
+BEGIN
+  IF LENGTH (_cpf) != 11 THEN
+     RAISE EXCEPTION 'CPF Invalido';
+  END IF;
+  
+  IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+    RETURN (FALSE);
+  ELSE
+    INSERT INTO pessoa (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email) VALUES  (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+    RETURN (TRUE);
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+  
+  
+-- Inserir faxineira
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+  IF LENGTH (_cpf) != 11 THEN
+    RAISE EXCEPTION 'CPF Invalido';
+  END IF;
+  
+  IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+    IF EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
+      RAISE EXCEPTION 'Faxineira ja cadastrada';
+    ELSE
+      INSERT INTO Faxineira VALUES (_cpf);
+    END IF;
+    RETURN (TRUE);
+  ELSE
+    RETURN (FALSE);
+  END IF;
 END;
 $$ LANGUAGE plpgsql;

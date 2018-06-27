@@ -74,7 +74,7 @@ BEGIN
 	END IF;
         RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+        RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -111,9 +111,63 @@ BEGIN
 	END IF;
         RETURN (TRUE);
     ELSE
-        RETURN (FALSE);
+        RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
 
+-- Update pessoa
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION update_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
+BEGIN
+	IF LENGTH (_cpf) != 11 THEN
+		RAISE EXCEPTION 'CPF Invalido';
+	END IF;
 
+	IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+		UPDATE Pessoa AS p SET
+			cpf = COALESCE (_cpf, cpf),
+			sexo = COALESCE (_sexo, sexo),
+			rg = COALESCE (_rg, rg),
+			nome_prenome = COALESCE (_nome_prenome, nome_prenome),
+			nome_sobrenome = COALESCE (_nome_sobrenome, nome_sobrenome),
+			data_de_nascimento = COALESCE (_data_de_nascimento, data_de_nascimento),
+			email = COALESCE (_email, email)
+		WHERE p.cpf = _cpf;
+
+		RETURN (TRUE);
+	ELSE
+		RETURN (FALSE);
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Update faxineira
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION update_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
+BEGIN
+	IF LENGTH (_cpf) != 11 THEN
+		RAISE EXCEPTION 'CPF Invalido';
+	END IF;
+
+	IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+		UPDATE Pessoa AS p SET
+			cpf = COALESCE (_cpf, cpf),
+			sexo = COALESCE (_sexo, sexo),
+			rg = COALESCE (_rg, rg),
+			nome_prenome = COALESCE (_nome_prenome, nome_prenome),
+			nome_sobrenome = COALESCE (_nome_sobrenome, nome_sobrenome),
+			data_de_nascimento = COALESCE (_data_de_nascimento, data_de_nascimento),
+			email = COALESCE (_email, email)
+		WHERE p.cpf = _cpf;
+
+		UPDATE Faxineira AS f SET
+			cpf_pessoa = COALESCE (_cpf, cpf_pessoa)
+		WHERE f.cpf_pessoa = _cpf;
+
+		RETURN (TRUE);
+	ELSE
+		RETURN (FALSE);
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
