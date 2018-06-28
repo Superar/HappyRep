@@ -153,11 +153,13 @@ BEGIN
     IF EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
       RAISE EXCEPTION 'Faxineira ja cadastrada';
     ELSE
-      INSERT INTO Faxineira VALUES (_cpf);
+      INSERT INTO Faxineira (cpf_pessoa) VALUES (_cpf);
     END IF;
     RETURN (TRUE);
   ELSE
-    RETURN insert_pessoa (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    PERFORM insert_pessoa (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    INSERT INTO Faxineira (cpf_pessoa) VALUES (_cpf);
+    RETURN (TRUE);
   END IF;
 END;
 $$ LANGUAGE plpgsql;
