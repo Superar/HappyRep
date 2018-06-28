@@ -1,3 +1,24 @@
+-- Altera reparador
+-- Autor: Marcio Lima Inácio
+CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
+										 _sexo VARCHAR DEFAULT NULL,
+										 _rg VARCHAR DEFAULT NULL,
+										 _nome_prenome VARCHAR DEFAULT NULL,
+										 _nome_sobrenome VARCHAR DEFAULT NULL,
+										 _data_de_nascimento DATE DEFAULT NULL,
+										 _email VARCHAR DEFAULT NULL,
+										 tipos VARCHAR[] DEFAULT '{}') RETURNS boolean AS $$
+DECLARE
+	_retorno BOOLEAN;
+BEGIN
+	IF NOT tipos = '{}' THEN
+		PERFORM update_reparador_tipo(_cpf, tipos);
+	END IF;
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	RETURN (_retorno);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Altera o tipo do reparador
 -- Autor: Marcio Lima Inácio
 CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
@@ -45,6 +66,23 @@ BEGIN
 			PERFORM insert_reparador(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_CHAR(_data_de_nascimento, 'DD/MM/YYYY'), _email, ARRAY[_tipo]);
 		END IF;
 	END LOOP;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Altera cozinheira
+-- Autor: Marcio Lima Inácio
+CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
+										 _sexo VARCHAR DEFAULT NULL,
+										 _rg VARCHAR DEFAULT NULL,
+										 _nome_prenome VARCHAR DEFAULT NULL,
+										 _nome_sobrenome VARCHAR DEFAULT NULL,
+										 _data_de_nascimento DATE DEFAULT NULL,
+										 _email VARCHAR DEFAULT NULL) RETURNS boolean AS $$
+DECLARE
+	_retorno BOOLEAN;
+BEGIN
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	RETURN (_retorno);
 END;
 $$ LANGUAGE plpgsql;
 
