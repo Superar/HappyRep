@@ -218,8 +218,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: 
+-- Function: Update republica
 -- Autor: Victor Calefi Ramos
 
--- Function:
--- Autor: Victor Calefi Ramos
+CREATE OR REPLACE FUNCTION update_republica(_id_republica SMALLINT, 
+	_status SMALLINT, 
+	_endereco_cep VARCHAR, 
+	_endereco_logradouro VARCHAR, 
+	_endereco_numero SMALLINT, 
+	_endereco_complemento VARCHAR, 
+	_endereco_observacoes VARCHAR) RETURNS boolean AS $$
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+		RAISE EXCEPTION 'Republica não cadastrada';
+		RETURN (FALSE);
+	END IF;
+
+	UPDATE Republica AS rep SET
+		status = COALESCE (_status, status),
+		endereco_cep = COALESCE (_endereco_cep, endereco_cep),
+		endereco_logradouro = COALESCE (_endereco_logradouro, endereco_logradouro),
+		endereco_numero = COALESCE (_endereco_numero, endereco_numero),
+		endereco_complemento = COALESCE (_endereco_complemento, endereco_complemento),
+		endereco_observacoes = COALESCE (_endereco_observacoes, endereco_observacoes),
+	WHERE rep.id_republica = _id_republica;
+
+	RETURN (TRUE);
+END;
+$$ LANGUAGE plpgsql;
