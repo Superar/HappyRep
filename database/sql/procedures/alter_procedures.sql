@@ -1,3 +1,4 @@
+<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
 ---------------------------------------------
 ------------ CREATE FUNCTIONS ---------------
 ---------------------------------------------
@@ -5,6 +6,10 @@
 -- Function: Altera reparador
 -- Autor: Marcio Lima Inácio
 
+=======
+-- Altera reparador
+-- Autor: Marcio Lima Inácio
+>>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -24,7 +29,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
 -- Function: Altera o tipo do reparador
+=======
+-- Altera o tipo do reparador
+>>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
@@ -75,9 +84,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
 -- Function: Altera cozinheira
 -- Autor: Marcio Lima Inácio
 
+=======
+-- Altera cozinheira
+-- Autor: Marcio Lima Inácio
+>>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -93,7 +107,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
 -- Function: Altera nutricionista
+=======
+-- Altera nutricionista
+>>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$

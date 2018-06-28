@@ -47,7 +47,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER delete_row_view_reparador INSTEAD OF DELETE ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_reparador();
 
+<<<<<<< HEAD
 -- Trigger: Insere nutricionista em view_nutricionista
+=======
+-- Insere nutricionista em view nutricionista
+>>>>>>> origin/master
 -- Autor: Tiago Bachiega de Almeida
 
 --function
@@ -68,7 +72,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_nutricionista INSTEAD OF INSERT ON view_nutricionista
 FOR EACH ROW EXECUTE PROCEDURE insert_view_nutricionista();
 
+<<<<<<< HEAD
 -- Trigger: Insere morador em view_morador
+=======
+-- Insere morador em view morador
+>>>>>>> origin/master
 -- Autor: Tiago Bachiega de Almeida
 
 --function
@@ -89,6 +97,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_morador INSTEAD OF INSERT ON view_morador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_morador();
 
+<<<<<<< HEAD
 -- Trigger: Deleta republica se não houver comodos
 -- Autor: Victor Calefi Ramos
 
@@ -112,3 +121,5 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER delete_row_view_comodo INSTEAD OF DELETE ON view_comodo
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_comodo();
+=======
+>>>>>>> origin/master

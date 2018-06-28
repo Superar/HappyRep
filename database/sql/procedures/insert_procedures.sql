@@ -150,7 +150,10 @@ $$ LANGUAGE plpgsql;
   
 -- Function: Inserir faxineira
 -- Autor: Luis Felipe Tomazini
+<<<<<<< HEAD:database/sql/procedures/insert_procedures.sql
 
+=======
+>>>>>>> origin/master:database/sql/procedures/insert_procedures.sql
 CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
   IF LENGTH (_cpf) != 11 THEN
