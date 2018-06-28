@@ -89,5 +89,26 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_morador INSTEAD OF INSERT ON view_morador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_morador();
 
--- Trigger: 
+-- Trigger: Deleta republica se não houver comodos
 -- Autor: Victor Calefi Ramos
+
+CREATE OR REPLACE FUNCTION delete_row_view_comodo() RETURNS trigger AS $$
+DECLARE
+    _num_rows INT;
+BEGIN
+    SELECT COUNT(1) INTO _num_rows FROM view_comodo vc WHERE vc.id_comodo = OLD.id_comodo AND vc.id_republica = OLD.id_republica;
+
+    -- Se for a ultima linha a ser deletada, deve deletar a republica
+    IF _num_rows = 1 THEN
+        DELETE FROM Comodo c WHERE c.id_comodo = OLD.id_comodo AND c.id_republica = OLD.id_republica;
+        DELETE FROM Republica rep WHERE rep.id_republica = OLD.id_republica;
+    -- Caso contrário, deleta-se apenas o comodo
+    ELSE
+        DELETE FROM Comodo c WHERE c.id_comodo = OLD.id_comodo AND c.id_republica = OLD.id_republica;
+    END IF;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_row_view_comodo INSTEAD OF DELETE ON view_comodo
+FOR EACH ROW EXECUTE PROCEDURE delete_row_view_comodo();
