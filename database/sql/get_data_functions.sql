@@ -91,7 +91,7 @@ $$ LANGUAGE plpgsql;
 
 -- Function: verifica se existe pessoa cadastrada
 -- Autor: Luis Felipe Tomazini
-CREATE OR REPLACE FUNCTION get_pessoa(_cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION existe_pessoa(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
         RETURN (FALSE);
