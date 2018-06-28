@@ -88,3 +88,28 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function: nomes_por_sexo
+-- Autor: Luis Felipe Tomazini
+
+CREATE OR REPLACE FUNCTION nomes_por_sexo(_sexo VARCHAR)
+  RETURNS text AS $$
+DECLARE 
+ pessoas TEXT DEFAULT '';
+ rec_pessoa   PESSOA;
+ cur_pessoas CURSOR(_sexo VARCHAR) 
+ FOR SELECT *
+ FROM pessoa
+ WHERE sexo = _sexo;
+BEGIN
+   OPEN cur_pessoas(_sexo);
+   LOOP
+      FETCH cur_pessoas INTO rec_pessoa;
+      EXIT WHEN NOT FOUND;
+      pessoas := pessoas || rec_pessoa.nome_prenome || ' ' || rec_pessoa.nome_sobrenome || E'\n';
+   END LOOP;
+   CLOSE cur_pessoas;
+ 
+   RETURN pessoas;
+END; $$
+LANGUAGE plpgsql;

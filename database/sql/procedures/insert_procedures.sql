@@ -143,7 +143,7 @@ $$ LANGUAGE plpgsql;
   
 -- Inserir faxineira
 -- Autor: Luis Felipe Tomazini
-CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
   IF LENGTH (_cpf) != 11 THEN
     RAISE EXCEPTION 'CPF Invalido';
@@ -157,7 +157,7 @@ BEGIN
     END IF;
     RETURN (TRUE);
   ELSE
-    RETURN (FALSE);
+    RETURN insert_pessoa (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
   END IF;
 END;
 $$ LANGUAGE plpgsql;
