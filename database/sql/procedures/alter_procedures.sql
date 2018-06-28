@@ -1,5 +1,10 @@
--- Altera reparador
+---------------------------------------------
+------------ CREATE FUNCTIONS ---------------
+---------------------------------------------
+
+-- Function: Altera reparador
 -- Autor: Marcio Lima Inácio
+
 CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -19,8 +24,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Altera o tipo do reparador
+-- Function: Altera o tipo do reparador
 -- Autor: Marcio Lima Inácio
+
 CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
 DECLARE
 	_tipo ReparadorTipo.tipo%TYPE;
@@ -69,8 +75,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Altera cozinheira
+-- Function: Altera cozinheira
 -- Autor: Marcio Lima Inácio
+
 CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -86,7 +93,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Altera nutricionista
+-- Function: Altera nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -117,7 +124,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Altera morador
+-- Function: Altera morador
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -154,8 +161,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Update pessoa
+-- Function: Update pessoa
 -- Autor: Luis Felipe Tomazini
+
 CREATE OR REPLACE FUNCTION update_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -179,8 +187,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Update faxineira
+-- Function: Update faxineira
 -- Autor: Luis Felipe Tomazini
+
 CREATE OR REPLACE FUNCTION update_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -208,3 +217,9 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function: 
+-- Autor: Victor Calefi Ramos
+
+-- Function:
+-- Autor: Victor Calefi Ramos

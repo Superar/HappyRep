@@ -1,5 +1,10 @@
--- Deletar nutricionista
+---------------------------------------------
+------------ CREATE FUNCTIONS ---------------
+---------------------------------------------
+
+-- Function: Deletar nutricionista
 -- Autor: Tiago Bachiega de Almeida
+
 CREATE OR REPLACE FUNCTION delete_nutricionista(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -15,8 +20,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Deletar morador
+-- Function: Deletar morador
 -- Autor: Tiago Bachiega de Almeida
+
 CREATE OR REPLACE FUNCTION delete_morador(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -32,8 +38,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Deleta o cadastro de um Reparador
+-- Function: Deletar reparador
 -- Autor: Marcio Lima Inácio
+
 CREATE OR REPLACE FUNCTION delete_reparador(_cpf VARCHAR) RETURNS void AS $$
 DECLARE
     _tipo ReparadorTipo.tipo%TYPE;
@@ -56,8 +63,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Deleta o cadastro de uma Cozinheira
+-- Function: Deletar cozinheira
 -- Autor: Marcio Lima Inácio
+
 CREATE OR REPLACE FUNCTION delete_cozinheira(_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf) THEN
@@ -68,8 +76,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Deleta uma pessoa
+-- Function: Deletar pessoa
 -- Autor: Luis Felipe Tomazini
+
 CREATE OR REPLACE FUNCTION delete_pessoa (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -80,8 +89,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Deleta uma faxineira
+-- Function: Deletar faxineira
 -- Autor: Luis Felipe Tomazini
+
 CREATE OR REPLACE FUNCTION delete_faxineira (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
@@ -91,3 +101,9 @@ BEGIN
     DELETE FROM Faxineira f WHERE f.cpf_pessoa = _cpf;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function: Deletar republica
+-- Autor: Victor Calefi Ramos
+
+-- Function: Deletar comodo
+-- Autor: Victor Calefi Ramos

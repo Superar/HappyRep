@@ -1,5 +1,9 @@
---Pega dados de pessoas e seus derivados
---Autor: Tiago Bachiega de Almeida
+---------------------------------------------
+------------ CREATE FUNCTIONS ---------------
+---------------------------------------------
+
+-- Function: Pega dados de pessoas e seus derivados
+-- Autor: Tiago Bachiega de Almeida
 
 --trabalho
 CREATE OR REPLACE FUNCTION get_trabalho(_cpf VARCHAR) RETURNS VARCHAR(100) AS $$

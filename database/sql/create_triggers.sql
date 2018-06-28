@@ -1,4 +1,8 @@
--- Insere reparador em view_reparador
+---------------------------------------------
+-------------- CRATE TRIGGERS----------------
+---------------------------------------------
+
+-- Trigger: Insere reparador em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_view_reparador() RETURNS trigger AS $$
@@ -19,7 +23,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_reparador INSTEAD OF INSERT ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_reparador();
 
--- Deleta linha em view_reparador
+-- Trigger: Deleta linha em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION delete_row_view_reparador() RETURNS trigger AS $$
@@ -43,7 +47,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER delete_row_view_reparador INSTEAD OF DELETE ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_reparador();
 
--- Insere nutricionista em view nutricionista
+-- Trigger: Insere nutricionista em view_nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
 --function
@@ -64,7 +68,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_nutricionista INSTEAD OF INSERT ON view_nutricionista
 FOR EACH ROW EXECUTE PROCEDURE insert_view_nutricionista();
 
--- Insere morador em view morador
+-- Trigger: Insere morador em view_morador
 -- Autor: Tiago Bachiega de Almeida
 
 --function
@@ -85,3 +89,5 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_morador INSTEAD OF INSERT ON view_morador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_morador();
 
+-- Trigger: 
+-- Autor: Victor Calefi Ramos
