@@ -58,11 +58,31 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 ### Tiago Bachiega de Almeida
 
 #### *Views*
+view_nutricionista()
+view_morador()
+view_morador_sem_trab()
 
 #### *Triggers*
+insert_view_nutricionista()
+insert_view_morador()
 
 #### Procedimentos e funções
-
+get_trabalho()
+get_universidade()
+get_sexo()
+get_rg()
+get_nome_prenome()
+get_sobrenome()
+get_data()
+get_email()
+nomes_por_trabalho() [cursor]
+nomes_por_universidade() [cursor]
+update_nutricionista()
+update_morador()
+delete_nutricionista()
+delete_morador()
+insert_nutricionista()
+insert_morador()
 ---
 
 ### Victor Calefi Ramos
