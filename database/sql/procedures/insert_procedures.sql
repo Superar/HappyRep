@@ -40,8 +40,8 @@ CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR,
-                                            tipos VARCHAR[]) RETURNS void AS $$
+                                            tipos VARCHAR[],
+                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
 DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
@@ -81,9 +81,9 @@ CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR) RETURNS void AS $$
+                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
 BEGIN
-    INSERT INTO Pessoa VALUES (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    PERFORM insert_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
     INSERT INTO Cozinheira VALUES (_cpf);
 END;
 $$ LANGUAGE plpgsql;
