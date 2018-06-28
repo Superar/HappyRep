@@ -173,11 +173,11 @@ $$ LANGUAGE plpgsql;
 -- Function: Inserir republica
 -- Autor: Victor Calefi Ramos
 
-CREATE OR REPLACE FUNCTION insert_republica(_id_republica smallint, 
-    _status smallint,  
+CREATE OR REPLACE FUNCTION insert_republica(_id_republica SMALLINT, 
+    _status SMALLINT,  
     _endereco_cep VARCHAR, 
     _endereco_logradouro VARCHAR, 
-    _endereco_numero smallint, 
+    _endereco_numero SMALLINT, 
     _endereco_complemento VARCHAR, 
     _endereco_observacoes VARCHAR) RETURNS void AS $$
 BEGIN
@@ -204,12 +204,12 @@ $$ LANGUAGE plpgsql;
 -- Function: Inserir comodo
 -- Autor: Victor Calefi Ramos
 
-CREATE OR REPLACE FUNCTION insert_comodo(_id_comodo smallint, 
-    _id_republica smallint, 
-    _status smallint,  
+CREATE OR REPLACE FUNCTION insert_comodo(_id_comodo SMALLINT, 
+    _id_republica SMALLINT, 
+    _status SMALLINT,  
     _endereco_cep VARCHAR, 
     _endereco_logradouro VARCHAR, 
-    _endereco_numero smallint, 
+    _endereco_numero SMALLINT, 
     _endereco_complemento VARCHAR, 
     _endereco_observacoes VARCHAR) RETURNS void AS $$
 BEGIN
