@@ -164,7 +164,6 @@ BEGIN
 
 	IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
 		UPDATE Pessoa AS p SET
-			cpf = COALESCE (_cpf, cpf),
 			sexo = COALESCE (_sexo, sexo),
 			rg = COALESCE (_rg, rg),
 			nome_prenome = COALESCE (_nome_prenome, nome_prenome),
