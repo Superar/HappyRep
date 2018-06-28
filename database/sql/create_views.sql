@@ -75,6 +75,14 @@ WHERE m.cpf_pessoa = p.cpf AND m.trabalho is NULL;
 -- View: view_republica
 -- Autor: Victor Calefi Ramos
 
+CREATE VIEW view_republica AS
+SELECT id_republica, status, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_observacoes 
+FROM Republica rep;
 
 -- View: view_comodo
 -- Autor: Victor Calefi Ramos
+
+CREATE VIEW view_comodo AS
+SELECT id_comodo, id_republica, status 
+FROM Comodo c, Republica rep
+WHERE c.id_republica = rep.id_republica;
