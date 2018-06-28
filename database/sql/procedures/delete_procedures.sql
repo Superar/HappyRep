@@ -105,5 +105,25 @@ $$ LANGUAGE plpgsql;
 -- Function: Deletar republica
 -- Autor: Victor Calefi Ramos
 
+CREATE OR REPLACE FUNCTION delete_republica (_id_republica smallint) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Republica não cadastrada';
+    END IF;
+
+    DELETE FROM Republica rep WHERE rep.id_republica = _id_republica;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Function: Deletar comodo
 -- Autor: Victor Calefi Ramos
+
+CREATE OR REPLACE FUNCTION delete_comodo (_id_comodo smallint, _id_republica smallint) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Comodo c, Republica rep WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Comodo não cadastrado';
+    END IF;
+
+    DELETE FROM Comodo c WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica;
+END;
+$$ LANGUAGE plpgsql;
