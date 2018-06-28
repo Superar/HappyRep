@@ -1,21 +1,5 @@
----------------------------------------------
-------------- DROP FUNCTIONS ---------------
----------------------------------------------
-
-DROP FUNCTION IF EXISTS delete_faxineira;
-DROP FUNCTION IF EXISTS delete_pessoa;
-DROP FUNCTION IF EXISTS delete_cozinheira;
-DROP FUNCTION IF EXISTS delete_reparador;
-DROP FUNCTION IF EXISTS delete_morador;
-DROP FUNCTION IF EXISTS delete_nutricionista;
-
----------------------------------------------
------------- CREATE FUNCTIONS --------------
----------------------------------------------
-
--- Procedure: Deletar nutricionista
+-- Deletar nutricionista
 -- Autor: Tiago Bachiega de Almeida
-
 CREATE OR REPLACE FUNCTION delete_nutricionista(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -31,9 +15,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Deletar morador
+-- Deletar morador
 -- Autor: Tiago Bachiega de Almeida
-
 CREATE OR REPLACE FUNCTION delete_morador(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -49,9 +32,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Deletar reparador
+-- Deleta o cadastro de um Reparador
 -- Autor: Marcio Lima Inácio
-
 CREATE OR REPLACE FUNCTION delete_reparador(_cpf VARCHAR) RETURNS void AS $$
 DECLARE
     _tipo ReparadorTipo.tipo%TYPE;
@@ -74,9 +56,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Deletar cozinheira
+-- Deleta o cadastro de uma Cozinheira
 -- Autor: Marcio Lima Inácio
-
 CREATE OR REPLACE FUNCTION delete_cozinheira(_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf) THEN
@@ -87,9 +68,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Deletar pessoa
+-- Deleta uma pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION delete_pessoa (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -100,9 +80,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Deletar faxineira
+-- Deleta uma faxineira
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION delete_faxineira (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
@@ -112,9 +91,3 @@ BEGIN
     DELETE FROM Faxineira f WHERE f.cpf_pessoa = _cpf;
 END;
 $$ LANGUAGE plpgsql;
-
--- Procedure: Deletar republica
--- Autor: Victor Calefi Ramos
-
--- Procedure: Deletar comodo
--- Autor: Victor Calefi Ramos

@@ -1,23 +1,10 @@
----------------------------------------------
--------------- DROP TRIGGERS ----------------
----------------------------------------------
-
-DROP TRIGGER IF EXISTS delete_row_view_reparador;
-DROP FUNCTION IF EXISTS delete_row_view_reparador;
-DROP TRIGGER IF EXISTS insert_view_reparador;
-DROP FUNCTION IF EXISTS insert_view_reparador;
-
----------------------------------------------
--------------- CRATE TRIGGERS----------------
----------------------------------------------
-
--- Trigger: Insere reparador em view_reparador
+-- Insere reparador em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_view_reparador() RETURNS trigger AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
-        INSERT INTO Pessoa VALUES (NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
+        PERFORM insert_pessoa(NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
     END IF;
     IF NOT EXISTS (SELECT 1 FROM Reparador r WHERE r.cpf_pessoa = NEW.cpf) THEN
         INSERT INTO Reparador VALUES (NEW.cpf);
@@ -32,7 +19,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_reparador INSTEAD OF INSERT ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_reparador();
 
--- Trigger: Deleta linha em view_reparador
+-- Deleta linha em view_reparador
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION delete_row_view_reparador() RETURNS trigger AS $$
@@ -56,5 +43,45 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER delete_row_view_reparador INSTEAD OF DELETE ON view_reparador
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_reparador();
 
--- Trigger: 
--- Autor: Victor Calefi Ramos
+-- Insere nutricionista em view nutricionista
+-- Autor: Tiago Bachiega de Almeida
+
+--function
+CREATE OR REPLACE FUNCTION insert_view_nutricionista() RETURNS trigger AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
+        INSERT INTO Pessoa VALUES (NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = NEW.cpf) THEN
+        INSERT INTO Nutricionista VALUES (NEW.cpf);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger respectivo
+
+CREATE TRIGGER insert_view_nutricionista INSTEAD OF INSERT ON view_nutricionista
+FOR EACH ROW EXECUTE PROCEDURE insert_view_nutricionista();
+
+-- Insere morador em view morador
+-- Autor: Tiago Bachiega de Almeida
+
+--function
+CREATE OR REPLACE FUNCTION insert_view_morador() RETURNS trigger AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
+        INSERT INTO Pessoa VALUES (NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = NEW.cpf) THEN
+        INSERT INTO Morador VALUES (NEW.trabalho, NEW.universidade, NEW.cpf);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger respectivo
+
+CREATE TRIGGER insert_view_morador INSTEAD OF INSERT ON view_morador
+FOR EACH ROW EXECUTE PROCEDURE insert_view_morador();
+

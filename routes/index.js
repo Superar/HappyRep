@@ -73,4 +73,17 @@ router.post('/CadastrarPessoaReparador', function (req, res) {
     });
 });
 
+// Listas
+router.get('/ListaFuncionarios', function (req, res) {
+
+  db.query('SELECT * FROM Reparador, Pessoa WHERE cpf = cpf_pessoa', null, function (ret) {
+      res.render('listas/funcionarios', {
+        funcionarios: ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
 module.exports = router;

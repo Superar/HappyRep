@@ -1,24 +1,8 @@
----------------------------------------------
-------------- DROP FUNCTIONS ---------------
----------------------------------------------
-
-DROP FUNCTION IF EXISTS insert_faxineira;
-DROP FUNCTION IF EXISTS insert_pessoa;
-DROP FUNCTION IF EXISTS insert_morador;
-DROP FUNCTION IF EXISTS insert_nutricionista;
-DROP FUNCTION IF EXISTS insert_cozinheira;
-DROP FUNCTION IF EXISTS insert_reparador;
-
----------------------------------------------
------------- CREATE FUNCTIONS --------------
----------------------------------------------
-
--- Procedure: Inserir reparador
--- Autor: Marcio Lima Inácio
--- Primeiro, verifica-se se a pessoa já foi cadastrada. 
--- Caso sim, adiciona apenas o reparador, caso contrário retorna falso.
+-- Inserir reparador
+-- Primeiro, verifica-se se a pessoa já foi cadastrada. Caso sim, adiciona apenas o reparador, caso contrário retorna falso.
 -- Caso a pessoa nao esteja cadastrada, insere na View do reparador.
 -- Para inserir na view do reaparador, é necessário uma Trigger para fazer a inserção nas tabelas correspondentes.
+-- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR, tipos VARCHAR[]) RETURNS boolean AS $$
 DECLARE
@@ -56,8 +40,8 @@ CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR,
-                                            tipos VARCHAR[]) RETURNS void AS $$
+                                            tipos VARCHAR[],
+                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
 DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
@@ -69,7 +53,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Inserir cozinheira
+-- Inserir cozinheira
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR) RETURNS boolean AS $$
@@ -91,22 +75,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
+CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR,
                                             _sexo VARCHAR,
                                             _rg VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR) RETURNS void AS $$
-DECLARE
-    tipo ReparadorTipo.tipo%TYPE;
+                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
 BEGIN
-    INSERT INTO Pessoa VALUES (_cpf, _seco, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
-    INSERT INTO Reparador VALUES (_cpf);
+    PERFORM insert_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
+    INSERT INTO Cozinheira VALUES (_cpf);
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Inserir nutricionista
+-- Inserir nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
@@ -123,7 +105,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Inserir morador
+-- Inserir morador
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
@@ -140,9 +122,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Procedure: Inserir pessoa
+-- Inserir pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION insert_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento date, _email VARCHAR) RETURNS boolean AS $$
   
 BEGIN
@@ -153,18 +134,16 @@ BEGIN
   IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
     RETURN (FALSE);
   ELSE
-    INSERT INTO pessoa (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email) 
-        VALUES  (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+    INSERT INTO pessoa (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email) VALUES  (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
     RETURN (TRUE);
   END IF;
 END;
 $$ LANGUAGE plpgsql;
   
   
--- Procedure: Inserir faxineira
+-- Inserir faxineira
 -- Autor: Luis Felipe Tomazini
-
-CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
   IF LENGTH (_cpf) != 11 THEN
     RAISE EXCEPTION 'CPF Invalido';
@@ -178,13 +157,7 @@ BEGIN
     END IF;
     RETURN (TRUE);
   ELSE
-    RETURN (FALSE);
+    RETURN insert_pessoa (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
   END IF;
 END;
 $$ LANGUAGE plpgsql;
-
--- Procedure: Inserir republica
--- Autor: Victor Calefi Ramos
-
--- Procedure: Inserir comodo
--- Autor: Victor Calefi Ramos

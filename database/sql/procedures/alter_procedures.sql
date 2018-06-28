@@ -1,20 +1,26 @@
----------------------------------------------
-------------- DROP FUNCTIONS ----------------
----------------------------------------------
-
-DROP FUNCTION IF EXISTS update_faxineira;
-DROP FUNCTION IF EXISTS update_pessoa;
-DROP FUNCTION IF EXISTS update_morador;
-DROP FUNCTION IF EXISTS update_nutricionista;
-DROP FUNCTION IF EXISTS update_reparador_tipo;
-
----------------------------------------------
------------- CREATE FUNCTIONS ---------------
----------------------------------------------
-
--- Function: Altera o tipo do reparador
+-- Altera reparador
 -- Autor: Marcio Lima Inácio
+CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
+										 _sexo VARCHAR DEFAULT NULL,
+										 _rg VARCHAR DEFAULT NULL,
+										 _nome_prenome VARCHAR DEFAULT NULL,
+										 _nome_sobrenome VARCHAR DEFAULT NULL,
+										 _data_de_nascimento DATE DEFAULT NULL,
+										 _email VARCHAR DEFAULT NULL,
+										 tipos VARCHAR[] DEFAULT '{}') RETURNS boolean AS $$
+DECLARE
+	_retorno BOOLEAN;
+BEGIN
+	IF NOT tipos = '{}' THEN
+		PERFORM update_reparador_tipo(_cpf, tipos);
+	END IF;
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	RETURN (_retorno);
+END;
+$$ LANGUAGE plpgsql;
 
+-- Altera o tipo do reparador
+-- Autor: Marcio Lima Inácio
 CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
 DECLARE
 	_tipo ReparadorTipo.tipo%TYPE;
@@ -63,7 +69,24 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Altera nutricionista
+-- Altera cozinheira
+-- Autor: Marcio Lima Inácio
+CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
+										 _sexo VARCHAR DEFAULT NULL,
+										 _rg VARCHAR DEFAULT NULL,
+										 _nome_prenome VARCHAR DEFAULT NULL,
+										 _nome_sobrenome VARCHAR DEFAULT NULL,
+										 _data_de_nascimento DATE DEFAULT NULL,
+										 _email VARCHAR DEFAULT NULL) RETURNS boolean AS $$
+DECLARE
+	_retorno BOOLEAN;
+BEGIN
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	RETURN (_retorno);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Altera nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -94,7 +117,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Altera morador
+-- Altera morador
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -131,9 +154,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Update pessoa
+-- Update pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION update_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -142,7 +164,6 @@ BEGIN
 
 	IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
 		UPDATE Pessoa AS p SET
-			cpf = COALESCE (_cpf, cpf),
 			sexo = COALESCE (_sexo, sexo),
 			rg = COALESCE (_rg, rg),
 			nome_prenome = COALESCE (_nome_prenome, nome_prenome),
@@ -158,9 +179,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Update faxineira
+-- Update faxineira
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION update_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -188,9 +208,3 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
-
--- Function: 
--- Autor: Victor Calefi Ramos
-
--- Function:
--- Autor: Victor Calefi Ramos

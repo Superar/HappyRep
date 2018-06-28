@@ -1,23 +1,15 @@
----------------------------------------------
---------------- DROP TABLES -----------------
----------------------------------------------
-
 DROP TABLE IF EXISTS Comodo CASCADE;
 DROP TABLE IF EXISTS Republica CASCADE;
 DROP TABLE IF EXISTS ReparadorTipo CASCADE;
 DROP TABLE IF EXISTS Reparador CASCADE;
 DROP TABLE IF EXISTS Cozinheira CASCADE;
-DROP TABLE IF EXISTS Nutricionista CASCADE;
-DROP TABLE IF EXISTS Morador CASCADE;
+DROP TABLE IF EXISTS nutricionista CASCADE;
+DROP TABLE IF EXISTS morador CASCADE;
 DROP TABLE IF EXISTS Faxineira CASCADE;
 DROP TABLE IF EXISTS PessoaTelefone;
 DROP TABLE IF EXISTS Pessoa CASCADE;
 
----------------------------------------------
--------------- CREATE TABLES ----------------
----------------------------------------------
-
--- Table: Pessoa
+-- Table: pessoa
 
 CREATE TABLE Pessoa
 (
@@ -32,7 +24,7 @@ CREATE TABLE Pessoa
     CONSTRAINT pk_pessoa PRIMARY KEY (cpf)
 );
 
--- Table: PessoaTelefone
+-- Table: pessoatelefone
 
 CREATE TABLE PessoaTelefone
 (
@@ -43,9 +35,9 @@ CREATE TABLE PessoaTelefone
     CONSTRAINT pessoatelefone_fk_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa
 );
 
--- Table: Faxineira
+-- Table: faxineira
 
-CREATE TABLE Faxineira
+CREATE TABLE faxineira
 (
   cpf_pessoa character(11) NOT NULL,
   CONSTRAINT faxineira_pk PRIMARY KEY (cpf_pessoa),
@@ -54,9 +46,9 @@ CREATE TABLE Faxineira
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: Morador
+-- Table: morador
 
-CREATE TABLE Morador
+CREATE TABLE morador
 (
   trabalho character varying(50),
   universidade character varying(50),
@@ -67,9 +59,9 @@ CREATE TABLE Morador
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: Nutricionista
+-- Table: nutricionista
 
-CREATE TABLE Nutricionista
+CREATE TABLE nutricionista
 (
   cpf_pessoa character varying(11) NOT NULL,
   CONSTRAINT nutricionista_pk PRIMARY KEY (cpf_pessoa),
@@ -78,7 +70,7 @@ CREATE TABLE Nutricionista
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: Cozinheira
+-- Table: cozinheira
 
 CREATE TABLE Cozinheira
 (
@@ -90,7 +82,7 @@ CREATE TABLE Cozinheira
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: Reparador
+-- Table: reparador
 
 CREATE TABLE Reparador
 (
@@ -102,7 +94,7 @@ CREATE TABLE Reparador
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: ReparadorTipo
+-- Table: reparadortipo
 
 CREATE TABLE ReparadorTipo
 (
