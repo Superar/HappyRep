@@ -173,5 +173,59 @@ $$ LANGUAGE plpgsql;
 -- Function: Inserir republica
 -- Autor: Victor Calefi Ramos
 
+CREATE OR REPLACE FUNCTION insert_republica(_id_republica smallint, 
+    _status smallint,  
+    _endereco_cep VARCHAR, 
+    _endereco_logradouro VARCHAR, 
+    _endereco_numero smallint, 
+    _endereco_complemento VARCHAR, 
+    _endereco_observacoes VARCHAR) RETURNS void AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Republica já cadastrada';
+    END IF;
+    INSERT INTO Republica (id_republica, 
+        status, 
+        endereco_cep, 
+        endereco_logradouro, 
+        endereco_numero, 
+        endereco_complemento, 
+        endereco_observacoes) 
+    VALUES (_id_republica, 
+        _status, 
+        _endereco_cep, 
+        _endereco_logradouro, 
+        _endereco_numero, 
+        _endereco_complemento, 
+        _endereco_observacoes);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Function: Inserir comodo
 -- Autor: Victor Calefi Ramos
+
+CREATE OR REPLACE FUNCTION insert_comodo(_id_comodo smallint, 
+    _id_republica smallint, 
+    _status smallint,  
+    _endereco_cep VARCHAR, 
+    _endereco_logradouro VARCHAR, 
+    _endereco_numero smallint, 
+    _endereco_complemento VARCHAR, 
+    _endereco_observacoes VARCHAR) RETURNS void AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM Comodo c, Republica rep WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Comodo já cadastrado';
+    ELSE IF EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+        INSERT INTO Comodo VALUES (_id_comodo, _id_republica);
+    ELSE
+        PERFORM insert_republica (_id_republica, 
+            _status,
+            _endereco_cep,
+            _endereco_logradouro,
+            _endereco_numero,
+            _endereco_complemento,
+            _endereco_observacoes);
+        INSERT INTO Comodo VALUES (_id_comodo, _id_republica); 
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
