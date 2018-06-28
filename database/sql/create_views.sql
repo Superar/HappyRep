@@ -11,7 +11,7 @@ CREATE VIEW view_pessoa AS
 SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM Pessoa p;
 
--- View: view_nutricionista
+-- View: view_faxineira
 -- Autor: Luis Felipe Tomazini
 
 CREATE VIEW view_faxineira AS
