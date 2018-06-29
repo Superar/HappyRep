@@ -1,15 +1,5 @@
-<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
----------------------------------------------
------------- CREATE FUNCTIONS ---------------
----------------------------------------------
-
--- Function: Altera reparador
--- Autor: Marcio Lima Inácio
-
-=======
 -- Altera reparador
 -- Autor: Marcio Lima Inácio
->>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -29,13 +19,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
--- Function: Altera o tipo do reparador
-=======
 -- Altera o tipo do reparador
->>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 -- Autor: Marcio Lima Inácio
-
 CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
 DECLARE
 	_tipo ReparadorTipo.tipo%TYPE;
@@ -84,14 +69,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
--- Function: Altera cozinheira
--- Autor: Marcio Lima Inácio
-
-=======
 -- Altera cozinheira
 -- Autor: Marcio Lima Inácio
->>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
 										 _rg VARCHAR DEFAULT NULL,
@@ -107,11 +86,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-<<<<<<< HEAD:database/sql/procedures/alter_procedures.sql
--- Function: Altera nutricionista
-=======
 -- Altera nutricionista
->>>>>>> origin/master:database/sql/procedures/alter_procedures.sql
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -142,7 +117,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Altera morador
+-- Altera morador
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
@@ -179,9 +154,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Update pessoa
+-- Update pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION update_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -205,9 +179,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Update faxineira
+-- Update faxineira
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION update_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
 	IF LENGTH (_cpf) != 11 THEN
@@ -233,34 +206,5 @@ BEGIN
 	ELSE
 		RETURN (FALSE);
 	END IF;
-END;
-$$ LANGUAGE plpgsql;
-
--- Function: Update republica
--- Autor: Victor Calefi Ramos
-
-CREATE OR REPLACE FUNCTION update_republica(_id_republica SMALLINT, 
-	_status SMALLINT, 
-	_endereco_cep VARCHAR, 
-	_endereco_logradouro VARCHAR, 
-	_endereco_numero SMALLINT, 
-	_endereco_complemento VARCHAR, 
-	_endereco_observacoes VARCHAR) RETURNS boolean AS $$
-BEGIN
-	IF NOT EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
-		RAISE EXCEPTION 'Republica não cadastrada';
-		RETURN (FALSE);
-	END IF;
-
-	UPDATE Republica AS rep SET
-		status = COALESCE (_status, status),
-		endereco_cep = COALESCE (_endereco_cep, endereco_cep),
-		endereco_logradouro = COALESCE (_endereco_logradouro, endereco_logradouro),
-		endereco_numero = COALESCE (_endereco_numero, endereco_numero),
-		endereco_complemento = COALESCE (_endereco_complemento, endereco_complemento),
-		endereco_observacoes = COALESCE (_endereco_observacoes, endereco_observacoes),
-	WHERE rep.id_republica = _id_republica;
-
-	RETURN (TRUE);
 END;
 $$ LANGUAGE plpgsql;

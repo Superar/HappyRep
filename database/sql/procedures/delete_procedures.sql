@@ -1,10 +1,5 @@
----------------------------------------------
------------- CREATE FUNCTIONS ---------------
----------------------------------------------
-
--- Function: Deletar nutricionista
+-- Deletar nutricionista
 -- Autor: Tiago Bachiega de Almeida
-
 CREATE OR REPLACE FUNCTION delete_nutricionista(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -20,9 +15,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Deletar morador
+-- Deletar morador
 -- Autor: Tiago Bachiega de Almeida
-
 CREATE OR REPLACE FUNCTION delete_morador(_cpf VARCHAR) RETURNS boolean AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
@@ -38,9 +32,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Deletar reparador
+-- Deleta o cadastro de um Reparador
 -- Autor: Marcio Lima Inácio
-
 CREATE OR REPLACE FUNCTION delete_reparador(_cpf VARCHAR) RETURNS void AS $$
 DECLARE
     _tipo ReparadorTipo.tipo%TYPE;
@@ -63,9 +56,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Deletar cozinheira
+-- Deleta o cadastro de uma Cozinheira
 -- Autor: Marcio Lima Inácio
-
 CREATE OR REPLACE FUNCTION delete_cozinheira(_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf) THEN
@@ -76,9 +68,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Deletar pessoa
+-- Deleta uma pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION delete_pessoa (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
@@ -89,9 +80,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Deletar faxineira
+-- Deleta uma faxineira
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION delete_faxineira (_cpf VARCHAR) RETURNS void AS $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf) THEN
@@ -99,31 +89,5 @@ BEGIN
     END IF;
 
     DELETE FROM Faxineira f WHERE f.cpf_pessoa = _cpf;
-END;
-$$ LANGUAGE plpgsql;
-
--- Function: Deletar republica
--- Autor: Victor Calefi Ramos
-
-CREATE OR REPLACE FUNCTION delete_republica (_id_republica SMALLINT) RETURNS void AS $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
-        RAISE EXCEPTION 'Republica não cadastrada';
-    END IF;
-
-    DELETE FROM Republica rep WHERE rep.id_republica = _id_republica;
-END;
-$$ LANGUAGE plpgsql;
-
--- Function: Deletar comodo
--- Autor: Victor Calefi Ramos
-
-CREATE OR REPLACE FUNCTION delete_comodo (_id_comodo SMALLINT, _id_republica SMALLINT) RETURNS void AS $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Comodo c, Republica rep WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica) THEN
-        RAISE EXCEPTION 'Comodo não cadastrado';
-    END IF;
-
-    DELETE FROM Comodo c WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica;
 END;
 $$ LANGUAGE plpgsql;

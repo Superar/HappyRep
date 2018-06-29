@@ -1,14 +1,8 @@
----------------------------------------------
------------- CREATE FUNCTIONS ---------------
----------------------------------------------
-
--- Function: Inserir reparador
--- Autor: Marcio Lima Inácio
--- Primeiro, verifica-se se a pessoa já foi cadastrada. 
--- Caso sim, adiciona apenas o reparador, caso contrário retorna falso.
+-- Inserir reparador
+-- Primeiro, verifica-se se a pessoa já foi cadastrada. Caso sim, adiciona apenas o reparador, caso contrário retorna falso.
 -- Caso a pessoa nao esteja cadastrada, insere na View do reparador.
 -- Para inserir na view do reaparador, é necessário uma Trigger para fazer a inserção nas tabelas correspondentes.
-
+-- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR, tipos VARCHAR[]) RETURNS boolean AS $$
 DECLARE
@@ -59,7 +53,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Inserir cozinheira
+-- Inserir cozinheira
 -- Autor: Marcio Lima Inácio
 
 CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR) RETURNS boolean AS $$
@@ -94,7 +88,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Inserir nutricionista
+-- Inserir nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
@@ -111,7 +105,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Inserir morador
+-- Inserir morador
 -- Autor: Tiago Bachiega de Almeida
 
 CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
@@ -128,9 +122,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Inserir pessoa
+-- Inserir pessoa
 -- Autor: Luis Felipe Tomazini
-
 CREATE OR REPLACE FUNCTION insert_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento date, _email VARCHAR) RETURNS boolean AS $$
   
 BEGIN
@@ -148,12 +141,8 @@ END;
 $$ LANGUAGE plpgsql;
   
   
--- Function: Inserir faxineira
+-- Inserir faxineira
 -- Autor: Luis Felipe Tomazini
-<<<<<<< HEAD:database/sql/procedures/insert_procedures.sql
-
-=======
->>>>>>> origin/master:database/sql/procedures/insert_procedures.sql
 CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS boolean AS $$
 BEGIN
   IF LENGTH (_cpf) != 11 THEN
@@ -170,65 +159,5 @@ BEGIN
   ELSE
     RETURN insert_pessoa (_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
   END IF;
-END;
-$$ LANGUAGE plpgsql;
-
--- Function: Inserir republica
--- Autor: Victor Calefi Ramos
-
-CREATE OR REPLACE FUNCTION insert_republica(_id_republica SMALLINT, 
-    _status SMALLINT,  
-    _endereco_cep VARCHAR, 
-    _endereco_logradouro VARCHAR, 
-    _endereco_numero SMALLINT, 
-    _endereco_complemento VARCHAR, 
-    _endereco_observacoes VARCHAR) RETURNS void AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
-        RAISE EXCEPTION 'Republica já cadastrada';
-    END IF;
-    INSERT INTO Republica (id_republica, 
-        status, 
-        endereco_cep, 
-        endereco_logradouro, 
-        endereco_numero, 
-        endereco_complemento, 
-        endereco_observacoes) 
-    VALUES (_id_republica, 
-        _status, 
-        _endereco_cep, 
-        _endereco_logradouro, 
-        _endereco_numero, 
-        _endereco_complemento, 
-        _endereco_observacoes);
-END;
-$$ LANGUAGE plpgsql;
-
--- Function: Inserir comodo
--- Autor: Victor Calefi Ramos
-
-CREATE OR REPLACE FUNCTION insert_comodo(_id_comodo SMALLINT, 
-    _id_republica SMALLINT, 
-    _status SMALLINT,  
-    _endereco_cep VARCHAR, 
-    _endereco_logradouro VARCHAR, 
-    _endereco_numero SMALLINT, 
-    _endereco_complemento VARCHAR, 
-    _endereco_observacoes VARCHAR) RETURNS void AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM Comodo c, Republica rep WHERE c.id_comodo = _id_comodo AND rep.id_republica = _id_republica) THEN
-        RAISE EXCEPTION 'Comodo já cadastrado';
-    ELSE IF EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
-        INSERT INTO Comodo VALUES (_id_comodo, _id_republica);
-    ELSE
-        PERFORM insert_republica (_id_republica, 
-            _status,
-            _endereco_cep,
-            _endereco_logradouro,
-            _endereco_numero,
-            _endereco_complemento,
-            _endereco_observacoes);
-        INSERT INTO Comodo VALUES (_id_comodo, _id_republica); 
-    END IF;
 END;
 $$ LANGUAGE plpgsql;
