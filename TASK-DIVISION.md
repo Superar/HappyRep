@@ -97,9 +97,20 @@ insert_morador()
 
 #### *Views*
 
+view_republica
+view_comodo
+
 #### *Triggers*
 
+delete_row_view_comodo()
+
 #### Procedimentos e funções
+
+update_republica()
+delete_republica()
+delete_comodo()
+insert_republica()
+insert_comodo();
 
 ---
 
