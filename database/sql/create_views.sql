@@ -1,8 +1,19 @@
+---------------------------------------------
+--------------- DROP VIEWS ------------------
+---------------------------------------------
+
+DROP VIEW IF EXISTS view_comodo;
+DROP VIEW IF EXISTS view_republica;
+DROP VIEW IF EXISTS view_morador_sem_trab;
 DROP VIEW IF EXISTS view_morador;
 DROP VIEW IF EXISTS view_nutricionista;
 DROP VIEW IF EXISTS view_reparador;
 DROP VIEW IF EXISTS view_faxineira;
 DROP VIEW IF EXISTS view_pessoa;
+
+---------------------------------------------
+-------------- CREATE VIEWS -----------------
+---------------------------------------------
 
 -- View: view_pessoa
 -- Autor: Luis Felipe Tomazini
@@ -53,10 +64,25 @@ WHERE m.cpf_pessoa = p.cpf;
 
 
 -- View: view_morador_sem_trab
---essa view retorna os moradores que nao
---trabalham em lugar nenhum
---Autor: Tiago Bachiega de Almeida
+-- Autor: Tiago Bachiega de Almeida
+-- Obs: Essa view retorna os moradores que nao trabalham em lugar nenhum
+
 CREATE VIEW view_morador_sem_trab AS
 SELECT universidade, cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM Morador m, Pessoa p
 WHERE m.cpf_pessoa = p.cpf AND m.trabalho is NULL;
+
+-- View: view_republica
+-- Autor: Victor Calefi Ramos
+
+CREATE VIEW view_republica AS
+SELECT id_republica, status, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_observacoes 
+FROM Republica rep;
+
+-- View: view_comodo
+-- Autor: Victor Calefi Ramos
+
+CREATE VIEW view_comodo AS
+SELECT id_comodo, id_republica, status 
+FROM Comodo c, Republica rep
+WHERE c.id_republica = rep.id_republica;

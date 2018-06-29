@@ -1,5 +1,9 @@
---Pega dados de pessoas e seus derivados
---Autor: Tiago Bachiega de Almeida
+---------------------------------------------
+------------ CREATE FUNCTIONS ---------------
+---------------------------------------------
+
+-- Function: Pega dados de pessoas e seus derivados
+-- Autor: Tiago Bachiega de Almeida
 
 --trabalho
 CREATE OR REPLACE FUNCTION get_trabalho(_cpf VARCHAR) RETURNS VARCHAR(100) AS $$
@@ -112,6 +116,9 @@ BEGIN
  
    RETURN pessoas;
 END; $$
+<<<<<<< HEAD
+LANGUAGE plpgsql;
+=======
 LANGUAGE plpgsql;
 
 -- Function com cursor: nomes_por_trabalho
@@ -163,3 +170,4 @@ BEGIN
    RETURN pessoas;
 END; $$
 LANGUAGE plpgsql;
+>>>>>>> origin/master
