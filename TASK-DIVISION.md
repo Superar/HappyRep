@@ -21,13 +21,28 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 ---
 
-### Luís Felipe Tomazini
+### Luis Felipe Tomazini
 
-#### *Views*
+#### Views
 
-#### *Triggers*
+- view_pessoa
+- view_faxineira
+
+#### Triggers
+
+- insert_view_pessoa()
+- insert_view_faxineira()
 
 #### Procedimentos e funções
+
+- insert_pessoa()
+- insert_faxineira()
+- update_pessoa()
+- update_faxineira()
+- delete_pessoa()
+- delete_faxineira()
+- existe_pessoa()
+- nomes_por_sexo() [cursor parametrizado]
 
 ---
 
