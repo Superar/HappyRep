@@ -58,13 +58,6 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 ### Tiago Bachiega de Almeida
 
 #### *Views*
-<<<<<<< HEAD
-
-#### *Triggers*
-
-#### Procedimentos e funções
-
-=======
 view_nutricionista()
 view_morador()
 view_morador_sem_trab()
@@ -90,27 +83,15 @@ delete_nutricionista()
 delete_morador()
 insert_nutricionista()
 insert_morador()
->>>>>>> origin/master
 ---
 
 ### Victor Calefi Ramos
 
 #### *Views*
 
-view_republica
-view_comodo
-
 #### *Triggers*
 
-delete_row_view_comodo()
-
 #### Procedimentos e funções
-
-update_republica()
-delete_republica()
-delete_comodo()
-insert_republica()
-insert_comodo();
 
 ---
 
@@ -134,8 +115,4 @@ O grupo 3 ficou responsável pelas implementações referentes às tabelas:
 - Produto
 - Fornecedor
 - Ingredientes
-<<<<<<< HEAD
 - Pagamento
-=======
-- Pagamento
->>>>>>> origin/master
