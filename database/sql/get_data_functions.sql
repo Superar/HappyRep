@@ -89,6 +89,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: verifica se existe pessoa cadastrada
+-- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION existe_pessoa(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        RETURN (FALSE);
+    ELSE
+        RETURN (TRUE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Function: nomes_por_sexo
 -- Autor: Luis Felipe Tomazini
 

@@ -85,3 +85,40 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_morador INSTEAD OF INSERT ON view_morador
 FOR EACH ROW EXECUTE PROCEDURE insert_view_morador();
 
+-- Insere pessoa em view_pessoa
+-- Autor: Luís Felipe Tomazini
+
+CREATE OR REPLACE FUNCTION insert_view_pessoa() RETURNS trigger AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
+        PERFORM insert_pessoa(NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger respectivo
+
+CREATE TRIGGER insert_view_pessoa INSTEAD OF INSERT ON view_pessoa
+FOR EACH ROW EXECUTE PROCEDURE insert_view_pessoa();
+
+-- Insere faxineira em view_faxineira
+-- Autor: Luís Felipe Tomazini
+
+CREATE OR REPLACE FUNCTION insert_view_faxineira() RETURNS trigger AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
+        PERFORM insert_pessoa(NEW.cpf, NEW.sexo, NEW.rg, NEW.nome_prenome, NEW.nome_sobrenome, NEW.data_de_nascimento, NEW.email);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = NEW.cpf) THEN
+        INSERT INTO Faxineira VALUES (NEW.cpf);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger respectivo
+
+CREATE TRIGGER insert_view_faxineira INSTEAD OF INSERT ON view_faxineira
+FOR EACH ROW EXECUTE PROCEDURE insert_view_faxineira();
+
