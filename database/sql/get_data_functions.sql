@@ -125,3 +125,53 @@ BEGIN
    RETURN pessoas;
 END; $$
 LANGUAGE plpgsql;
+
+-- Function com cursor: nomes_por_trabalho
+-- Autor: Tiago Bachiega de Almeida
+
+CREATE OR REPLACE FUNCTION nomes_por_trabalho(_trabalho VARCHAR)
+  RETURNS text AS $$
+DECLARE 
+ pessoas TEXT DEFAULT '';
+ rec_pessoa   PESSOA;
+ cur_pessoas CURSOR(_trabalho VARCHAR) 
+ FOR SELECT *
+ FROM Pessoa p, Morador m
+ WHERE m.trabalho = _trabalho AND p.cpf = m.cpf_pessoa;
+BEGIN
+   OPEN cur_pessoas(_trabalho);
+   LOOP
+      FETCH cur_pessoas INTO rec_pessoa;
+      EXIT WHEN NOT FOUND;
+      pessoas := pessoas || rec_pessoa.nome_prenome || ' ' || rec_pessoa.nome_sobrenome || E'\n';
+   END LOOP;
+   CLOSE cur_pessoas;
+ 
+   RETURN pessoas;  
+END; $$
+LANGUAGE plpgsql;
+
+-- Function com cursor: nomes_por_universidade
+-- Autor: Tiago Bachiega de Almeida
+
+CREATE OR REPLACE FUNCTION nomes_por_universidade(_universidade VARCHAR)
+  RETURNS text AS $$
+DECLARE 
+ pessoas TEXT DEFAULT '';
+ rec_pessoa   PESSOA;
+ cur_pessoas CURSOR(_universidade VARCHAR) 
+ FOR SELECT *
+ FROM Pessoa p, Morador m
+ WHERE m.universidade = _universidade AND p.cpf = m.cpf_pessoa;
+BEGIN
+   OPEN cur_pessoas(_universidade);
+   LOOP
+      FETCH cur_pessoas INTO rec_pessoa;
+      EXIT WHEN NOT FOUND;
+      pessoas := pessoas || rec_pessoa.nome_prenome || ' ' || rec_pessoa.nome_sobrenome || E'\n';
+   END LOOP;
+   CLOSE cur_pessoas;
+ 
+   RETURN pessoas;
+END; $$
+LANGUAGE plpgsql;
