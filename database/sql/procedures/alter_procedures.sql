@@ -89,7 +89,7 @@ $$ LANGUAGE plpgsql;
 -- Altera nutricionista
 -- Autor: Tiago Bachiega de Almeida
 
-CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION update_nutricionista(_cpf VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS void AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
 	RAISE EXCEPTION 'CPF Invalido';
@@ -110,7 +110,6 @@ BEGIN
 	IF _email IS NOT NULL THEN
 		UPDATE Pessoa AS p SET email = _email WHERE p.cpf = _cpf;
 	END IF;
-        RETURN (TRUE);
     ELSE
         RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
@@ -120,7 +119,7 @@ $$ LANGUAGE plpgsql;
 -- Altera morador
 -- Autor: Tiago Bachiega de Almeida
 
-CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS void AS $$
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
 	RAISE EXCEPTION 'CPF Invalido';
@@ -147,7 +146,6 @@ BEGIN
 	IF _email IS NOT NULL THEN
 		UPDATE Pessoa AS p SET email = _email WHERE p.cpf = _cpf;
 	END IF;
-        RETURN (TRUE);
     ELSE
         RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
     END IF;
