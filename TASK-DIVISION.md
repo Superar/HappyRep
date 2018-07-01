@@ -74,9 +74,9 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 #### Views
 
-- view_nutricionista()
-- view_morador()
-- view_morador_sem_trab()
+- view_nutricionista
+- view_morador
+- view_morador_sem_trab
 
 #### Triggers 
 
@@ -106,11 +106,22 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 ### Victor Calefi Ramos
 
-#### *Views*
+#### Views
 
-#### *Triggers*
+- view_republica
+- view_comodo
+
+#### Triggers
+
+- 
 
 #### Procedimentos e funções
+
+- update_republica()
+- delete_republica()
+- delete_comodo()
+- insert_republica()
+- insert_comodo()
 
 ---
 
