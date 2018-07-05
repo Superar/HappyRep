@@ -113,7 +113,8 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 #### Triggers
 
-- 
+- delete_row_view_republica()
+- delete_row_view_comodo()
 
 #### Procedimentos e funções
 

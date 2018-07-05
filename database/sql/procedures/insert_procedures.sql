@@ -163,3 +163,56 @@ BEGIN
   END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Inserir republica
+-- Autor: Victor Calefi Ramos
+
+CREATE OR REPLACE FUNCTION insert_republica(_id_republica smallint, 
+    _status smallint, 
+    _endereco_cep VARCHAR, 
+    _endereco_logradouro VARCHAR, 
+    _endereco_numero smallint, 
+    _endereco_complemento VARCHAR, 
+    _endereco_observacoes VARCHAR
+    _id_comodo smallint) RETURNS boolean AS $$
+BEGIN  
+    IF EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Republica já cadastrada';
+        RETURN (FALSE); 
+    END IF;
+    INSERT INTO Republica (id_republica, 
+        status, 
+        endereco_cep, 
+        endereco_logradouro, 
+        endereco_numero, 
+        endereco_complemento, 
+        endereco_observacoes) 
+    VALUES (_id_republica, 
+        _status, 
+        _endereco_cep, 
+        _endereco_logradouro, 
+        _endereco_numero, 
+        _endereco_complemento, 
+        _endereco_observacoes);
+    PERFORM insert_comodo (_id_comodo, _id_republica);
+    RETURN (TRUE);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Inserir Comodo
+-- Autor: Victor Calefi Ramos
+
+CREATE OR REPLACE FUNCTION insert_comodo(_id_comodo smallint, _id_republica smallint) RETURNS boolean AS $$
+BEGIN  
+    IF NOT EXISTS (SELECT 1 FROM Republica rep WHERE rep.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Republica não cadastrada';
+        RETURN (FALSE);
+    END IF;
+    IF EXISTS (SELECT 1 FROM Comodo c WHERE c.id_comodo = _id_comodo AND c.id_republica = _id_republica) THEN
+        RAISE EXCEPTION 'Comodo já cadastrado';
+        RETURN (FALSE);
+    END IF;
+    INSERT INTO Comodo (id_comodo, id_republica) VALUES (_id_comodo, _id_republica);
+    RETURN (TRUE);
+END;
+$$ LANGUAGE plpgsql;
