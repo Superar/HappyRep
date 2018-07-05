@@ -121,4 +121,3 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER insert_view_faxineira INSTEAD OF INSERT ON view_faxineira
 FOR EACH ROW EXECUTE PROCEDURE insert_view_faxineira();
-
