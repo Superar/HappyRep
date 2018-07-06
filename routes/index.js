@@ -11,14 +11,18 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/CadastrarReparador', function (req, res) {
+router.get('/CadastrarFuncionario', function (req, res) {
+  res.render('formularios/cadastrar_funcionario');
+})
+
+router.get('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   res.render('formularios/cadastrar_reparador', {
     pessoa: 'Reparador',
     cadastrar_pessoa: false
   });
 });
 
-router.post('/CadastrarReparador', function (req, res) {
+router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -46,12 +50,12 @@ router.post('/CadastrarReparador', function (req, res) {
   });
 });
 
-router.post('/CadastrarPessoaReparador', function (req, res) {
+router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email, '{' + req.body.tipo.join(', ') + '}'],
+  db.query('SELECT insert_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, '{' + req.body.tipo.join(', ') + '}', req.body.email],
     function (ret) {
       res.render('index', {
         title: 'Deu bom!'
@@ -73,10 +77,72 @@ router.post('/CadastrarPessoaReparador', function (req, res) {
     });
 });
 
+router.get('/CadastrarFuncionario/CadastrarCozinheira', function (req, res) {
+  res.render('formularios/cadastrar_cozinheira', {
+    pessoa: 'Cozinheira',
+    cadastrar_pessoa: false
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarCozinheira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_cozinheira ($1)', [req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_cozinheira) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    } else {
+      var values = {};
+      values.pessoa = 'Cozinheira';
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+
+      res.render('formularios/cadastrar_cozinheira', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Cozinheira';
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/cadastrar_cozinheira', values);
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_cozinheira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Cozinheira';
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.erro = err;
+
+      res.render('formularios/cadastrar_cozinheira', values);
+    });
+});
+
 // Listas
 router.get('/ListaFuncionarios', function (req, res) {
 
-  db.query('SELECT * FROM Reparador, Pessoa WHERE cpf = cpf_pessoa', null, function (ret) {
+  db.query('SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email FROM view_reparador UNION SELECT * FROM view_cozinheira', null, function (ret) {
       res.render('listas/funcionarios', {
         funcionarios: ret.rows
       });
