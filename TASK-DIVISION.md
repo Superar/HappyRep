@@ -21,13 +21,34 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 ---
 
-### Luís Felipe Tomazini
+### Luis Felipe Tomazini
 
-#### *Views*
+#### Tables
 
-#### *Triggers*
+- Pessoa
+- Faxineira
+
+#### Views
+
+- view_pessoa
+- view_faxineira
+
+#### Triggers
+
+- valida_pessoa() [DML]
+- insert_view_pessoa() [instead of]
+- insert_view_faxineira() [instead of]
 
 #### Procedimentos e funções
+
+- insert_pessoa()
+- insert_faxineira()
+- update_pessoa()
+- update_faxineira()
+- delete_pessoa()
+- delete_faxineira()
+- existe_pessoa()
+- nomes_por_sexo() [cursor parametrizado]
 
 ---
 
@@ -59,9 +80,9 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 #### Views
 
-- view_nutricionista()
-- view_morador()
-- view_morador_sem_trab()
+- view_nutricionista
+- view_morador
+- view_morador_sem_trab
 
 #### Triggers 
 
@@ -91,11 +112,23 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 ### Victor Calefi Ramos
 
-#### *Views*
+#### Views
 
-#### *Triggers*
+- view_republica
+- view_comodo
+
+#### Triggers
+
+- delete_row_view_republica()
+- delete_row_view_comodo()
 
 #### Procedimentos e funções
+
+- update_republica()
+- delete_republica()
+- delete_comodo()
+- insert_republica()
+- insert_comodo()
 
 ---
 
