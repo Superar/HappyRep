@@ -23,6 +23,11 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 ### Luis Felipe Tomazini
 
+#### Tables
+
+- Pessoa
+- Faxineira
+
 #### Views
 
 - view_pessoa
@@ -30,8 +35,9 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 #### Triggers
 
-- insert_view_pessoa()
-- insert_view_faxineira()
+- valida_pessoa() [DML]
+- insert_view_pessoa() [instead of]
+- insert_view_faxineira() [instead of]
 
 #### Procedimentos e funções
 

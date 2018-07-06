@@ -159,3 +159,23 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER delete_row_view_reparador INSTEAD OF DELETE ON view_comodo
 FOR EACH ROW EXECUTE PROCEDURE delete_row_view_comodo();
+
+-- Insere e atualiza pessoa
+-- Autor: Luís Felipe Tomazini
+
+CREATE FUNCTION valida_pessoa() RETURNS trigger AS $valida_pessoa$
+    BEGIN
+        IF LENGTH (NEW.cpf) != 11 THEN
+            RAISE EXCEPTION 'CPF Invalido';
+        END IF;
+
+        IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = NEW.cpf) THEN
+            RAISE EXCEPTION 'CPF % ja cadastrado', NEW.cpf;
+        ELSE
+            RETURN NEW;
+        END IF;
+    END;
+$valida_pessoa$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valida_pessoa BEFORE INSERT OR UPDATE ON pessoa
+    FOR EACH ROW EXECUTE PROCEDURE valida_pessoa();
