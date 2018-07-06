@@ -86,8 +86,9 @@ As implementações a cargo de cada membro estão indicadas a seguir.
 
 #### Triggers 
 
-- insert_view_nutricionista()
-- insert_view_morador()
+- insert_view_nutricionista() [Instead of]
+- insert_view_morador() [Instead of]
+- valida_morador() [DML]
 
 #### Procedimentos e funções
 
