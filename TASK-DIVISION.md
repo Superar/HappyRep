@@ -143,6 +143,24 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 - Alimentacao
 - Receita
 
+### Isadora Gallerani
+
+### Tabelas
+- Faxina
+- Nutricionista
+- Reparo
+- Alimentação
+
+#### Views
+
+- view_alimentacao
+
+#### Triggers
+
+
+#### Procedimentos e funções
+
+
 ---
 
 ## Grupo 3
