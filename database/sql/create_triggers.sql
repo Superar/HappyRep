@@ -179,3 +179,20 @@ $valida_pessoa$ LANGUAGE plpgsql;
 
 CREATE TRIGGER valida_pessoa BEFORE INSERT OR UPDATE ON pessoa
     FOR EACH ROW EXECUTE PROCEDURE valida_pessoa();
+
+-- Validacao de morador
+--deve ter trabalho ou ser universitario
+-- Autor: Tiago Bachiega de Almeida
+
+CREATE OR REPLACE FUNCTION valida_morador() RETURNS trigger AS $valida_morador$
+DECLARE
+    BEGIN
+	IF NEW.trabalho is NULL AND NEW.universidade is NULL THEN
+		RAISE EXCEPTION 'Deve possuir trabalho ou universidade';
+	END IF;
+        RETURN NEW;
+    END;
+$valida_morador$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valida_morador BEFORE INSERT OR UPDATE ON Morador
+    FOR EACH ROW EXECUTE PROCEDURE valida_morador();
