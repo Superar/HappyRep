@@ -153,3 +153,26 @@ O grupo 3 ficou responsável pelas implementações referentes às tabelas:
 - Fornecedor
 - Ingredientes
 - Pagamento
+
+### Jorge Augusto Bernardo
+
+#### Tables
+
+  - Pagamento
+  - Servico
+  
+#### View
+
+  - View_Pagamento
+  
+#### Procedure
+
+  - InsertServico()
+  
+#### Function
+
+  - get_multa()
+  
+#### Trigger
+
+  - insert_view_pagamento()
