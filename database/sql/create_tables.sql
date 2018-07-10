@@ -8,6 +8,10 @@ DROP TABLE IF EXISTS morador CASCADE;
 DROP TABLE IF EXISTS Faxineira CASCADE;
 DROP TABLE IF EXISTS PessoaTelefone;
 DROP TABLE IF EXISTS Pessoa CASCADE;
+DROP TABLE IF EXISTS Nutricionista CASCADE;
+DROP TABLE IF EXISTS Faxina CASCADE;
+DROP TABLE IF EXISTS Reparo CASCADE;
+DROP TABLE IF EXISTS Alimentacao CASCADE;
 
 -- Table: pessoa
 
@@ -59,16 +63,6 @@ CREATE TABLE morador
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Table: nutricionista
-
-CREATE TABLE nutricionista
-(
-  cpf_pessoa character varying(11) NOT NULL,
-  CONSTRAINT nutricionista_pk PRIMARY KEY (cpf_pessoa),
-  CONSTRAINT nutricionista_pk_pessoa FOREIGN KEY (cpf_pessoa)
-      REFERENCES public.pessoa (cpf) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-);
 
 -- Table: cozinheira
 
@@ -130,4 +124,48 @@ CREATE TABLE Comodo
   CONSTRAINT fk_comodo_republica FOREIGN KEY (id_republica) 
     REFERENCES public.Republica (id_republica) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+-- Table: Nutricionista
+
+CREATE TABLE Nutricionista
+(
+    cpf_pessoa CHAR(11) NOT NULL,
+    CONSTRAINT pk_nutricionista PRIMARY KEY (cpf_pessoa),
+    CONSTRAINT fk_nutricionista_pessoa FOREIGN KEY (cpf_pessoa) REFERENCES Pessoa(cpf)
+);
+
+-- Table: Faxina
+
+CREATE TABLE Faxina
+(
+    cpf_faxineira CHAR(11) NOT NULL,
+    id_servico integer NOT NULL,
+    CONSTRAINT pk_faxina PRIMARY KEY (cpf_faxineira, id_servico),
+    CONSTRAINT fk_faxina_cpf FOREIGN KEY (cpf_faxineira) REFERENCES Faxineira(cpf_pessoa)
+    CONSTRAINT fk_faxina_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_servico)
+);
+
+-- Table: Reparo
+
+CREATE TABLE Reparo
+(
+    cpf_reparador CHAR(11) NOT NULL,
+    id_servico integer NOT NULL,
+    CONSTRAINT fk_reparo_cpf FOREIGN KEY (cpf_reparador) REFERENCES Reparador(cpf_pessoa),
+    CONSTRAINT fk_reparo_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_servico),
+    CONSTRAINT pk_reparo PRIMARY KEY (cpf_reparador, id_servico)
+);
+
+-- Table: Alimentação
+
+CREATE TABLE Alimentacao
+(
+    cpf_cozinheira CHAR(11) NOT NULL,
+    cpf_nutricionista CHAR(11) NOT NULL,
+    id_servico integer NOT NULL,
+    CONSTRAINT fk_alimentacao_cozinheira FOREIGN KEY (cpf_cozinheira) REFERENCES Cozinheira(cpf_pessoa),
+    CONSTRAINT fk_alimentacao_nutricionista FOREIGN KEY (cpf_nutricionista) REFERENCES Nutricionista(cpf_pessoa),
+    CONSTRAINT fk_alimentacao_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_Servico),
+    CONSTRAINT pk_alimentacao PRIMARY KEY (cpf_cozinheira, cpf_nutricionista, id_servico)
 );
