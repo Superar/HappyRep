@@ -139,6 +139,68 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
     });
 });
 
+router.get('/CadastrarFuncionario/CadastrarFaxineira', function (req, res) {
+  res.render('formularios/cadastrar_faxineira', {
+    pessoa: 'Faxineira',
+    cadastrar_pessoa: false
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarFaxineira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxineira ($1)', [req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_faxineira) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    } else {
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+
+      res.render('formularios/cadastrar_faxineira', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Faxineira';
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/cadastrar_faxineira', values);
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaFaxineira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.erro = err;
+
+      res.render('formularios/cadastrar_faxineira', values);
+    });
+});
+
 // Listas
 router.get('/ListaFuncionarios', function (req, res) {
 
