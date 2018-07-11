@@ -201,6 +201,40 @@ router.post('/CadastrarFuncionario/CadastrarPessoaFaxineira', function (req, res
     });
 });
 
+router.get('/CadastrarFuncionario/CadastrarPessoa', function (req, res) {
+  res.render('formularios/cadastrar_pessoa', {
+    pessoa: 'Pessoa',
+    cadastrar_pessoa: false
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Pessoa';
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.erro = err;
+
+      res.render('formularios/cadastrar_pessoa', values);
+    });
+});
+
 // Listas
 router.get('/ListaFuncionarios', function (req, res) {
 
