@@ -271,3 +271,22 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER insert_view_alimentacao INSTEAD OF INSERT ON view_alimentacao
 FOR EACH ROW EXECUTE PROCEDURE insert_view_alimentacao();
+
+-- Validação de horários de serviço
+-- Autora: Isadora Gallerani
+
+CREATE FUNCTION valida_servico() RETURNS trigger AS $valida_hora$
+    BEGIN
+        IF (NEW.hora_inicio == NEW.hora_fim) THEN
+            RAISE EXCEPTION 'Horário de Iniício/Fim inválido(s)';
+        END IF;
+        IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = NEW.id_servico) THEN
+            RAISE EXCEPTION 'ID de Serviço % já cadastrado', NEW.id_servico;
+        ELSE
+            RETURN NEW;
+        END IF;
+    END;
+$valida_pessoa$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valida_servico BEFORE INSERT OR UPDATE ON Servico
+    FOR EACH ROW EXECUTE PROCEDURE valida_servico();
