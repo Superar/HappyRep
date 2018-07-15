@@ -71,6 +71,8 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
       values.sobrenome_value = req.body.sobrenome;
       values.data_de_nascimento_value = req.body.data_de_nascimento;
       values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
       values.erro = err;
 
       res.render('formularios/cadastrar_reparador', values);
@@ -133,6 +135,8 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
       values.sobrenome_value = req.body.sobrenome;
       values.data_de_nascimento_value = req.body.data_de_nascimento;
       values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
       values.erro = err;
 
       res.render('formularios/cadastrar_cozinheira', values);

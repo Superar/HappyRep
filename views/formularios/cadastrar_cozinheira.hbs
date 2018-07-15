@@ -98,10 +98,10 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Feminino
+                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_f}}checked{{/if}}> Feminino
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Masculino
+                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_m}}checked{{/if}}> Masculino
                                     </label>
                                 </div>
                             </div>
