@@ -118,7 +118,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}"
+                                        {{#unless cadastrar_pessoa}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -156,16 +157,16 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="pedreiro"> Pedreiro
+                                        <input type="checkbox" name="tipo" value="pedreiro" {{#if tipos.pedreiro}} checked {{/if}}> Pedreiro
                                     </label>
                                     <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="encanador"> Encanador
+                                        <input type="checkbox" name="tipo" value="encanador" {{#if tipos.encanador}} checked {{/if}}> Encanador
                                     </label>
                                     <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="chaveiro"> Chaveiro
+                                        <input type="checkbox" name="tipo" value="chaveiro" {{#if tipos.chaveiro}} checked {{/if}}> Chaveiro
                                     </label>
                                     <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="eletricista"> Eletricista
+                                        <input type="checkbox" name="tipo" value="eletricista" {{#if tipos.eletricista}} checked {{/if}}> Eletricista
                                     </label>
                                 </div>
                             </div>

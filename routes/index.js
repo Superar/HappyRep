@@ -37,6 +37,8 @@ router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
       values.pessoa = 'Reparador';
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
+      values.tipos = {};
+      req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
 
       res.render('formularios/cadastrar_reparador', values);
     }
@@ -73,6 +75,8 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
       values.email_value = req.body.email;
       values.sexo_m = (req.body.sexo == 'M' ? true : false);
       values.sexo_f = (req.body.sexo == 'F' ? true : false);
+      values.tipos = {};
+      req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
       values.erro = err;
 
       res.render('formularios/cadastrar_reparador', values);
