@@ -41,10 +41,31 @@ CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
                                             tipos VARCHAR[],
-                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
+                                            _email VARCHAR DEFAULT NULL) RETURNS void AS $$
 DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+    IF tipos = '{}' THEN
+        RAISE EXCEPTION 'Selecione os tipos do Reparador';
+    END IF;
+    IF LENGTH(_sexo) = 0 THEN
+        RAISE EXCEPTION 'Selecione o sexo';
+    END IF;
+    IF LENGTH(_rg) = 0 THEN
+        RAISE EXCEPTION 'Digite o RG';
+    END IF;
+    IF LENGTH(_nome_prenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Primeiro Nome';
+    END IF;
+    IF LENGTH(_nome_sobrenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Sobrenome';
+    END IF;
+    IF LENGTH(_data_de_nascimento) = 0 THEN
+        RAISE EXCEPTION 'Digite a Data de Nascimento';
+    END IF;
     FOREACH tipo IN ARRAY tipos
     LOOP
         INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo)
@@ -81,8 +102,26 @@ CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
+                                            _email VARCHAR DEFAULT NULL) RETURNS void AS $$
 BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+    IF LENGTH(_sexo) = 0 THEN
+        RAISE EXCEPTION 'Selecione o sexo';
+    END IF;
+    IF LENGTH(_rg) = 0 THEN
+        RAISE EXCEPTION 'Digite o RG';
+    END IF;
+    IF LENGTH(_nome_prenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Primeiro Nome';
+    END IF;
+    IF LENGTH(_nome_sobrenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Sobrenome';
+    END IF;
+    IF LENGTH(_data_de_nascimento) = 0 THEN
+        RAISE EXCEPTION 'Digite a Data de Nascimento';
+    END IF;
     PERFORM insert_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
     INSERT INTO Cozinheira VALUES (_cpf);
 END;
