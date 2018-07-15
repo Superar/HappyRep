@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Comodo CASCADE;
+ï»¿DROP TABLE IF EXISTS Comodo CASCADE;
 DROP TABLE IF EXISTS Republica CASCADE;
 DROP TABLE IF EXISTS ReparadorTipo CASCADE;
 DROP TABLE IF EXISTS Reparador CASCADE;
@@ -142,7 +142,7 @@ CREATE TABLE Faxina
     cpf_faxineira CHAR(11) NOT NULL,
     id_servico integer NOT NULL,
     CONSTRAINT pk_faxina PRIMARY KEY (cpf_faxineira, id_servico),
-    CONSTRAINT fk_faxina_cpf FOREIGN KEY (cpf_faxineira) REFERENCES Faxineira(cpf_pessoa)
+    CONSTRAINT fk_faxina_cpf FOREIGN KEY (cpf_faxineira) REFERENCES Faxineira(cpf_pessoa),
     CONSTRAINT fk_faxina_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_servico)
 );
 
@@ -157,7 +157,7 @@ CREATE TABLE Reparo
     CONSTRAINT pk_reparo PRIMARY KEY (cpf_reparador, id_servico)
 );
 
--- Table: Alimentação
+-- Table: Alimentacao
 
 CREATE TABLE Alimentacao
 (
