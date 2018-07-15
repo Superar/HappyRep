@@ -11,17 +11,22 @@ router.get('/', function (req, res, next) {
   });
 });
 
+/* Cadastros */
+
 router.get('/CadastrarFuncionario', function (req, res) {
   res.render('formularios/cadastrar_funcionario');
 })
 
+// GET - Cadastrar reparador pelo CPF
 router.get('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
-  res.render('formularios/cadastrar_reparador', {
+  res.render('formularios/form_reparador', {
     pessoa: 'Reparador',
+    cadastrar: true,
     cadastrar_pessoa: false
   });
 });
 
+// POST - Cadastrar reparador pelo CPF
 router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
@@ -32,23 +37,25 @@ router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
       res.render('index', {
         title: 'Deu bom!'
       });
-    } else {
+    } else { // Precisa cadastrar a pessoa
       var values = {};
       values.pessoa = 'Reparador';
+      values.cadastrar = true;
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
       values.tipos = {};
       req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
 
-      res.render('formularios/cadastrar_reparador', values);
+      res.render('formularios/form_reparador', values);
     }
   }, function (err) {
     var values = {};
     values.pessoa = 'Reparador';
+    values.cadastrar = true;
     values.cadastrar_pessoa = false;
     values.erro = err;
 
-    res.render('formularios/cadastrar_reparador', values);
+    res.render('formularios/form_reparador', values);
   });
 });
 
@@ -66,6 +73,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
     function (err) {
       var values = {};
       values.pessoa = 'Reparador';
+      values.cadastrar = true;
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
       values.rg_value = req.body.rg;
@@ -79,13 +87,14 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
       req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
       values.erro = err;
 
-      res.render('formularios/cadastrar_reparador', values);
+      res.render('formularios/form_reparador', values);
     });
 });
 
 router.get('/CadastrarFuncionario/CadastrarCozinheira', function (req, res) {
-  res.render('formularios/cadastrar_cozinheira', {
+  res.render('formularios/form_cozinheira', {
     pessoa: 'Cozinheira',
+    cadastrar: true,
     cadastrar_pessoa: false
   });
 });
@@ -103,18 +112,20 @@ router.post('/CadastrarFuncionario/CadastrarCozinheira', function (req, res) {
     } else {
       var values = {};
       values.pessoa = 'Cozinheira';
+      values.cadastrar = true;
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
 
-      res.render('formularios/cadastrar_cozinheira', values);
+      res.render('formularios/form_cozinheira', values);
     }
   }, function (err) {
     var values = {};
     values.pessoa = 'Cozinheira';
+    values.cadastrar = true;
     values.cadastrar_pessoa = false;
     values.erro = err;
 
-    res.render('formularios/cadastrar_cozinheira', values);
+    res.render('formularios/form_cozinheira', values);
   });
 });
 
@@ -132,6 +143,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
     function (err) {
       var values = {};
       values.pessoa = 'Cozinheira';
+      values.cadastrar = true;
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
       values.rg_value = req.body.rg;
@@ -143,11 +155,34 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
       values.sexo_f = (req.body.sexo == 'F' ? true : false);
       values.erro = err;
 
-      res.render('formularios/cadastrar_cozinheira', values);
+      res.render('formularios/form_cozinheira', values);
     });
 });
 
-// Listas
+/* Alterar cadastros */
+
+router.get('/AlterarFuncionario', function (req, res) {
+  res.render('formularios/alterar_funcionario');
+})
+
+router.get('/AlterarFuncionario/AlterarCozinheira', function (req, res) {
+  res.render('formularios/form_cozinheira', {
+    pessoa: 'Cozinheira',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+router.get('/AlterarFuncionario/AlterarReparador', function (req, res) {
+  res.render('formularios/form_reparador', {
+    pessoa: 'Reparador',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+/* Listas */
+
 router.get('/ListaFuncionarios', function (req, res) {
 
   db.query('SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email FROM view_reparador UNION SELECT * FROM view_cozinheira', null, function (ret) {
