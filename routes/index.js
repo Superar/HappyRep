@@ -164,6 +164,150 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
     });
 });
 
+// GET - Cadastrar nutricionista pelo CPF
+router.get('/CadastrarFuncionario/CadastrarNutricionista', function (req, res) {
+  res.render('formularios/form_nutricionista', {
+    pessoa: 'Nutricionista',
+    cadastrar: true,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Cadastrar nutricionista pelo CPF
+router.post('/CadastrarFuncionario/CadastrarNutricionista', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_nutricionista ($1)', [req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_nutricionista) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    } else { // Precisa cadastrar a pessoa
+      var values = {};
+      values.pessoa = 'Nutricionista';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+
+      res.render('formularios/form_nutricionista', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Nutricionista';
+    values.cadastrar = true;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_nutricionista', values);
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaNutricionista', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_nutricionista ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Nutricionista';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
+      values.erro = err;
+
+      res.render('formularios/form_nutricionista', values);
+    });
+});
+
+// GET - Cadastrar morador pelo CPF
+router.get('/CadastrarMorador', function (req, res) {
+  res.render('formularios/form_morador', {
+    pessoa: 'Morador',
+    cadastrar: true,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Cadastrar morador pelo CPF
+router.post('/CadastrarMorador', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_morador ($1, $2, $3)', [req.body.trabalho, req.body.universidade, req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_morador) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    } else { // Precisa cadastrar a pessoa
+      var values = {};
+      values.pessoa = 'Morador';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.trabalho_value = req.body.trabalho;
+      values.universidade_value = req.body.universidade;
+
+      res.render('formularios/form_morador', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Morador';
+    values.cadastrar = true;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_morador', values);
+  });
+});
+
+router.post('/CadastrarPessoaMorador', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_morador ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.trabalho, req.body.universidade, req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Morador';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
+      values.trabalho_value = req.body.trabalho;
+      values.universidade_value = req.body.universidade;
+      values.erro = err;
+
+      res.render('formularios/form_morador', values);
+    });
+});
+
 /* Alterar cadastros */
 
 router.get('/AlterarFuncionario', function (req, res) {
@@ -319,6 +463,80 @@ router.post('/AlterarFuncionario/AlterarPessoaReparador', function (req, res) {
       values.erro = err;
 
       res.render('formularios/form_reparador', values);
+    });
+});
+
+//GET - Alterar Nutricionista
+router.get('/AlterarFuncionario/AlterarNutricionista', function (req, res) {
+  res.render('formularios/form_nutricionista', {
+    pessoa: 'Nutricionista',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Alterar Nutricionista com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarFuncionario/AlterarNutricionista', function (req, res) {
+  db.query('SELECT * FROM view_nutricionista WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Nutricionista';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Nutricionista';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+    }
+    res.render('formularios/form_nutricionista', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Nutricionista';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_nutricionista', values);
+  });
+});
+
+// POST - Alterar todos os dados de Nutricionista
+// Deve alterar os dados no banco
+router.post('/AlterarFuncionario/AlterarPessoaNutricionista', function (req, res) {
+  db.query('SELECT update_nutricionista ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      if (ret.rows[0].update_nutricionista) {
+        res.render('index', {
+          title: 'Deu bom!'
+        });
+      } else {
+        var values = {};
+        values.pessoa = 'Nutricionista';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_nutricionista', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Nutricionista';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_nutricionista', values);
     });
 });
 
