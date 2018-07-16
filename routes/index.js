@@ -243,12 +243,83 @@ router.post('/AlterarFuncionario/AlterarPessoaCozinheira', function (req, res) {
     });
 });
 
+// GET - Página de alterar reparador
+// Usuário deve informar o CPF para iniciar
 router.get('/AlterarFuncionario/AlterarReparador', function (req, res) {
   res.render('formularios/form_reparador', {
     pessoa: 'Reparador',
     cadastrar: false,
     cadastrar_pessoa: false
   });
+});
+
+// POST - Alterar Reparador com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarFuncionario/AlterarReparador', function (req, res) {
+  db.query('SELECT * FROM view_reparador WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Reparador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Reparador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+      values.tipos = {};
+      ret.rows.forEach(function (elemento) {
+        values.tipos[elemento.tipo] = true
+      });
+    }
+    res.render('formularios/form_reparador', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Reparador';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_reparador', values);
+  });
+});
+
+// POST - Alterar todos os dados de Reparador
+// Deve alterar os dados no banco
+router.post('/AlterarFuncionario/AlterarPessoaReparador', function (req, res) {
+  db.query('SELECT update_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email, '{' + req.body.tipo.join(', ') + '}'],
+    function (ret) {
+      if (ret.rows[0].update_reparador) {
+        res.render('index', {
+          title: 'Deu bom!'
+        });
+      } else {
+        var values = {};
+        values.pessoa = 'Reparador';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_reparador', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Reparador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_reparador', values);
+    });
 });
 
 /* Listas */
