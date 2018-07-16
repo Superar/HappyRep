@@ -325,10 +325,30 @@ router.post('/AlterarFuncionario/AlterarPessoaReparador', function (req, res) {
 /* Listas */
 
 router.get('/ListaFuncionarios', function (req, res) {
+  res.render('listas/funcionarios/funcionarios');
+});
 
-  db.query('SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email FROM view_reparador UNION SELECT * FROM view_cozinheira', null, function (ret) {
-      res.render('listas/funcionarios', {
-        funcionarios: ret.rows
+router.get('/ListaFuncionarios/ListaReparador', function (req, res) {
+  db.query('SELECT * FROM view_reparador ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/reparador', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
+  db.query('SELECT * FROM view_cozinheira ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/cozinheira', {
+        'funcionarios': ret.rows
       });
     },
     function (err) {
