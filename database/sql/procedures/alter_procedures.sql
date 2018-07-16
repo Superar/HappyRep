@@ -5,23 +5,25 @@ CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
 										 _rg VARCHAR DEFAULT NULL,
 										 _nome_prenome VARCHAR DEFAULT NULL,
 										 _nome_sobrenome VARCHAR DEFAULT NULL,
-										 _data_de_nascimento DATE DEFAULT NULL,
+										 _data_de_nascimento VARCHAR DEFAULT NULL,
 										 _email VARCHAR DEFAULT NULL,
 										 tipos VARCHAR[] DEFAULT '{}') RETURNS boolean AS $$
 DECLARE
 	_retorno BOOLEAN;
+	_data_nasc DATE;
 BEGIN
+	_data_nasc := TO_DATE(_data_de_nascimento, 'DD/MM/YYYY');
 	IF NOT tipos = '{}' THEN
 		PERFORM update_reparador_tipo(_cpf, tipos);
 	END IF;
-	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_nasc, _email);
 	RETURN (_retorno);
 END;
 $$ LANGUAGE plpgsql;
 
 -- Altera o tipo do reparador
 -- Autor: Marcio Lima Inácio
-CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf CHAR, tipos VARCHAR[]) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION update_reparador_tipo(_cpf VARCHAR, tipos VARCHAR[]) RETURNS void AS $$
 DECLARE
 	_tipo ReparadorTipo.tipo%TYPE;
 	_tipos_cadastrados CURSOR (_cpf_cursor CHAR(11)) FOR SELECT tipo FROM view_reparador WHERE cpf = _cpf_cursor;
@@ -63,7 +65,7 @@ BEGIN
 			FROM view_reparador vr WHERE vr.cpf = _cpf
 			LIMIT 1;
 
-			PERFORM insert_reparador(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_CHAR(_data_de_nascimento, 'DD/MM/YYYY'), _email, ARRAY[_tipo]);
+			PERFORM insert_reparador(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_CHAR(_data_de_nascimento, 'DD/MM/YYYY'), ARRAY[_tipo], _email);
 		END IF;
 	END LOOP;
 END;
@@ -76,12 +78,14 @@ CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
 										 _rg VARCHAR DEFAULT NULL,
 										 _nome_prenome VARCHAR DEFAULT NULL,
 										 _nome_sobrenome VARCHAR DEFAULT NULL,
-										 _data_de_nascimento DATE DEFAULT NULL,
+										 _data_de_nascimento VARCHAR DEFAULT NULL,
 										 _email VARCHAR DEFAULT NULL) RETURNS boolean AS $$
 DECLARE
 	_retorno BOOLEAN;
+	_data_nasc DATE;
 BEGIN
-	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	_data_nasc := TO_DATE(_data_de_nascimento, 'DD/MM/YYYY');
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_nasc, _email);
 	RETURN (_retorno);
 END;
 $$ LANGUAGE plpgsql;

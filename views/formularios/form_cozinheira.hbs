@@ -4,7 +4,9 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">Cadastrar {{pessoa}}</a>
+            <a href="#" aria-current="page">
+                {{#if cadastrar}} Cadastrar {{pessoa}} {{else}} Alterar {{pessoa}} {{/if}}
+            </a>
         </li>
     </ul>
 </nav>
@@ -13,7 +15,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                Cadastrar {{pessoa}}
+                {{#if cadastrar}} Cadastrar {{pessoa}} {{else}} Alterar {{pessoa}} {{/if}}
             </h1>
         </div>
     </div>
@@ -21,7 +23,8 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/CadastrarFuncionario/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}">
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarFuncionario/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}"
+            {{else}} {{!-- Alterar --}} action="/AlterarFuncionario/Alterar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
@@ -98,10 +101,10 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Feminino
+                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_f}}checked{{/if}}> Feminino
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Masculino
+                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_m}}checked{{/if}}> Masculino
                                     </label>
                                 </div>
                             </div>
@@ -118,7 +121,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}"
+                                        {{#unless cadastrar_pessoa}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -151,7 +155,7 @@
                             <div class="field">
                                 <div class="control">
                                     <button class="button is-primary">
-                                        Cadastrar
+                                        {{#if cadastrar}} Cadastrar {{else}} Alterar {{/if}}
                                     </button>
                                 </div>
                             </div>
