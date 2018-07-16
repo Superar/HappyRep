@@ -131,7 +131,9 @@ $$ LANGUAGE plpgsql;
 -- Altera morador
 -- Autor: Tiago Bachiega de Almeida
 
-CREATE OR REPLACE FUNCTION update_morador(_cpf VARCHAR, _trabalho VARCHAR, _universidade VARCHAR, _sexo VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento DATE, _email VARCHAR) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION update_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR,  _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS boolean AS $$
+DECLARE
+	_data_nasc DATE;
 BEGIN
     IF LENGTH (_cpf) != 11 THEN
 	RAISE EXCEPTION 'CPF Invalido';
@@ -143,6 +145,9 @@ BEGIN
 	IF _universidade IS NOT NULL THEN
 		UPDATE Morador AS m SET universidade = _universidade WHERE m.cpf_pessoa = _cpf;
 	END IF;
+	IF _rg IS NOT NULL THEN
+		UPDATE Pessoa AS p SET rg = _rg WHERE p.cpf = _cpf;
+	END IF;
 	IF _sexo IS NOT NULL THEN
 		UPDATE Pessoa AS p SET sexo = _sexo WHERE p.cpf = _cpf;
 	END IF;
@@ -153,14 +158,17 @@ BEGIN
 		UPDATE Pessoa AS p SET nome_sobrenome = _nome_sobrenome WHERE p.cpf = _cpf;
 	END IF;
 	IF _data_de_nascimento IS NOT NULL THEN
-		UPDATE Pessoa AS p SET data_de_nascimento = _data_de_nascimento WHERE p.cpf = _cpf;
+		_data_nasc := TO_DATE(_data_de_nascimento, 'DD/MM/YYYY');
+		UPDATE Pessoa AS p SET data_de_nascimento = _data_nasc WHERE p.cpf = _cpf;
 	END IF;
 	IF _email IS NOT NULL THEN
 		UPDATE Pessoa AS p SET email = _email WHERE p.cpf = _cpf;
 	END IF;
     ELSE
         RAISE EXCEPTION 'Nao existe cadastro a ser alterado';
+    	RETURN (FALSE);
     END IF;
+	RETURN (TRUE);
 END;
 $$ LANGUAGE plpgsql;
 
