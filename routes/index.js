@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var moment = require('moment');
 var router = express.Router();
 
 var db = require('../database');
@@ -44,7 +45,9 @@ router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
       values.cadastrar_pessoa = true;
       values.cpf_value = req.body.cpf;
       values.tipos = {};
-      req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
+      req.body.tipo.forEach(function (elemento) {
+        values.tipos[elemento] = true
+      });
 
       res.render('formularios/form_reparador', values);
     }
@@ -84,7 +87,9 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
       values.sexo_m = (req.body.sexo == 'M' ? true : false);
       values.sexo_f = (req.body.sexo == 'F' ? true : false);
       values.tipos = {};
-      req.body.tipo.forEach(function (elemento) {values.tipos[elemento] = true});
+      req.body.tipo.forEach(function (elemento) {
+        values.tipos[elemento] = true
+      });
       values.erro = err;
 
       res.render('formularios/form_reparador', values);
@@ -171,6 +176,71 @@ router.get('/AlterarFuncionario/AlterarCozinheira', function (req, res) {
     cadastrar: false,
     cadastrar_pessoa: false
   });
+});
+
+// POST - Alterar Cozinheira com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarFuncionario/AlterarCozinheira', function (req, res) {
+  db.query('SELECT * FROM view_cozinheira WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Cozinheira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Cozinheira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+    }
+    res.render('formularios/form_cozinheira', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Cozinheira';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_cozinheira', values);
+  });
+});
+
+// POST - Alterar todos os dados de Cozinheira
+// Deve alterar os dados no banco
+router.post('/AlterarFuncionario/AlterarPessoaCozinheira', function (req, res) {
+  db.query('SELECT update_cozinheira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      if (ret.rows[0].update_cozinheira) {
+        res.render('index', {
+          title: 'Deu bom!'
+        });
+      } else {
+        var values = {};
+        values.pessoa = 'Cozinheira';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_cozinheira', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Cozinheira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_cozinheira', values);
+    });
 });
 
 router.get('/AlterarFuncionario/AlterarReparador', function (req, res) {

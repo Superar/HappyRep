@@ -76,12 +76,14 @@ CREATE OR REPLACE FUNCTION update_cozinheira(_cpf VARCHAR,
 										 _rg VARCHAR DEFAULT NULL,
 										 _nome_prenome VARCHAR DEFAULT NULL,
 										 _nome_sobrenome VARCHAR DEFAULT NULL,
-										 _data_de_nascimento DATE DEFAULT NULL,
+										 _data_de_nascimento VARCHAR DEFAULT NULL,
 										 _email VARCHAR DEFAULT NULL) RETURNS boolean AS $$
 DECLARE
 	_retorno BOOLEAN;
+	_data_nasc DATE;
 BEGIN
-	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_de_nascimento, _email);
+	_data_nasc := TO_DATE(_data_de_nascimento, 'DD/MM/YYYY');
+	_retorno := update_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, _data_nasc, _email);
 	RETURN (_retorno);
 END;
 $$ LANGUAGE plpgsql;

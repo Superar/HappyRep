@@ -24,7 +24,7 @@
 <div class="columns">
     <div class="column">
         <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarFuncionario/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}"
-            {{else}} {{!-- Alterar --}} action="/AlterarFuncionario/Alterar{{{pessoa}}}" {{/if}}>
+            {{else}} {{!-- Alterar --}} action="/AlterarFuncionario/Alterar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
