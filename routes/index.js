@@ -356,4 +356,58 @@ router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
     });
 });
 
+/* Delecoes */
+
+router.get('/ApagarFuncionario', function (req, res) {
+  res.render('apagar/funcionarios/funcionarios');
+});
+
+router.get('/ApagarFuncionario/ApagarReparador', function (req, res) {
+  db.query('SELECT DISTINCT cpf, nome_prenome, nome_sobrenome, rg, data_de_nascimento, email ' +
+    'FROM view_reparador ORDER BY nome_prenome ASC', null,
+    function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/reparador', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarReparador', function (req, res) {
+  db.query('SELECT delete_reparador ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarReparador');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
+  db.query('SELECT * FROM view_cozinheira ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/cozinheira', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
+  db.query('SELECT delete_cozinheira ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarCozinheira');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
 module.exports = router;
