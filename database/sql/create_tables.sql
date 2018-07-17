@@ -164,8 +164,8 @@ CREATE TABLE Alimentacao
     cpf_cozinheira CHAR(11) NOT NULL,
     cpf_nutricionista CHAR(11) NOT NULL,
     id_servico integer NOT NULL,
-    CONSTRAINT fk_alimentacao_cozinheira FOREIGN KEY (cpf_cozinheira) REFERENCES Cozinheira(cpf_pessoa),
-    CONSTRAINT fk_alimentacao_nutricionista FOREIGN KEY (cpf_nutricionista) REFERENCES Nutricionista(cpf_pessoa),
-    CONSTRAINT fk_alimentacao_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_Servico),
-    CONSTRAINT pk_alimentacao PRIMARY KEY (cpf_cozinheira, cpf_nutricionista, id_servico)
+    CONSTRAINT fk_alimentacao_cozinheira FOREIGN KEY (cpf_cozinheira) REFERENCES Cozinheira(cpf_pessoa) ON DELETE CASCADE,
+    CONSTRAINT fk_alimentacao_nutricionista FOREIGN KEY (cpf_nutricionista) REFERENCES Nutricionista(cpf_pessoa) ON DELETE CASCADE,
+    CONSTRAINT fk_alimentacao_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_Servico) ON DELETE CASCADE,
+    CONSTRAINT pk_alimentacao PRIMARY KEY (cpf_cozinheira, cpf_nutricionista, id_servico) 
 );

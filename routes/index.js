@@ -540,6 +540,81 @@ router.post('/AlterarFuncionario/AlterarPessoaNutricionista', function (req, res
     });
 });
 
+//GET - Alterar Morador
+router.get('/AlterarMorador', function (req, res) {
+  res.render('formularios/form_morador', {
+    pessoa: 'Morador',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Alterar Morador com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarMorador', function (req, res) {
+  db.query('SELECT * FROM view_morador WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Morador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Morador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.trabalho_value = ret.rows[0].trabalho;
+      values.universidade_value = ret.rows[0].universidade;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+    }
+    res.render('formularios/form_morador', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Morador';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_morador', values);
+  });
+});
+
+// POST - Alterar todos os dados de Morador
+// Deve alterar os dados no banco
+router.post('/AlterarPessoaMorador', function (req, res) {
+  db.query('SELECT update_morador ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.trabalho, req.body.universidade, req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      if (ret.rows[0].update_morador) {
+        res.render('index', {
+          title: 'Deu bom!'
+        });
+      } else {
+        var values = {};
+        values.pessoa = 'Morador';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_morador', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Morador';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_morador', values);
+    });
+});
 /* Listas */
 
 router.get('/ListaFuncionarios', function (req, res) {
@@ -567,6 +642,35 @@ router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
       });
       res.render('listas/funcionarios/cozinheira', {
         'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ListaFuncionarios/ListaNutricionista', function (req, res) {
+  db.query('SELECT * FROM view_nutricionista ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/nutricionista', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+
+router.get('/ListaMoradores', function (req, res) {
+  db.query('SELECT * FROM view_morador ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/moradores', {
+        'morador': ret.rows
       });
     },
     function (err) {
@@ -622,6 +726,52 @@ router.get('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
 router.post('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
   db.query('SELECT delete_cozinheira ($1)', [req.body.cpf], function (ret) {
       res.redirect('/ApagarFuncionario/ApagarCozinheira');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
+  db.query('SELECT * FROM view_nutricionista ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/nutricionista', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
+  db.query('SELECT delete_nutricionista ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarNutricionista');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ApagarMorador', function (req, res) {
+  db.query('SELECT * FROM view_morador ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/morador', {
+        'morador': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarMorador', function (req, res) {
+  db.query('SELECT delete_morador ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarMorador');
     },
     function (err) {
       console.log(err);
