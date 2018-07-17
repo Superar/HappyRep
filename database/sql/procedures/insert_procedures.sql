@@ -41,10 +41,31 @@ CREATE OR REPLACE FUNCTION insert_reparador(_cpf VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
                                             tipos VARCHAR[],
-                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
+                                            _email VARCHAR DEFAULT NULL) RETURNS void AS $$
 DECLARE
     tipo ReparadorTipo.tipo%TYPE;
 BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+    IF tipos = '{}' THEN
+        RAISE EXCEPTION 'Selecione os tipos do Reparador';
+    END IF;
+    IF LENGTH(_sexo) = 0 THEN
+        RAISE EXCEPTION 'Selecione o sexo';
+    END IF;
+    IF LENGTH(_rg) = 0 THEN
+        RAISE EXCEPTION 'Digite o RG';
+    END IF;
+    IF LENGTH(_nome_prenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Primeiro Nome';
+    END IF;
+    IF LENGTH(_nome_sobrenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Sobrenome';
+    END IF;
+    IF LENGTH(_data_de_nascimento) = 0 THEN
+        RAISE EXCEPTION 'Digite a Data de Nascimento';
+    END IF;
     FOREACH tipo IN ARRAY tipos
     LOOP
         INSERT INTO view_reparador (cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email, tipo)
@@ -81,8 +102,26 @@ CREATE OR REPLACE FUNCTION insert_cozinheira(_cpf VARCHAR,
                                             _nome_prenome VARCHAR,
                                             _nome_sobrenome VARCHAR,
                                             _data_de_nascimento VARCHAR,
-                                            _email VARCHAR DEFAULT '') RETURNS void AS $$
+                                            _email VARCHAR DEFAULT NULL) RETURNS void AS $$
 BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+    IF LENGTH(_sexo) = 0 THEN
+        RAISE EXCEPTION 'Selecione o sexo';
+    END IF;
+    IF LENGTH(_rg) = 0 THEN
+        RAISE EXCEPTION 'Digite o RG';
+    END IF;
+    IF LENGTH(_nome_prenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Primeiro Nome';
+    END IF;
+    IF LENGTH(_nome_sobrenome) = 0 THEN
+        RAISE EXCEPTION 'Digite o Sobrenome';
+    END IF;
+    IF LENGTH(_data_de_nascimento) = 0 THEN
+        RAISE EXCEPTION 'Digite a Data de Nascimento';
+    END IF;
     PERFORM insert_pessoa(_cpf, _sexo, _rg, _nome_prenome, _nome_sobrenome, TO_DATE(_data_de_nascimento, 'DD/MM/YYYY'), _email);
     INSERT INTO Cozinheira VALUES (_cpf);
 END;
@@ -90,6 +129,24 @@ $$ LANGUAGE plpgsql;
 
 -- Inserir nutricionista
 -- Autor: Tiago Bachiega de Almeida
+CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = _cpf) THEN
+            INSERT INTO Nutricionista VALUES (_cpf);
+        ELSE
+            RAISE EXCEPTION 'Nutricionista já cadastrada';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION insert_nutricionista(_cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
 BEGIN
@@ -107,6 +164,25 @@ $$ LANGUAGE plpgsql;
 
 -- Inserir morador
 -- Autor: Tiago Bachiega de Almeida
+CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Morador m WHERE m.cpf_pessoa = _cpf) THEN
+            INSERT INTO Morador VALUES (_trabalho, _universidade, _cpf);
+        ELSE
+            RAISE EXCEPTION 'Morador já cadastrado';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION insert_morador(_trabalho VARCHAR, _universidade VARCHAR, _cpf VARCHAR, _sexo VARCHAR,  _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento VARCHAR, _email VARCHAR) RETURNS void AS $$
 BEGIN

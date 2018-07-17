@@ -1,28 +1,62 @@
-<nav class="breadcrumb is-small" aria-label="breadcrumbs">
-    <ul>
-        <li>
-            <a href="/">Página Inicial</a>
-        </li>
-        <li class="is-active">
-            <a href="#" aria-current="page">Cadastrar {{pessoa}}</a>
-        </li>
-    </ul>
-</nav>
-
-<div class="level">
-    <div class="level-left">
-        <div class="level-item">
-            <h1 class="title">
-                Cadastrar {{pessoa}}
-            </h1>
-        </div>
+<div class="columns">
+    <div class="column is-narrow">
+        <ul class="menu-list">
+            <li>
+                <a href="/CadastrarMorador">
+                    <span class="icon is-small">
+                        <i class="fa fa-wpforms"></i>
+                    </span>
+                    Cadastrar Morador
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/CadastrarFuncionario/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}">
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}"
+            {{else}} {{!-- Alterar --}} action="/Alterar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}" {{/if}}>
             <div class="columns is-multiline">
+		<div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Trabalho
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="trabalho" class="input" type="text" placeholder="Trabalho" value="{{trabalho_value}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+		<div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Universidade
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="universidade" class="input" type="text" placeholder="Universidade" value="{{universidade_value}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 <div class="column">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -98,10 +132,10 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Feminino
+                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_f}}checked{{/if}}> Feminino
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Masculino
+                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}} {{#if sexo_m}}checked{{/if}}> Masculino
                                     </label>
                                 </div>
                             </div>
@@ -118,7 +152,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}"
+                                        {{#unless cadastrar_pessoa}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -145,40 +180,13 @@
                         </div>
                     </div>
 
-                    <div class="field is-grouped">
-                        <div class="field-label">
-                            <label class="label">
-                                Tipo
-                                <span class="has-text-danger">*</span>
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-narrow">
-                                <div class="control">
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="pedreiro"> Pedreiro
-                                    </label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="encanador"> Encanador
-                                    </label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="chaveiro"> Chaveiro
-                                    </label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="tipo" value="eletricista"> Eletricista
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="field is-horizontal">
                         <div class="field-label"></div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
                                     <button class="button is-primary">
-                                        Cadastrar
+                                        {{#if cadastrar}} Cadastrar {{else}} Alterar {{/if}}
                                     </button>
                                 </div>
                             </div>
