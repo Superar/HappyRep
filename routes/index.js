@@ -649,6 +649,35 @@ router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
     });
 });
 
+router.get('/ListaFuncionarios/ListaNutricionista', function (req, res) {
+  db.query('SELECT * FROM view_nutricionista ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/nutricionista', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+
+router.get('/ListaMoradores', function (req, res) {
+  db.query('SELECT * FROM view_morador ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/moradores', {
+        'morador': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
 /* Delecoes */
 
 router.get('/ApagarFuncionario', function (req, res) {
