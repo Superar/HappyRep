@@ -732,4 +732,50 @@ router.post('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
     });
 });
 
+router.get('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
+  db.query('SELECT * FROM view_nutricionista ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/nutricionista', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
+  db.query('SELECT delete_nutricionista ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarNutricionista');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ApagarMorador', function (req, res) {
+  db.query('SELECT * FROM view_morador ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/morador', {
+        'morador': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarMorador', function (req, res) {
+  db.query('SELECT delete_morador ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarMorador');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
 module.exports = router;
