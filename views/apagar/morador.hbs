@@ -1,0 +1,72 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Moradores</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Moradores
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>CPF</th>
+	    <th>Trabalho</th>
+            <th>Universidade</th>
+            <th>Primeiro Nome</th>
+            <th>Sobrenome</th>
+            <th>RG</th>
+            <th>Data de Nascimento</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>CPF</th>
+	    <th>Trabalho</th>
+            <th>Universidade</th>
+            <th>Primeiro Nome</th>
+            <th>Sobrenome</th>
+            <th>RG</th>
+            <th>Data de Nascimento</th>
+            <th>Email</th>
+        </tr>
+    </tfoot>
+    <form method="POST" action="/ApagarMorador">
+        <tbody>
+            {{#each morador}}
+            <tr>
+                <th>
+                    <button name="cpf" type="submit" value="{{cpf}}">
+                        <span class="icon is-small">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </button>
+                </th>
+                <th>{{cpf}}</th>
+	        <th>{{trabalho}}</th>
+                <th>{{universidade}}</th>
+                <td>{{nome_prenome}}</td>
+                <td>{{nome_sobrenome}}</td>
+                <td>{{rg}}</td>
+                <td>{{data_de_nascimento}}</td>
+                <td>{{email}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </form>
+</table>
