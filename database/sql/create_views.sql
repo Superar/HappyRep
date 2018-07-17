@@ -2,6 +2,7 @@
 DROP VIEW IF EXISTS view_nutricionista;
 DROP VIEW IF EXISTS view_reparador;
 DROP VIEW IF EXISTS view_faxineira;
+DROP VIEW IF EXISTS view_cozinheira;
 DROP VIEW IF EXISTS view_pessoa;
 DROP VIEW IF EXISTS view_alimentacao;
 
