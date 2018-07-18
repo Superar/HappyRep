@@ -759,6 +759,11 @@ router.get('/AlterarServicos/AlterarIngrediente', function (req, res) {
     });
 });
 
+router.get('/AlterarServicos/AlterarFaxina', function (req, res) {
+    res.render('alterar/servicos/faxina', {
+    });
+});
+
 /* Listas */
 
 router.get('/ListaFuncionarios', function (req, res) {
@@ -849,6 +854,11 @@ router.get('/ListaServicos', function (req, res) {
 
 router.get('/ListaServicos/ListarIngrediente', function (req, res) {
     res.render('listas/servicos/ingredientes', {
+    });
+});
+
+router.get('/ListaServicos/Listarfaxina', function (req, res) {
+    res.render('listas/servicos/faxina', {
     });
 });
 
@@ -971,6 +981,11 @@ router.get('/ApagarServicos', function (req, res) {
 
 router.get('/ApagarServicos/ApagarIngrediente', function (req, res) {
     res.render('apagar/servicos/ingredientes', {
+    });
+});
+
+router.get('/ApagarServicos/ApagarFaxina', function (req, res) {
+    res.render('apagar/servicos/faxina', {
     });
 });
 
