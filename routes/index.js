@@ -8,11 +8,13 @@ var db = require('../database');
 /* GET home page. */
 router.get('/', function (req, res) {
   db.query('SELECT * FROM view_estatisticas', null, function (ret) {
-    res.render('index', ret.rows[0]);
-  },
-  function (err) {
-    res.render('bd_error', {error: err});
-  });
+      res.render('index', ret.rows[0]);
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
 });
 
 /* Cadastros */
@@ -38,9 +40,7 @@ router.post('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
 
   db.query('SELECT insert_reparador ($1, $2)', [req.body.cpf, '{' + req.body.tipo.join(', ') + '}'], function (ret) {
     if (ret.rows[0].insert_reparador) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     } else { // Precisa cadastrar a pessoa
       var values = {};
       values.pessoa = 'Reparador';
@@ -72,9 +72,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaReparador', function (req, res
 
   db.query('SELECT insert_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, '{' + req.body.tipo.join(', ') + '}', req.body.email],
     function (ret) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     },
     function (err) {
       var values = {};
@@ -114,9 +112,7 @@ router.post('/CadastrarFuncionario/CadastrarCozinheira', function (req, res) {
 
   db.query('SELECT insert_cozinheira ($1)', [req.body.cpf], function (ret) {
     if (ret.rows[0].insert_cozinheira) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     } else {
       var values = {};
       values.pessoa = 'Cozinheira';
@@ -144,9 +140,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
 
   db.query('SELECT insert_cozinheira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     },
     function (err) {
       var values = {};
@@ -184,9 +178,7 @@ router.post('/CadastrarFuncionario/CadastrarNutricionista', function (req, res) 
 
   db.query('SELECT insert_nutricionista ($1)', [req.body.cpf], function (ret) {
     if (ret.rows[0].insert_nutricionista) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     } else { // Precisa cadastrar a pessoa
       var values = {};
       values.pessoa = 'Nutricionista';
@@ -212,11 +204,9 @@ router.post('/CadastrarFuncionario/CadastrarPessoaNutricionista', function (req,
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_nutricionista ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_nutricionista ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     },
     function (err) {
       var values = {};
@@ -254,9 +244,7 @@ router.post('/CadastrarMorador', function (req, res) {
 
   db.query('SELECT insert_morador ($1, $2, $3)', [req.body.trabalho, req.body.universidade, req.body.cpf], function (ret) {
     if (ret.rows[0].insert_morador) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     } else { // Precisa cadastrar a pessoa
       var values = {};
       values.pessoa = 'Morador';
@@ -284,11 +272,9 @@ router.post('/CadastrarPessoaMorador', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_morador ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.trabalho, req.body.universidade, req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_morador ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.trabalho, req.body.universidade, req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     },
     function (err) {
       var values = {};
@@ -367,9 +353,7 @@ router.post('/AlterarFuncionario/AlterarPessoaCozinheira', function (req, res) {
   db.query('SELECT update_cozinheira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       if (ret.rows[0].update_cozinheira) {
-        res.render('index', {
-          title: 'Deu bom!'
-        });
+        res.render('sucesso');
       } else {
         var values = {};
         values.pessoa = 'Cozinheira';
@@ -446,9 +430,7 @@ router.post('/AlterarFuncionario/AlterarPessoaReparador', function (req, res) {
   db.query('SELECT update_reparador ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email, '{' + req.body.tipo.join(', ') + '}'],
     function (ret) {
       if (ret.rows[0].update_reparador) {
-        res.render('index', {
-          title: 'Deu bom!'
-        });
+        res.render('sucesso');
       } else {
         var values = {};
         values.pessoa = 'Reparador';
@@ -520,9 +502,7 @@ router.post('/AlterarFuncionario/AlterarPessoaNutricionista', function (req, res
   db.query('SELECT update_nutricionista ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       if (ret.rows[0].update_nutricionista) {
-        res.render('index', {
-          title: 'Deu bom!'
-        });
+        res.render('sucesso');
       } else {
         var values = {};
         values.pessoa = 'Nutricionista';
@@ -596,9 +576,7 @@ router.post('/AlterarPessoaMorador', function (req, res) {
   db.query('SELECT update_morador ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.trabalho, req.body.universidade, req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       if (ret.rows[0].update_morador) {
-        res.render('index', {
-          title: 'Deu bom!'
-        });
+        res.render('sucesso');
       } else {
         var values = {};
         values.pessoa = 'Morador';
@@ -634,7 +612,9 @@ router.get('/ListaFuncionarios/ListaReparador', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -648,7 +628,9 @@ router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -662,7 +644,9 @@ router.get('/ListaFuncionarios/ListaNutricionista', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -677,7 +661,9 @@ router.get('/ListaMoradores', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -699,7 +685,9 @@ router.get('/ApagarFuncionario/ApagarReparador', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -708,7 +696,9 @@ router.post('/ApagarFuncionario/ApagarReparador', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarReparador');
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -722,7 +712,9 @@ router.get('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -731,7 +723,9 @@ router.post('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarCozinheira');
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -745,7 +739,9 @@ router.get('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -754,7 +750,9 @@ router.post('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarNutricionista');
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -768,7 +766,9 @@ router.get('/ApagarMorador', function (req, res) {
       });
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
@@ -777,7 +777,9 @@ router.post('/ApagarMorador', function (req, res) {
       res.redirect('/ApagarMorador');
     },
     function (err) {
-      res.render('bd_error', {error: err});
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
 
