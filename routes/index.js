@@ -631,7 +631,7 @@ router.get('/ListaFuncionarios/ListaReparador', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -645,7 +645,7 @@ router.get('/ListaFuncionarios/ListaCozinheira', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -659,7 +659,7 @@ router.get('/ListaFuncionarios/ListaNutricionista', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -674,7 +674,7 @@ router.get('/ListaMoradores', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -696,7 +696,7 @@ router.get('/ApagarFuncionario/ApagarReparador', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -705,7 +705,7 @@ router.post('/ApagarFuncionario/ApagarReparador', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarReparador');
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -719,7 +719,7 @@ router.get('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -728,7 +728,7 @@ router.post('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarCozinheira');
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -742,7 +742,7 @@ router.get('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -751,7 +751,7 @@ router.post('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
       res.redirect('/ApagarFuncionario/ApagarNutricionista');
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -765,7 +765,7 @@ router.get('/ApagarMorador', function (req, res) {
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
@@ -774,7 +774,7 @@ router.post('/ApagarMorador', function (req, res) {
       res.redirect('/ApagarMorador');
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {error: err});
     });
 });
 
