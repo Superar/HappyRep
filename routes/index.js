@@ -6,9 +6,12 @@ var router = express.Router();
 var db = require('../database');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', {
-    title: 'HappyRep'
+router.get('/', function (req, res) {
+  db.query('SELECT * FROM view_estatisticas', null, function (ret) {
+    res.render('index', ret.rows[0]);
+  },
+  function (err) {
+    res.render('bd_error', {error: err});
   });
 });
 
