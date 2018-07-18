@@ -35,9 +35,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoa', function (req, res) {
 
   db.query('SELECT insert_pessoa ($1)', [req.body.cpf], function (ret) {
     if (ret.rows[0].insert_pessoa) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     } else { // Precisa cadastrar a pessoa
       var values = {};
       values.pessoa = 'Pessoa';
@@ -65,9 +63,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
 
   db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
     function (ret) {
-      res.render('index', {
-        title: 'Deu bom!'
-      });
+      res.render('sucesso');
     },
     function (err) {
       var values = {};
@@ -504,9 +500,7 @@ router.post('/AlterarFuncionario/AlterarPessoaPessoa', function (req, res) {
   db.query('SELECT update_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       if (ret.rows[0].update_pessoa) {
-        res.render('index', {
-          title: 'Deu bom!'
-        });
+        res.render('sucesso');
       } else {
         var values = {};
         values.pessoa = 'Pessoa';
