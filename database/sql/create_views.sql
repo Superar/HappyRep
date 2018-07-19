@@ -102,3 +102,26 @@ SELECT cpf_reparador, id_servico
 FROM Reparo r, Reparador rr, Pessoa p, Servico s
 WHERE r.cpf_reparador = rr.cpf_pessoa AND rr.cpf_pessoa = p.cpf AND r.id_servico = s.id_servico;
 
+-- View: view_estatisticas
+-- Autor: Marcio Lima Inácio
+
+CREATE VIEW view_estatisticas AS
+SELECT
+(SELECT COUNT(cpf) FROM   view_funcionario) AS num_funcionarios,
+(SELECT COUNT(id_republica) FROM Republica) AS num_republicas;
+
+-- View: view_funcionario
+-- Autor: Marcio Lima Inácio
+
+CREATE VIEW view_funcionario AS
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM view_faxineira
+UNION
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM view_cozinheira
+UNION
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM view_reparador
+UNION
+SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
+FROM view_nutricionista;
