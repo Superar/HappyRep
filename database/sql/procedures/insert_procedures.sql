@@ -331,3 +331,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE or Replace FUNCTION insert_pagamento(_valor integer , _vencimento date, _cod_barras VARCHAR, _multa integer, _nome_pagador_prenome VARCHAR, _nome_pagador_sobrenome VARCHAR, _cnpj_beneficiario VARCHAR, _end_beneficiario_logradouro VARCHAR, _end_beneficiario_numero integer, _end_beneficiario_complemento VARCHAR, _end_beneficiario_cep VARCHAR, _end_beneficiario_observacoes VARCHAR, _id_servico integer)
+RETURNS AS $$
+Begin
+IF NOT EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = NEW.cod_barras) THEN
+        INSERT INTO Pagamento VALUES (NEW.cod_barras, NEW.valor, NEW.vencimento, NEW.multa, NEW.nome_pagador_prenome, NEW.nome_pagador_sobrenome, NEW.cnpj_beneficiario,  
+                                        NEW.end_beneficiario_logradouro, NEW.end_beneficiario_numero, NEW.end_beneficiario_complemento, NEW.end_beneficiario_cep,
+										NEW.end_beneficiario_observacoes, NEW.id_servico);
+        PERFORM insert_pagamento(NEW.cod_barras, NEW.valor, NEW.vencimento, NEW.multa, NEW.nome_pagador_prenome, NEW.nome_pagador_sobrenome, NEW.cnpj_beneficiario,  
+                                        NEW.end_beneficiario_logradouro, NEW.end_beneficiario_numero, NEW.end_beneficiario_complemento, NEW.end_beneficiario_cep,
+										NEW.end_beneficiario_observacoes, NEW.id_servico);
+END IF; 
+	IF NOT EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = NEW.cod_barras) THEN
+        INSERT INTO Pagamento VALUES (NEW.cod_barras);
+     	END IF;
+    		RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
