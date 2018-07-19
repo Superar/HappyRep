@@ -240,6 +240,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Faxineira c WHERE c.cpf_pessoa = _cpf) THEN
+            INSERT INTO Faxineira VALUES (_cpf);
+        ELSE
+            RAISE EXCEPTION 'Faxineira já cadastrada';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- Inserir republica
 -- Autor: Victor Calefi Ramos
 
