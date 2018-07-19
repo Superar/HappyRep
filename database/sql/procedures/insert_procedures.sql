@@ -240,6 +240,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION insert_faxineira(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Faxineira c WHERE c.cpf_pessoa = _cpf) THEN
+            INSERT INTO Faxineira VALUES (_cpf);
+        ELSE
+            RAISE EXCEPTION 'Faxineira já cadastrada';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- Inserir republica
 -- Autor: Victor Calefi Ramos
 
@@ -311,39 +331,39 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION insert_alimentacao(_cpf_cozinheira VARCHAR, _cpf_nutricionista VARCHAR, _id_servico INTEGER) RETURNS boolean AS $$
 BEGIN
   IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    IF EXISTS (SELECT 1 FROM Cozinheira c, Nutricionista n WHERE c.cpf_pessoa = _cpf_cozinheira AND n.cpf_pessoa = _cpf_nutricionista) THEN
+    IF EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf_cozinheira) THEN
+      IF EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = _cpf_nutricionista) THEN
 		RAISE EXCEPTION 'Alimentação já cadastrada';
 		RETURN (FALSE);
+	  ELSE
+		PERFORM insert_nutricionista (_cpf_nutricionista);
+	ELSE
+      PERFORM insert_cozinheira (_cpf_cozinheira);	  
     ELSE
 		INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
 	END IF;
   ELSE
-    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico);
+    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico INTEGER);
     INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
     RETURN (TRUE);
   END IF;
 END;
 $$ LANGUAGE plpgsql;
 
-
--- Inserir faxina
--- Autor: Isadora Gallerani
-CREATE OR REPLACE FUNCTION insert_faxina(_cpf_faxineira VARCHAR, _id_servico INTEGER) RETURNS boolean AS $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    IF EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf_faxineira) THEN
-		RAISE EXCEPTION 'Faxina já cadastrada';
-		RETURN (FALSE);
-	ELSE
-		INSERT INTO Faxina (cpf_faxineira, id_servico) VALUES (_cpf_faxineira, _id_servico); 
-    END IF;
-  ELSE
-    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico);
-    INSERT INTO Faxina (cpf_faxineira, id_servico) VALUES (_cpf_faxineira, _id_servico);
-    RETURN (TRUE);
-  END IF;
+CREATE or Replace FUNCTION insert_pagamento(_valor integer , _vencimento date, _cod_barras VARCHAR, _multa integer, _nome_pagador_prenome VARCHAR, _nome_pagador_sobrenome VARCHAR, _cnpj_beneficiario VARCHAR, _end_beneficiario_logradouro VARCHAR, _end_beneficiario_numero integer, _end_beneficiario_complemento VARCHAR, _end_beneficiario_cep VARCHAR, _end_beneficiario_observacoes VARCHAR, _id_servico integer)
+RETURNS AS $$
+Begin
+IF NOT EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = NEW.cod_barras) THEN
+        INSERT INTO Pagamento VALUES (NEW.cod_barras, NEW.valor, NEW.vencimento, NEW.multa, NEW.nome_pagador_prenome, NEW.nome_pagador_sobrenome, NEW.cnpj_beneficiario,  
+                                        NEW.end_beneficiario_logradouro, NEW.end_beneficiario_numero, NEW.end_beneficiario_complemento, NEW.end_beneficiario_cep,
+										NEW.end_beneficiario_observacoes, NEW.id_servico);
+        PERFORM insert_pagamento(NEW.cod_barras, NEW.valor, NEW.vencimento, NEW.multa, NEW.nome_pagador_prenome, NEW.nome_pagador_sobrenome, NEW.cnpj_beneficiario,  
+                                        NEW.end_beneficiario_logradouro, NEW.end_beneficiario_numero, NEW.end_beneficiario_complemento, NEW.end_beneficiario_cep,
+										NEW.end_beneficiario_observacoes, NEW.id_servico);
+END IF; 
+	IF NOT EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = NEW.cod_barras) THEN
+        INSERT INTO Pagamento VALUES (NEW.cod_barras);
+     	END IF;
+    		RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
-
-

@@ -89,67 +89,6 @@ router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
     });
 });
 
-// GET - Cadastrar serviço pelo ID
-router.get('/CadastrarServico/CadastrarServicoServico', function (req, res) {
-  res.render('formularios/form_servico', {
-    servico: 'Serviço',
-    cadastrar: true,
-    cadastrar_servico: false
-  });
-});
-
-// POST - Cadastrar serviço pelo CPF
-router.post('/CadastrarServico/CadastrarServico', function (req, res) {
-  if (!Array.isArray(req.body.tipo)) {
-    req.body.tipo = [req.body.tipo];
-  }
-
-  db.query('SELECT insert_servico ($1)', [req.body.id_servico], function (ret) {
-    if (ret.rows[0].insert_servico) {
-      res.render('Sucesso');
-    } else { // Precisa cadastrar a pessoa
-      var values = {};
-      values.servico = 'Serviço';
-      values.cadastrar = true;
-      values.cadastrar_servico = true;
-      values.id_servico_value = req.body.id_servico;
-
-      res.render('formularios/form_servico', values);
-    }
-  }, function (err) {
-    var values = {};
-    values.servico = 'Serviço';
-    values.cadastrar = true;
-    values.cadastrar_servico = false;
-    values.erro = err;
-
-    res.render('formularios/form_servico', values);
-  });
-});
-
-router.post('/CadastrarServico/CadastrarServicoServicoServico', function (req, res) {
-  if (!Array.isArray(req.body.tipo)) {
-    req.body.tipo = [req.body.tipo];
-  }
-
-  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.hora_inicio, req.body.hora_fim, req.body.id_servico],
-    function (ret) {
-      res.render('Sucesso');
-    },
-    function (err) {
-      var values = {};
-      values.servico = 'Serviço';
-      values.cadastrar = true;
-      values.cadastrar_servico = true;
-      values.hora_inicio_value = req.body.hora_inicio;
-      values.hora_fim_value = req.body.hora_fim;
-      values.id_servico_value = req.body.id_servico;
-      values.erro = err;
-
-      res.render('formularios/form_servico', values);
-    });
-});
-
 // GET - Cadastrar reparador pelo CPF
 router.get('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   res.render('formularios/form_reparador', {
@@ -565,71 +504,87 @@ router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res)
       res.render('formularios/form_alimentacao', values);
     });
 });
+----
 
-// GET - Cadastrar faxina
-router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
-  res.render('formularios/cadastrar_faxina', {
-    servico: 'Faxina',
+// GET - Cadastrar Produto
+router.get('/CadastrarProduto', function (req, res) {
+  res.render('formularios/form_produto', {
+    pessoa: 'Produto',
     cadastrar: true,
-    cadastrar_servico: false
   });
 });
 
-// POST - Cadastrar faxina
-router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
+// POST - CadastrarProduto
+router.post('/CadastrarProduto', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_faxina ($1, $2)', [req.body.cpf_faxineira, req.body.id_servico], function (ret) {
-    if (ret.rows[0].insert_faxina) {
+  db.query('INSERTO INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
+    if (ret.rows[0].InsereProduto) {
       res.render('index', {
         title: 'Sucesso!'
       });
-    } else { // Precisa cadastrar o serviço
+    } else { // Precisa cadastrar o produto
       var values = {};
-      values.servico = 'Faxina';
+      values.pessoa = 'Produto';
       values.cadastrar = true;
-      values.cadastrar_servico = true;
-      values.id_servico_value = req.body.id_servico;
-
-      res.render('formularios/form_faxina', values);
+      values.id_fornecedor_value = req.body.id_fornecedor;
+      values.id_produto_value = req.body.id_produto;
+      values.nome_fornecedor_value = req.body.nome_fornecedor;
+      values.nome_value = req.body.nome;
+      values.marca_value = req.body.marca;
+      values.categoria_value = req.body.categoria;
+      values.id_preco_value = req.body.id_preco;
+      values.descricao_value = req.body.descricao;
+      
+      res.render('formularios/form_produto', values);
     }
   }, function (err) {
     var values = {};
-    values.servico = 'Faxina';
+    values.pessoa = 'Produto';
     values.cadastrar = true;
-    values.cadastrar_servico = false;
     values.erro = err;
 
-    res.render('formularios/form_faxina')
+    res.render('formularios/form_produto')
   });
 });
 
-router.post('/CadastrarServico/CadastrarServicoFaxina', function (req, res) {
+// GET - Cadastrar Fornecedor
+router.get('/CadastrarFornecedor', function (req, res) {
+  res.render('formularios/form_fornecedor', {
+    pessoa: 'Fornecedor',
+    cadastrar: true,
+  });
+});
+
+// POST - CadastrarFornecedor
+router.post('/CadastrarFornecedor', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_faxina ($1, $2, $3, $4)', [req.body.cpf_faxineira, req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
-    function (ret) {
+  db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
+    if (ret.rows[0].InsereProduto) {
       res.render('index', {
         title: 'Sucesso!'
       });
-    },
-    function (err) {
+    } else { // Precisa cadastrar o produto
       var values = {};
-      values.servico = 'Faxina';
+      values.pessoa = 'Fornecedor';
       values.cadastrar = true;
-      values.cadastrar_servico = true;
-      values.cpf_faxineira_value = req.body.cpf_faxineira;
-      values.id_servico_value = req.body.id_servico;
-      values.hora_inicio_value = req.body.hora_inicio;
-      values.hora_fim_value = req.body.hora_fim;
-      values.erro = err;
+      values.id_fornece_value = req.body.id_fornece;
+      values.nome_fornecedor_value = req.body.nome_fornecedor;
+      res.render('formularios/form_fornecedor', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Fornecedor';
+    values.cadastrar = true;
+    values.erro = err;
 
-      res.render('formularios/form_faxina', values);
-    });
+    res.render('formularios/form_fornecedor')
+  });
 });
 
 /* Alterar cadastros */

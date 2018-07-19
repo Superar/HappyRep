@@ -1,0 +1,269 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">PÃ¡gina Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Cadastrar {{pagamento}}</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Cadastrar {{pagamento}}
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <form method="POST" action="/CadastrarPagamento/Cadastrar{{#if cadastrar_pagamento}}Pagamento{{/if}}{{{pagamento}}}">
+            <div class="columns is-multiline">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Codigo do Pagamento
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cod_pagamento" class="input" type="text" placeholder="Codigo do Pagamento" value="{{cod_pagamento_value}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Valor do Pagamento
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="valor" class="input" type="text" placeholder="Valor do Pagamento" value="{{valor_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Data de Vencimento
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="vencimento" class="input" type="text" placeholder="Data do Vencimento" value="{{vencimento_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Valor da Multa
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="multa" class="input" type="text" placeholder="Valor da multa" value="{{multa_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Nome Completo
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="nome_pagador_prenome" class="input" type="text" placeholder="Nome" value="{{nome_pagador_prenome_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+							<div class="field">
+                                <p class="control is-expanded">
+                                    <input name="nome_pagador_sobrenome" class="input" type="text" placeholder="Sobrenome" value="{{nome_pagador_sobrenome_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                </p>
+                            </div>
+						</div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CNPJ
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cnpj_beneficiario" class="input" type="text" placeholder="CNPJ" value="{{cnpj_beneficiario_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Endereco
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="end_beneficiario_logradouro" class="input" type="text" placeholder="Logradouro" value="{{end_beneficiario_logradouro_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+							<div class="field">
+                                <p class="control is-expanded">
+                                    <input name="end_beneficiario_numero" class="input" type="text" placeholder="Numero" value="{{end_beneficiario_numero_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                </p>
+                            </div>		
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Complemento
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="end_beneficiario_complemento" class="input" type="text" placeholder="Complemento" value="{{end_beneficiario_complemento_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CEP
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="end_beneficiario_cep" class="input" type="text" placeholder="CEP" value="{{end_beneficiario_cep_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Observacoes sobre o Pagamento
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="end_beneficiario_observacoes" class="input" type="text" placeholder="Observacoes" value="{{end_beneficiario_observacoes_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Numero do Servico referente ao Pagamento
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="id_servico" class="input" type="text" placeholder="Numero do Servico" value="{{id_servico_value}}" {{#unless cadastrar_pagamento}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary">
+                                        Cadastrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label" />
+                        <p class="help is-danger is-right">
+                            Campos com * sÃ£o obrigatÃ³rios.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="column">
+    {{#if erro}}
+    <div class="notification is-danger">
+        {{erro}}
+    </div>
+    {{/if}}
+</div>
