@@ -1,0 +1,86 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Listagem de Pagamentos</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Listagem de Pagamentos
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+			<th></th>
+            <th>Pagamento</th>
+			<th>Codigo do pagamento</th>
+			<th>Valor a ser pago</th>
+			<th>Data de vencimento</th>
+			<th>Primeiro nome</th>
+			<th>Sobrenome</th>
+			<th>CNPJ do beneficiario</th>
+			<th>Logradouro</th>
+			<th>Numero</th>
+			<th>Complemento</th>
+			<th>CEP</th>
+			<th>Obervacoes referentes ao pagamento</th>
+			<th>Codigo do servico prestado</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>Pagamento</th>
+			<th>Codigo do pagamento</th>
+			<th>Valor a ser pago</th>
+			<th>Data de vencimento</th>
+			<th>Primeiro nome</th>
+			<th>Sobrenome</th>
+			<th>CNPJ do beneficiario</th>
+			<th>Logradouro</th>
+			<th>Numero</th>
+			<th>Complemento</th>
+			<th>CEP</th>
+			<th>Obervacoes referentes ao pagamento</th>
+			<th>Codigo do servico prestado</th>
+        </tr>
+    </tfoot>
+    <form method="POST" action="/ApagarPagamento">
+        <tbody>
+            {{#each pagamento}}
+            <tr>
+                <th>
+                    <button name="cod_barras" type="submit" value="{{cod_barras}}">
+                        <span class="icon is-small">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </button>
+                </th>
+                <th>{{cod_barras}}</th>
+				<td>{{valor}}</td>
+				<td>{{vencimento}}</td>
+				<td>{{nome_pagador_prenome}}</td>
+				<td>{{nome_pagador_sobrenome}}</td>
+				<td>{{cnpj_beneficiario}}</td>
+				<td>{{end_beneficiario_logradouro}}</td>
+				<td>{{end_beneficiario_numero}}</td>
+				<td>{{end_beneficiario_complemento}}</td>
+				<td>{{end_beneficiario_cep}}</td>
+				<td>{{end_beneficiario_observacoes}}</td>
+				<td>{{id_servico}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </form>
+</table>
