@@ -1,4 +1,4 @@
-﻿-- Inserir reparador
+-- Inserir reparador
 -- Primeiro, verifica-se se a pessoa já foi cadastrada. Caso sim, adiciona apenas o reparador, caso contrário retorna falso.
 -- Caso a pessoa nao esteja cadastrada, insere na View do reparador.
 -- Para inserir na view do reaparador, é necessário uma Trigger para fazer a inserção nas tabelas correspondentes.
@@ -292,42 +292,3 @@ BEGIN
     RETURN (TRUE);
 END;
 $$ LANGUAGE plpgsql;
-
--- Inserir serviço
--- Autor: Isadora Gallerani
-CREATE OR REPLACE FUNCTION insert_servico(_hora_inicio DATE, _hora_fim DATE, _id_servico INTEGER) RETURNS boolean AS $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    RETURN (FALSE);
-  ELSE
-    INSERT INTO Servico (hora_inicio, hora_fim, id_servico) VALUES (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), _id_servico);
-    RETURN (TRUE);
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
-
--- Inserir alimentação
--- Autor: Isadora Gallerani
-CREATE OR REPLACE FUNCTION insert_alimentacao(_cpf_cozinheira VARCHAR, _cpf_nutricionista VARCHAR, _id_servico INTEGER) RETURNS boolean AS $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    IF EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf_cozinheira) THEN
-      IF EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = _cpf_nutricionista) THEN
-		RAISE EXCEPTION 'Alimentação já cadastrada';
-		RETURN (FALSE);
-	  ELSE
-		PERFORM insert_nutricionista (_cpf_nutricionista);
-	ELSE
-      PERFORM insert_cozinheira (_cpf_cozinheira);	  
-    ELSE
-      INSERT INTO Faxineira (cpf_pessoa) VALUES (_cpf);
-    END IF;
-    RETURN (TRUE);
-  ELSE
-    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico INTEGER);
-    INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
-    RETURN (TRUE);
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
-

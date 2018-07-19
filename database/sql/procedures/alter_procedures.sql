@@ -1,4 +1,4 @@
-﻿-- Altera reparador
+-- Altera reparador
 -- Autor: Marcio Lima Inácio
 CREATE OR REPLACE FUNCTION update_reparador(_cpf VARCHAR,
 										 _sexo VARCHAR DEFAULT NULL,
@@ -247,24 +247,6 @@ BEGIN
 			endereco_complemento = COALESCE (_endereco_complemento, endereco_complemento),
 			endereco_observacoes = COALESCE (_endereco_observacoes, endereco_observacoes)
 		WHERE rep.id_republica = _id_republica;
-
-		RETURN (TRUE);
-	ELSE
-		RETURN (FALSE);
-	END IF;
-END;
-$$ LANGUAGE plpgsql;
-
--- Update serviço
--- Autor: Isadora Gallerani
-CREATE OR REPLACE FUNCTION update_servico(_hora_inicio DATE, _hora_fim DATE, _id_servico INTEGER) RETURNS boolean AS $$
-BEGIN
-
-	IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-		UPDATE Servico AS p SET
-			hora_inicio = COALESCE (_hora_inicio, hora_inicio),
-			hora_fim = COALESCE (_hora_fim, hora_fim),
-		WHERE s.id_servico = _id_servico;
 
 		RETURN (TRUE);
 	ELSE
