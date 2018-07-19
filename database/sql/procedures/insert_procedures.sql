@@ -316,7 +316,7 @@ BEGIN
 		RETURN (FALSE);
     ELSE
 		INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
-  END IF;
+	END IF;
   ELSE
     PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico);
     INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
@@ -344,4 +344,6 @@ BEGIN
   END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+
 
