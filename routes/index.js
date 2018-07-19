@@ -161,6 +161,76 @@ router.post('/CadastrarFuncionario/CadastrarPessoaCozinheira', function (req, re
     });
 });
 
+// GET - Cadastrar faxineira pelo CPF
+router.get('/CadastrarFuncionario/CadastrarFaxineira', function (req, res) {
+  res.render('formularios/form_faxineira', {
+    pessoa: 'Faxineira',
+    cadastrar: true,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Cadastrar faxineira pelo CPF
+router.post('/CadastrarFuncionario/CadastrarFaxineira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxineira ($1)', [req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_faxineira) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    } else { // Precisa cadastrar a pessoa
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+
+      res.render('formularios/form_faxineira', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Faxineira';
+    values.cadastrar = true;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_faxineira', values);
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaFaxineira', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
+      values.erro = err;
+
+      res.render('formularios/form_faxineira', values);
+    });
+});
+
 // GET - Cadastrar nutricionista pelo CPF
 router.get('/CadastrarFuncionario/CadastrarNutricionista', function (req, res) {
   res.render('formularios/form_nutricionista', {
@@ -523,6 +593,80 @@ router.post('/AlterarFuncionario/AlterarPessoaNutricionista', function (req, res
     });
 });
 
+//GET - Alterar Faxineira
+router.get('/AlterarFuncionario/AlterarFaxineira', function (req, res) {
+  res.render('formularios/form_faxineira', {
+    pessoa: 'Faxineira',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Alterar Faxineira com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarFuncionario/AlterarFaxineira', function (req, res) {
+  db.query('SELECT * FROM view_faxineira WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Faxineira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+    }
+    res.render('formularios/form_faxineira', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Faxineira';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_faxineira', values);
+  });
+});
+
+// POST - Alterar todos os dados de Faxineira
+// Deve alterar os dados no banco
+router.post('/AlterarFuncionario/AlterarPessoaFaxineira', function (req, res) {
+  db.query('SELECT update_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      if (ret.rows[0].update_faxineira) {
+        res.render('index', {
+          title: 'Deu bom!'
+        });
+      } else {
+        var values = {};
+        values.pessoa = 'Faxineira';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_faxineira', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Faxineira';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_faxineira', values);
+    });
+});
+
 //GET - Alterar Morador
 router.get('/AlterarMorador', function (req, res) {
   res.render('formularios/form_morador', {
@@ -615,6 +759,20 @@ router.get('/ListaFuncionarios/ListaReparador', function (req, res) {
       res.render('bd_error', {
         error: err
       });
+    });
+});
+
+router.get('/ListaFuncionarios/ListaFaxineira', function (req, res) {
+  db.query('SELECT * FROM view_faxineira ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/faxineira', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
     });
 });
 
@@ -753,6 +911,29 @@ router.post('/ApagarFuncionario/ApagarNutricionista', function (req, res) {
       res.render('bd_error', {
         error: err
       });
+    });
+});
+
+router.get('/ApagarFuncionario/ApagarFaxineira', function (req, res) {
+  db.query('SELECT * FROM view_faxineira ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/faxineira', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarFaxineira', function (req, res) {
+  db.query('SELECT delete_faxineira ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarFaxineira');
+    },
+    function (err) {
+      console.log(err);
     });
 });
 
