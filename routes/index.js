@@ -586,6 +586,125 @@ router.post('/CadastrarFornecedor', function (req, res) {
   });
 });
 
+// GET - Cadastrar Republica
+router.get('/CadastrarRepublica', function (req, res) {
+  res.render('formularios/form_republica', {
+    republica: 'Republica',
+    cadastrar: true,
+    cadastrar_republica: false
+  });
+});
+
+// POST - Cadastrar Republica
+router.post('/CadastrarRepublica/Cadastrar', function (req, res) {
+  db.query('SELECT insert_republica ($1)', [req.body.id_republica], function (ret) {
+    if (ret.rows[0].insert_republica) {
+      res.render('sucesso');
+    } else { // Precisa cadastrar a republica
+      var values = {};
+      values.republica = 'Republica';
+      values.cadastrar = true;
+      values.cadastrar_republica = true;
+      values.id_republica = req.body.id_republica;
+
+      res.render('formularios/form_pessoa', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.republica = 'Republica';
+    values.cadastrar = true;
+    values.cadastrar_republica = false;
+    values.erro = err;
+
+    res.render('formularios/form_republica', values);
+  });
+});
+
+router.post('/CadastrarRepublica/CadastrarRepublica', function (req, res) {
+  db.query('SELECT insert_republica ($1, $2, $3, $4, $5, $6, $7)', 
+    [req.body.id_republica, 
+    req.body.status, 
+    req.body.endereco_cep, 
+    req.body.endereco_logradouro, 
+    req.body.endereco_numero, 
+    req.body.endereco_complemento, 
+    req.body.endereco_observacoes],
+    function (ret) {
+      res.render('sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.republica = 'Republica';
+      values.cadastrar = true;
+      values.cadastrar_republica = true;
+      values.id_republica = req.body.id_republica;
+      values.status = req.body.status;
+      values.endereco_cep = req.body.endereco_cep;
+      values.endereco_logradouro = req.body.endereco_logradouro;
+      values.endereco_complemento = req.body.endereco_complemento;
+      values.endereco_observacoes = req.body.endereco_observacoes;
+      values.ativo = (req.body.ativo == '1' ? true : false);
+      values.inativo = (req.body.inativo == '0' ? true : false);
+      values.erro = err;
+
+      res.render('formularios/form_republica', values);
+    });
+});
+
+// GET - Cadastrar Comodo
+router.get('/CadastrarComodo', function (req, res) {
+  res.render('formularios/form_comodo', {
+    comodo: 'Comodo',
+    cadastrar: true,
+    cadastrar_comodo: false
+  });
+});
+
+// POST - Cadastrar Comodo
+router.post('/CadastrarComodo/Cadastrar', function (req, res) {
+  db.query('SELECT insert_comodo ($1)', [req.body.id_comodo], function (ret) {
+    if (ret.rows[0].insert_comodo) {
+      res.render('sucesso');
+    } else {
+      var values = {};
+      values.comodo = 'Comodo';
+      values.cadastrar = true;
+      values.cadastrar_comodo = true;
+      values.id_comodo = req.body.id_comodo;
+
+      res.render('formularios/form_comodo', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.comodo = 'Comodo';
+    values.cadastrar = true;
+    values.cadastrar_comodo = false;
+    values.erro = err;
+
+    res.render('formularios/form_comodo', values);
+  });
+});
+
+router.post('/CadastrarComodo/CadastrarComodo', function (req, res) {
+  db.query('SELECT insert_republica ($1, $2)', 
+    [req.body.id_comodo, 
+    req.body.id_republica],
+    function (ret) {
+      res.render('sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.comodo = 'Comodo';
+      values.cadastrar = true;
+      values.cadastrar_comodo = true;
+      values.id_comodo = req.body.id_comodo;
+      values.id_republica = req.body.id_republica;
+      values.erro = err;
+
+      res.render('formularios/form_comodo', values);
+    });
+});
+
 /* Alterar cadastros */
 
 router.get('/AlterarFuncionario', function (req, res) {
