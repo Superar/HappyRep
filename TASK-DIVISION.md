@@ -143,6 +143,24 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 - Alimentacao
 - Receita
 
+### Isadora Gallerani
+
+### Tabelas
+- Faxina
+- Nutricionista
+- Reparo
+- Alimentação
+
+#### Views
+
+- view_alimentacao
+
+#### Triggers
+
+
+#### Procedimentos e funções
+
+
 ---
 
 ## Grupo 3
@@ -151,6 +169,7 @@ O grupo 3 ficou responsável pelas implementações referentes às tabelas:
 
 - ListaProdutos
 - Produto
+- Fornece
 - Fornecedor
 - Ingredientes
 - Pagamento
@@ -177,3 +196,29 @@ O grupo 3 ficou responsável pelas implementações referentes às tabelas:
 #### Trigger
 
   - insert_view_pagamento()
+
+#### Paulo Vitor Tostes Betareli
+
+#### Tables
+
+	-Produto
+	-Fornecedor
+	-Fornece
+	
+#### View
+	
+	-view_produto_fornecedor
+	
+#### Procedure 
+
+	-InsereProduto
+	-InsereFornecedor
+	-InsereFornecimento
+	
+#### Function
+
+	-lista_produto_marca
+	
+#### Trigger
+
+	-insert_view_produto_fornecedor

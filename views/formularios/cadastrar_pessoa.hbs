@@ -4,7 +4,7 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">Cadastrar {{servico}}</a>
+            <a href="#" aria-current="page">Cadastrar {{pessoa}}</a>
         </li>
     </ul>
 </nav>
@@ -13,7 +13,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                Cadastrar {{servico}}
+                Cadastrar {{pessoa}}
             </h1>
         </div>
     </div>
@@ -21,39 +21,20 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/CadastrarServico/Cadastrar{{#if cadastrar_servico}}Servico{{/if}}{{{servico}}}">
+        <form method="POST" action="/CadastrarFuncionario/Cadastrar{{#if cadastrar_pessoa}}Pessoa{{/if}}{{{pessoa}}}">
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                CPF da Cozinheira
+                                CPF
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="cpf_cozinheira" class="input" type="text" placeholder="CPF" value="{{cpf_cozinheira_value}}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-address-card"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-					
-					<div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                CPF da Nutricionista
-                                <span class="has-text-danger">*</span>
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="cpf_nutricionista" class="input" type="text" placeholder="CPF" value="{{cpf_nutricionista_value}}">
+                                    <input name="cpf" class="input" type="text" placeholder="CPF" value="{{cpf_value}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -65,14 +46,79 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Data/HorÃ¡rio de InÃ­cio de ServiÃ§o
+                                RG
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <input name="rg" class="input" type="text" placeholder="RG" value="{{rg_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Nome Completo
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="prenome" class="input" type="text" placeholder="Primeiro Nome" value="{{prenome_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input name="sobrenome" class="input" type="text" placeholder="Sobrenome" value="{{sobrenome_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="field-label">
+                            <label class="label">
+                                Sexo
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="sexo" value="F" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Feminino
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="sexo" value="M" {{#unless cadastrar_pessoa}}disabled{{/unless}}> Masculino
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Data de Nascimento
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="data_de_nascimento" class="input" type="text" placeholder="Data de Nascimento" value="{{data_de_nascimento_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -80,19 +126,19 @@
                             </div>
                         </div>
                     </div>
-					
-					<div class="field is-horizontal">
+
+                    <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                HorÃ¡rio de Fim de ServiÃ§o
+                                Email
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_fim" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <input name="email" class="input" type="text" placeholder="Email" value="{{email_value}}" {{#unless cadastrar_pessoa}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="fa fa-at"></i>
                                     </span>
                                 </p>
                             </div>
@@ -115,7 +161,7 @@
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
-                            Campos com * sÃ£o obrigatÃ³rios.
+                            Campos com * são obrigatórios.
                         </p>
                     </div>
 

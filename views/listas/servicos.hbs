@@ -1,0 +1,48 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="/">Página Inicial</a>
+    </li>
+    <li class="is-active">
+      <a href="#" aria-current="page">Lista de Serviços</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="level">
+  <div class="level-left">
+    <div class="level-item">
+      <h1 class="title">
+        Lista de Serviços
+      </h1>
+    </div>
+  </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Serviço</th>
+      <th>ID</th>
+      <th>Horário de Início</th>
+      <th>Horário de Fim</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Serviço</th>
+      <th>ID</th>
+      <th>Horário de Início</th>
+      <th>Horário de Fim</th>
+    </tr>
+  </tfoot>
+  <tbody>
+    {{#each servico}}
+    <tr>
+      <th>{{tipo_servico}}</th>
+      <td>{{id_servico}}</td>
+      <td>{{hora_inicio}}</td>
+      <td>{{hora_fim}}</td>
+    </tr>
+    {{/each}}
+</table>
