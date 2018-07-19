@@ -340,9 +340,8 @@ BEGIN
 	ELSE
       PERFORM insert_cozinheira (_cpf_cozinheira);	  
     ELSE
-      INSERT INTO Faxineira (cpf_pessoa) VALUES (_cpf);
-    END IF;
-    RETURN (TRUE);
+		INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
+	END IF;
   ELSE
     PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico INTEGER);
     INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
