@@ -190,3 +190,14 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
+-- Function: verifica se existe serviço cadastrado
+-- Autor: Isadora Gallerani
+CREATE OR REPLACE FUNCTION existe_servico(_id_servico INTEGER) RETURNS boolean AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
+        RETURN (FALSE);
+    ELSE
+        RETURN (TRUE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
