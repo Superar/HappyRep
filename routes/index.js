@@ -433,10 +433,86 @@ router.post('/CadastrarPessoaMorador', function (req, res) {
     });
 });
 
+// CadastrarServico
+router.get('/CadastrarServico', function (req, res) {
+  res.render('formularios/cadastrar_servico');
+})
+
+// GET - Cadastrar alimentação
+router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+  res.render('formularios/cadastrar_alimentacao', {
+    servico: 'Alimentação',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar alimentação
+router.post('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_alimentacao ($1, $2, $3)', [req.body.cpf_cozinheira, req.body.cpf_nutricionista, req.body.id_servico], function (ret) {
+    if (ret.rows[0].insert_alimentacao) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Alimentação';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_alimentacao', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Alimentação';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_alimentacao')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_alimentacao ($1, $2, $3, $4, $5)', [req.body.cpf_cozinheira, req.body.cpf_nutricionista, req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Deu bom!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Alimentação';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.cpf_cozinheira_value = req.body.cpf_cozinheira;
+      values.cpf_nutricionista_value = req.body.cpf_nutricionista;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_alimentacao', values);
+    });
+});
+
 /* Alterar cadastros */
 
 router.get('/AlterarFuncionario', function (req, res) {
   res.render('formularios/alterar_funcionario');
+})
+
+router.get('/AlterarServico', function (req, res) {
+  res.render('formularios/alterar_servico');
 })
 
 router.get('/AlterarFuncionario/AlterarPessoa', function (req, res) {
@@ -883,6 +959,10 @@ router.get('/ListaFuncionarios', function (req, res) {
   res.render('listas/funcionarios/funcionarios');
 });
 
+router.get('/ListaServicos', function (req, res) {
+  res.render('listas/servicos/servicos');
+});
+
 router.get('/ListaFuncionarios/ListaPessoa', function (req, res) {
   db.query('SELECT * FROM view_pessoa ORDER BY nome_prenome ASC', null, function (ret) {
       ret.rows.forEach(function (elemento) {
@@ -980,6 +1060,10 @@ router.get('/ListaMoradores', function (req, res) {
 
 router.get('/ApagarFuncionario', function (req, res) {
   res.render('apagar/funcionarios/funcionarios');
+});
+
+router.get('/ApagarServico', function (req, res) {
+  res.render('apagar/servicos/servicos');
 });
 
 router.get('/ApagarFuncionario/ApagarPessoa', function (req, res) {

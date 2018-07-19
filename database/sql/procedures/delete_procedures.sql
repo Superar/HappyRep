@@ -1,4 +1,4 @@
--- Deletar nutricionista
+﻿-- Deletar nutricionista
 -- Autor: Tiago Bachiega de Almeida
 CREATE OR REPLACE FUNCTION delete_nutricionista(_cpf VARCHAR) RETURNS void AS $$
 BEGIN
@@ -111,5 +111,17 @@ BEGIN
         RAISE EXCEPTION 'Comodo não cadastrado';
     END IF;
     DELETE FROM Comodo c WHERE c.id_comodo = _id_comodo AND c.id_republica = _id_republica;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Deleta um serviço
+-- Autor: Isadora Gallerani
+CREATE OR REPLACE FUNCTION delete_servico (_id_servico INTEGER) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
+        RAISE EXCEPTION 'Serviço não cadastrado';
+    END IF;
+
+    DELETE FROM Servico s WHERE s.id_servico = _id_servico;
 END;
 $$ LANGUAGE plpgsql;
