@@ -504,6 +504,88 @@ router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res)
       res.render('formularios/form_alimentacao', values);
     });
 });
+----
+
+// GET - Cadastrar Produto
+router.get('/CadastrarProduto', function (req, res) {
+  res.render('formularios/form_produto', {
+    pessoa: 'Produto',
+    cadastrar: true,
+  });
+});
+
+// POST - CadastrarProduto
+router.post('/CadastrarProduto', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('INSERTO INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
+    if (ret.rows[0].InsereProduto) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o produto
+      var values = {};
+      values.pessoa = 'Produto';
+      values.cadastrar = true;
+      values.id_fornecedor_value = req.body.id_fornecedor;
+      values.id_produto_value = req.body.id_produto;
+      values.nome_fornecedor_value = req.body.nome_fornecedor;
+      values.nome_value = req.body.nome;
+      values.marca_value = req.body.marca;
+      values.categoria_value = req.body.categoria;
+      values.id_preco_value = req.body.id_preco;
+      values.descricao_value = req.body.descricao;
+      
+      res.render('formularios/form_produto', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Produto';
+    values.cadastrar = true;
+    values.erro = err;
+
+    res.render('formularios/form_produto')
+  });
+});
+
+// GET - Cadastrar Fornecedor
+router.get('/CadastrarFornecedor', function (req, res) {
+  res.render('formularios/form_fornecedor', {
+    pessoa: 'Fornecedor',
+    cadastrar: true,
+  });
+});
+
+// POST - CadastrarFornecedor
+router.post('/CadastrarFornecedor', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
+    if (ret.rows[0].InsereProduto) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o produto
+      var values = {};
+      values.pessoa = 'Fornecedor';
+      values.cadastrar = true;
+      values.id_fornece_value = req.body.id_fornece;
+      values.nome_fornecedor_value = req.body.nome_fornecedor;
+      res.render('formularios/form_fornecedor', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Fornecedor';
+    values.cadastrar = true;
+    values.erro = err;
+
+    res.render('formularios/form_fornecedor')
+  });
+});
 
 /* Alterar cadastros */
 
