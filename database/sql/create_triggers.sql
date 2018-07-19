@@ -272,10 +272,10 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_view_alimentacao INSTEAD OF INSERT ON view_alimentacao
 FOR EACH ROW EXECUTE PROCEDURE insert_view_alimentacao();
 
--- Validação de horários de serviço
+-- Validação de horários e id de serviço
 -- Autora: Isadora Gallerani
 
-CREATE FUNCTION valida_servico() RETURNS trigger AS $valida_hora$
+CREATE FUNCTION valida_servico() RETURNS trigger AS $valida_servico$
     BEGIN
         IF (NEW.hora_inicio == NEW.hora_fim) THEN
             RAISE EXCEPTION 'Horário de Iniício/Fim inválido(s)';
