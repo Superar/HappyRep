@@ -1,7 +1,7 @@
 <nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul>
         <li>
-            <a href="/">Página Inicial</a>
+            <a href="/">PÃƒÂ¡gina Inicial</a>
         </li>
         <li class="is-active">
             <a href="#" aria-current="page">Cadastrar {{servico}}</a>
@@ -27,16 +27,16 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Horário de Início
+                                CPF da Faxineira
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="date" placeholder="Horário de Início" value="{{hora_inicio_value}}">
+                                    <input name="cpf_faxineira" class="input" type="text" placeholder="CPF" value="{{cpf_faxineira_value}}">
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="fa fa-address-card"></i>
                                     </span>
                                 </p>
                             </div>
@@ -46,13 +46,32 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Horário de Fim
+                                Data/HorÃƒÂ¡rio de Agendamento
+                                <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="date" placeholder="Horário de Fim" value="{{hora_fim_value}}">
+                                    <input name="hora_inicio" class="input" type="text" placeholder="Data/HorÃƒÂ¡rio" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                HorÃƒÂ¡rio de Fim de ServiÃƒÂ§o
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="hora_fim" class="input" type="text" placeholder="Data/HorÃƒÂ¡rio" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -77,7 +96,7 @@
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
-                            Campos com * são obrigatórios.
+                            Campos com * sÃƒÂ£o obrigatÃƒÂ³rios.
                         </p>
                     </div>
 
