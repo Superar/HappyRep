@@ -311,35 +311,21 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION insert_alimentacao(_cpf_cozinheira VARCHAR, _cpf_nutricionista VARCHAR, _id_servico INTEGER) RETURNS boolean AS $$
 BEGIN
   IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    IF EXISTS (SELECT 1 FROM Cozinheira c, Nutricionista n WHERE c.cpf_pessoa = _cpf_cozinheira AND n.cpf_pessoa = _cpf_nutricionista) THEN
+    IF EXISTS (SELECT 1 FROM Cozinheira c WHERE c.cpf_pessoa = _cpf_cozinheira) THEN
+      IF EXISTS (SELECT 1 FROM Nutricionista n WHERE n.cpf_pessoa = _cpf_nutricionista) THEN
 		RAISE EXCEPTION 'Alimentação já cadastrada';
 		RETURN (FALSE);
-    ELSE
-		INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
-  END IF;
-  ELSE
-    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico);
-    INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
-    RETURN (TRUE);
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
-
-
--- Inserir faxina
--- Autor: Isadora Gallerani
-CREATE OR REPLACE FUNCTION insert_faxina(_cpf_faxineira VARCHAR, _id_servico INTEGER) RETURNS boolean AS $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
-    IF EXISTS (SELECT 1 FROM Faxineira f WHERE f.cpf_pessoa = _cpf_faxineira) THEN
-		RAISE EXCEPTION 'Faxina já cadastrada';
-		RETURN (FALSE);
+	  ELSE
+		PERFORM insert_nutricionista (_cpf_nutricionista);
 	ELSE
-		INSERT INTO Faxina (cpf_faxineira, id_servico) VALUES (_cpf_faxineira, _id_servico); 
+      PERFORM insert_cozinheira (_cpf_cozinheira);	  
+    ELSE
+      INSERT INTO Faxineira (cpf_pessoa) VALUES (_cpf);
     END IF;
+    RETURN (TRUE);
   ELSE
-    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico);
-    INSERT INTO Faxina (cpf_faxineira, id_servico) VALUES (_cpf_faxineira, _id_servico);
+    PERFORM insert_servico (TO_DATE(_hora_inicio, 'DD/MM/YYYY'), TO_DATE(_hora_fim, 'DD/MM/YYYY'), id_servico INTEGER);
+    INSERT INTO Alimentacao (cpf_cozinheira, cpf_nutricionista, id_servico) VALUES (_cpf_cozinheira, _cpf_nutricionista, _id_servico);
     RETURN (TRUE);
   END IF;
 END;
