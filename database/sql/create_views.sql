@@ -5,6 +5,7 @@ DROP VIEW IF EXISTS view_faxineira;
 DROP VIEW IF EXISTS view_cozinheira;
 DROP VIEW IF EXISTS view_pessoa;
 DROP VIEW IF EXISTS view_alimentacao;
+DROP VIEW IF EXISTS viewPagamento;
 
 -- View: view_pessoa
 -- Autor: Luis Felipe Tomazini
@@ -125,3 +126,11 @@ FROM view_reparador
 UNION
 SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM view_nutricionista;
+
+--Autor: Jorge Bernardo
+--Ver nome de todas as pessoas que estao registaradas com multa acima de 500
+
+Create VIEW viewPagamento AS
+select p.nome_pagador_prenome, p.nome_pagador_sobrenome, p.cnpj_beneficiario
+from Pagamento as p
+where multa > 500;

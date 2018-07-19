@@ -23,6 +23,72 @@ router.get('/CadastrarFuncionario', function (req, res) {
   res.render('formularios/cadastrar_funcionario');
 })
 
+// GET - Cadastrar pessoa pelo CPF
+router.get('/CadastrarFuncionario/CadastrarPessoa', function (req, res) {
+  res.render('formularios/form_pessoa', {
+    pessoa: 'Pessoa',
+    cadastrar: true,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Cadastrar pessoa pelo CPF
+router.post('/CadastrarFuncionario/CadastrarPessoa', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_pessoa ($1)', [req.body.cpf], function (ret) {
+    if (ret.rows[0].insert_pessoa) {
+      res.render('sucesso');
+    } else { // Precisa cadastrar a pessoa
+      var values = {};
+      values.pessoa = 'Pessoa';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+
+      res.render('formularios/form_pessoa', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Pessoa';
+    values.cadastrar = true;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_pessoa', values);
+  });
+});
+
+router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+    function (ret) {
+      res.render('sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Pessoa';
+      values.cadastrar = true;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = req.body.cpf;
+      values.rg_value = req.body.rg;
+      values.prenome_value = req.body.prenome;
+      values.sobrenome_value = req.body.sobrenome;
+      values.data_de_nascimento_value = req.body.data_de_nascimento;
+      values.email_value = req.body.email;
+      values.sexo_m = (req.body.sexo == 'M' ? true : false);
+      values.sexo_f = (req.body.sexo == 'F' ? true : false);
+      values.erro = err;
+
+      res.render('formularios/form_pessoa', values);
+    });
+});
+
 // GET - Cadastrar reparador pelo CPF
 router.get('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   res.render('formularios/form_reparador', {
@@ -372,6 +438,77 @@ router.post('/CadastrarPessoaMorador', function (req, res) {
 router.get('/AlterarFuncionario', function (req, res) {
   res.render('formularios/alterar_funcionario');
 })
+
+router.get('/AlterarFuncionario/AlterarPessoa', function (req, res) {
+  res.render('formularios/form_pessoa', {
+    pessoa: 'Pessoa',
+    cadastrar: false,
+    cadastrar_pessoa: false
+  });
+});
+
+// POST - Alterar Pessoa com o CPF
+// Deve atribuir no formulario os dados cadastrados para alteracao
+router.post('/AlterarFuncionario/AlterarPessoa', function (req, res) {
+  db.query('SELECT * FROM view_pessoa WHERE cpf = $1', [req.body.cpf], function (ret) {
+    var values = {};
+    if (ret.rowCount == 0) {
+      var values = {};
+      values.pessoa = 'Pessoa';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = 'CPF não cadastrado';
+    } else {
+      values.pessoa = 'Pessoa';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = true;
+      values.cpf_value = ret.rows[0].cpf;
+      values.rg_value = ret.rows[0].rg;
+      values.prenome_value = ret.rows[0].nome_prenome;
+      values.sobrenome_value = ret.rows[0].nome_sobrenome;
+      values.data_de_nascimento_value = moment(ret.rows[0].data_de_nascimento).format('DD/MM/YYYY');
+      values.email_value = ret.rows[0].email;
+      values.sexo_m = (ret.rows[0].sexo == 'M' ? true : false);
+      values.sexo_f = (ret.rows[0].sexo == 'F' ? true : false);
+    }
+    res.render('formularios/form_pessoa', values);
+  }, function (err) {
+    var values = {};
+    values.pessoa = 'Pessoa';
+    values.cadastrar = false;
+    values.cadastrar_pessoa = false;
+    values.erro = err;
+
+    res.render('formularios/form_pessoa', values);
+  });
+});
+
+// POST - Alterar todos os dados de Pessoa
+// Deve alterar os dados no banco
+router.post('/AlterarFuncionario/AlterarPessoaPessoa', function (req, res) {
+  db.query('SELECT update_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
+    function (ret) {
+      if (ret.rows[0].update_pessoa) {
+        res.render('sucesso');
+      } else {
+        var values = {};
+        values.pessoa = 'Pessoa';
+        values.cadastrar = false;
+        values.cadastrar_pessoa = false;
+        values.erro = 'CPF não cadastrado';
+        res.render('formularios/form_pessoa', values);
+      }
+    },
+    function (err) {
+      var values = {};
+      values.pessoa = 'Pessoa';
+      values.cadastrar = false;
+      values.cadastrar_pessoa = false;
+      values.erro = err;
+
+      res.render('formularios/form_pessoa', values);
+    });
+});
 
 router.get('/AlterarFuncionario/AlterarCozinheira', function (req, res) {
   res.render('formularios/form_cozinheira', {
@@ -746,6 +883,20 @@ router.get('/ListaFuncionarios', function (req, res) {
   res.render('listas/funcionarios/funcionarios');
 });
 
+router.get('/ListaFuncionarios/ListaPessoa', function (req, res) {
+  db.query('SELECT * FROM view_pessoa ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('listas/funcionarios/pessoa', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
 router.get('/ListaFuncionarios/ListaReparador', function (req, res) {
   db.query('SELECT * FROM view_reparador ORDER BY nome_prenome ASC', null, function (ret) {
       ret.rows.forEach(function (elemento) {
@@ -829,6 +980,45 @@ router.get('/ListaMoradores', function (req, res) {
 
 router.get('/ApagarFuncionario', function (req, res) {
   res.render('apagar/funcionarios/funcionarios');
+});
+
+router.get('/ApagarFuncionario/ApagarPessoa', function (req, res) {
+  db.query('SELECT DISTINCT cpf, nome_prenome, nome_sobrenome, rg, data_de_nascimento, email ' +
+    'FROM view_pessoa ORDER BY nome_prenome ASC', null,
+    function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/pessoa', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.post('/ApagarFuncionario/ApagarPessoa', function (req, res) {
+  db.query('SELECT delete_pessoa ($1)', [req.body.cpf], function (ret) {
+      res.redirect('/ApagarFuncionario/ApagarPessoa');
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+router.get('/ApagarFuncionario/ApagarCozinheira', function (req, res) {
+  db.query('SELECT * FROM view_cozinheira ORDER BY nome_prenome ASC', null, function (ret) {
+      ret.rows.forEach(function (elemento) {
+        elemento.data_de_nascimento = moment(elemento.data_de_nascimento).format('DD/MM/YYYY');
+      });
+      res.render('apagar/funcionarios/cozinheira', {
+        'funcionarios': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
 });
 
 router.get('/ApagarFuncionario/ApagarReparador', function (req, res) {
