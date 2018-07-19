@@ -89,6 +89,67 @@ router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
     });
 });
 
+// GET - Cadastrar serviço pelo ID
+router.get('/CadastrarServico/CadastrarServicoServico', function (req, res) {
+  res.render('formularios/form_servico', {
+    servico: 'Serviço',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar serviço pelo CPF
+router.post('/CadastrarServico/CadastrarServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1)', [req.body.id_servico], function (ret) {
+    if (ret.rows[0].insert_servico) {
+      res.render('Sucesso');
+    } else { // Precisa cadastrar a pessoa
+      var values = {};
+      values.servico = 'Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_servico', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Serviço';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_servico', values);
+  });
+});
+
+router.post('/CadastrarServico/CadastrarServicoServicoServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.hora_inicio, req.body.hora_fim, req.body.id_servico],
+    function (ret) {
+      res.render('Sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.id_servico_value = req.body.id_servico;
+      values.erro = err;
+
+      res.render('formularios/form_servico', values);
+    });
+});
+
 // GET - Cadastrar reparador pelo CPF
 router.get('/CadastrarFuncionario/CadastrarReparador', function (req, res) {
   res.render('formularios/form_reparador', {
@@ -502,6 +563,72 @@ router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res)
       values.erro = err;
 
       res.render('formularios/form_alimentacao', values);
+    });
+});
+
+// GET - Cadastrar faxina
+router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  res.render('formularios/cadastrar_faxina', {
+    servico: 'Faxina',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar faxina
+router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2)', [req.body.cpf_faxineira, req.body.id_servico], function (ret) {
+    if (ret.rows[0].insert_faxina) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_faxina', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Faxina';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_faxina')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarServicoFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2, $3, $4)', [req.body.cpf_faxineira, req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.cpf_faxineira_value = req.body.cpf_faxineira;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_faxina', values);
     });
 });
 

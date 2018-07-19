@@ -4,7 +4,9 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">Cadastrar {{servico}}</a>
+            <a href="#" aria-current="page">
+                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
+            </a>
         </li>
     </ul>
 </nav>
@@ -13,7 +15,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                Cadastrar {{servico}}
+                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
             </h1>
         </div>
     </div>
@@ -21,7 +23,8 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/CadastrarServico/Cadastrar{{#if cadastrar_servico}}Servico{{/if}}{{{servico}}}">
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarServico/Cadastrar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}"
+            {{else}} {{!-- Alterar --}} action="/AlterarServico/Alterar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
@@ -43,7 +46,8 @@
                         </div>
                     </div>
 					
-					<div class="field is-horizontal">
+
+                    <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
                                 ID Serviço
@@ -53,51 +57,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_servico" class="input" type="text" placeholder="CPF" value="{{id_servico_value}}">
+                                    <input name="id_servico" class="input" type="text" placeholder="ID Serviço" value="{{id_servico_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-address-card"></i>
+                                        <i class="fa fa-user"></i>
                                     </span>
                                 </p>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                Data/Horário de Agendamento
-                                <span class="has-text-danger">*</span>
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-					
-					<div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                HorÃ¡rio de Fim de ServiÃ§o
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="hora_fim" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="field is-horizontal">
                         <div class="field-label"></div>
@@ -105,7 +70,7 @@
                             <div class="field">
                                 <div class="control">
                                     <button class="button is-primary">
-                                        Cadastrar
+                                        {{#if cadastrar}} Cadastrar {{else}} Alterar {{/if}}
                                     </button>
                                 </div>
                             </div>
@@ -115,7 +80,7 @@
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
-                            Campos com * sÃ£o obrigatÃ³rios.
+                            Campos com * são obrigatórios.
                         </p>
                     </div>
 
