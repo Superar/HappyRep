@@ -1256,6 +1256,33 @@ router.get('/ListaMoradores', function (req, res) {
     });
 });
 
+router.get('/ListaRepublicas', function (req, res) {
+  db.query('SELECT * FROM view_republica ORDER BY id_republica', null, function (ret) {
+      res.render('listas/republicas/republica', {
+        'republicas': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
+router.get('/ListaComodos', function (req, res) {
+  db.query('SELECT * FROM view_comodo ORDER BY id_republica', null, function (ret) {
+      res.render('listas/republicas/comodo', {
+        'comodos': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
+
 /* Delecoes */
 
 router.get('/ApagarFuncionario', function (req, res) {
