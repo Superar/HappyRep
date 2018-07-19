@@ -1,0 +1,75 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="/">Página Inicial</a>
+    </li>
+    <li class="is-active">
+      <a href="#" aria-current="page">Lista de Pagamentos</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="level">
+  <div class="level-left">
+    <div class="level-item">
+      <h1 class="title">
+        Lista de Pagamentos
+      </h1>
+    </div>
+  </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Pagamento</th>
+      <th>Codigo do pagamento</th>
+      <th>Valor a ser pago</th>
+      <th>Data de vencimento</th>
+	  <th>Primeiro nome</th>
+	  <th>Sobrenome</th>
+	  <th>CNPJ do beneficiario</th>
+	  <th>Logradouro</th>
+	  <th>Numero</th>
+	  <th>Complemento</th>
+	  <th>CEP</th>
+	  <th>Obervacoes referentes ao pagamento</th>
+	  <th>Codigo do servico prestado</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Pagamento</th>
+      <th>Codigo do pagamento</th>
+      <th>Valor a ser pago</th>
+      <th>Data de vencimento</th>
+	  <th>Primeiro nome</th>
+	  <th>Sobrenome</th>
+	  <th>CNPJ do beneficiario</th>
+	  <th>Logradouro</th>
+	  <th>Numero</th>
+	  <th>Complemento</th>
+	  <th>CEP</th>
+	  <th>Obervacoes referentes ao pagamento</th>
+	  <th>Codigo do servico prestado</th>
+    </tr>
+  </tfoot>
+  <tbody>
+    {{#each pagamento}}
+    <tr>
+      <th>{{tipo_pagamento}}</th>
+      <td>{{cod_barras}}</td>
+      <td>{{valor}}</td>
+      <td>{{vencimento}}</td>
+	  <td>{{nome_pagador_prenome}}</td>
+	  <td>{{nome_pagador_sobrenome}}</td>
+	  <td>{{cnpj_beneficiario}}</td>
+	  <td>{{end_beneficiario_logradouro}}</td>
+	  <td>{{end_beneficiario_numero}}</td>
+	  <td>{{end_beneficiario_complemento}}</td>
+	  <td>{{end_beneficiario_cep}}</td>
+	  <td>{{end_beneficiario_observacoes}}</td>
+	  <td>{{id_servico}}</td>
+    </tr>
+    {{/each}}
+</table>
