@@ -564,7 +564,7 @@ router.post('/CadastrarFornecedor', function (req, res) {
   }
 
   db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
-    if (ret.rows[0].InsereProduto) {
+    if (ret.rows[0].InsereFornecedor) {
       res.render('index', {
         title: 'Sucesso!'
       });
