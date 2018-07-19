@@ -175,3 +175,18 @@ BEGIN
    RETURN pessoas;
 END; $$
 LANGUAGE plpgsql;
+
+--
+CREATE OR REPLACE FUNCTION get_multa(_cod_barras varchar)
+    RETURNS varchar(20)
+    AS $$
+
+BEGIN
+    IF EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = _cod_barras) THEN
+        RETURN (SELECT multa FROM Pagamento p WHERE p.cod_barras = _cod_barras);
+    ELSE
+        RETURN (0);
+    END IF;
+END; $$
+LANGUAGE plpgsql;
+
