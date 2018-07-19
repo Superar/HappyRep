@@ -203,3 +203,19 @@ UNION
 	INNER JOIN reparo r ON r.id_servico = s.id_servico
 	INNER JOIN pessoa p ON p.cpf = r.cpf_reparador
 );
+
+-- View: view_ingredientes_receita
+-- Autor: Alexandre Dutra
+CREATE OR REPLACE VIEW public.view_ingredientes_receita AS
+ SELECT i.quantidade AS quant,
+    i.id_receita,
+    i.id_produto,
+    p.nome,
+    p.descricao,
+    p.marca,
+    p.categoria,
+    r.nome_receita,
+    r.descricao_receita
+   FROM ingredientes i
+     JOIN receita r ON r.id_receita = i.id_receita
+     JOIN produto p ON p.id_produto = i.id_produto;

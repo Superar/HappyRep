@@ -980,9 +980,31 @@ router.get('/ApagarServicos', function (req, res) {
 });
 
 router.get('/ApagarServicos/ApagarIngrediente', function (req, res) {
-    res.render('apagar/servicos/ingredientes', {
+
+    db.query('SELECT * FROM view_ingredientes_receita ORDER BY nome_receita, id_produto', null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+        });
+        res.render('apagar/servicos/ingredientes', {
+            'ingredientes': ret.rows
+        });
+    }, function (err) {
+        console.log(err);
     });
 });
+
+router.post('/ApagarServicos/ApagarIngrediente', function (req, res) {
+    
+    var aux = req.body.pk_receita.split("+");
+    //1 receita, 2 produto
+    db.query('SELECT delete_ingrediente ($1, $2)', [aux[0], aux[1]], function (ret) {
+        res.redirect('/ApagarServicos/ApagarIngrediente');
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
+    });
+});
+
 
 router.get('/ApagarServicos/ApagarFaxina', function (req, res) {
 

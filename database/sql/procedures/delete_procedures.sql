@@ -135,3 +135,22 @@ BEGIN
     END IF;    
 END;
 $BODY$;
+
+
+-- Deletar ingredientes
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_ingrediente( _id_receita integer, _id_produto integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_receita = _id_receita AND i.id_receita = _id_receita) THEN
+
+	RAISE EXCEPTION 'Ingrediente nao registrado';
+    ELSE
+	
+	DELETE FROM ingredientes i WHERE i.id_receita = _id_receita AND i.id_produto = _id_produto;
+    END IF;    
+END;
+$BODY$;
