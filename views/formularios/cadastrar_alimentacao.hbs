@@ -1,7 +1,7 @@
 <nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul>
         <li>
-            <a href="/">P�gina Inicial</a>
+            <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
             <a href="#" aria-current="page">Cadastrar {{servico}}</a>
@@ -27,16 +27,35 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Hor�rio de In�cio
+                                CPF da Cozinheira
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="date" placeholder="Hor�rio de In�cio" value="{{hora_inicio_value}}">
+                                    <input name="cpf_cozinheira" class="input" type="text" placeholder="CPF" value="{{cpf_cozinheira_value}}">
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CPF da Nutricionista
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cpf_nutricionista" class="input" type="text" placeholder="CPF" value="{{cpf_nutricionista_value}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
                                     </span>
                                 </p>
                             </div>
@@ -46,13 +65,32 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Hor�rio de Fim
+                                Data/Horário de Início de Serviço
+                                <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="date" placeholder="Hor�rio de Fim" value="{{hora_fim_value}}">
+                                    <input name="hora_inicio" class="input" type="text" placeholder="Data/Horário" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Horário de Fim de Serviço
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="hora_fim" class="input" type="text" placeholder="Data/Horário" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-calendar"></i>
                                     </span>
@@ -77,7 +115,7 @@
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
-                            Campos com * s�o obrigat�rios.
+                            Campos com * são obrigatórios.
                         </p>
                     </div>
 

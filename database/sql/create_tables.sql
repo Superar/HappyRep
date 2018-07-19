@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS Nutricionista CASCADE;
 DROP TABLE IF EXISTS Faxina CASCADE;
 DROP TABLE IF EXISTS Reparo CASCADE;
 DROP TABLE IF EXISTS Alimentacao CASCADE;
+DROP TABLE IF EXISTS Servico CASCADE;
+DROP TABLE IF EXISTS Pagamento CASCADE;
 
 -- Table: pessoa
 
@@ -168,4 +170,35 @@ CREATE TABLE Alimentacao
     CONSTRAINT fk_alimentacao_nutricionista FOREIGN KEY (cpf_nutricionista) REFERENCES Nutricionista(cpf_pessoa) ON DELETE CASCADE,
     CONSTRAINT fk_alimentacao_servico FOREIGN KEY (id_servico) REFERENCES Servico(id_Servico) ON DELETE CASCADE,
     CONSTRAINT pk_alimentacao PRIMARY KEY (cpf_cozinheira, cpf_nutricionista, id_servico) 
+);
+
+CREATE TABLE Servico (
+
+id_servico integer NOT NULL,
+hora_inicio DATE NOT NULL,
+hora_fim DATE,
+
+CONSTRAINT servico_pk PRIMARY KEY (id_servico)
+);
+
+
+Create Table Pagamento (
+cod_barras character(20) COLLATE pg_catalog."default" NOT NULL,
+valor integer NOT NULL,
+vencimento DATE NOT NULL,
+multa integer,
+nome_pagador_prenome character(20) COLLATE pg_catalog."default" NOT NULL,
+nome_pagador_sobrenome character(20) COLLATE pg_catalog."default" NOT NULL,
+cnpj_beneficiario character(14) COLLATE pg_catalog."default" NOT NULL,
+end_beneficiario_logradouro character(20) COLLATE pg_catalog."default" ,
+end_beneficiario_numero integer,
+end_beneficiario_complemento character(20) COLLATE pg_catalog."default" NOT NULL,
+end_beneficiario_cep character(8) COLLATE pg_catalog."default" NOT NULL,
+end_beneficiario_observacoes character(20) COLLATE pg_catalog."default" NOT NULL,
+id_servico integer NOT NULL,
+
+CONSTRAINT pagamento_pk PRIMARY KEY (cod_barras)
+CONSTRAINT pagamento_fk_servico FOREING KEY (id_servico) REFERENCES public.servico MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
