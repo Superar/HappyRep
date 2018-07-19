@@ -113,3 +113,25 @@ BEGIN
     DELETE FROM Comodo c WHERE c.id_comodo = _id_comodo AND c.id_republica = _id_republica;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Deletar faxina
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_faxina( _id_servico integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM faxina f WHERE f.id_servico = _id_servico) THEN
+		RAISE EXCEPTION 'Faxina nao registrada';
+	ELSE
+	
+		IF NOT EXISTS (SELECT 1 FROM servico s WHERE s.id_servico = _id_servico) THEN
+		ELSE
+			DELETE FROM faxina f WHERE f.id_servico = _id_servico;
+			PERFORM delete_servico(_id_servico);
+		END IF;
+	
+    END IF;    
+END;
+$BODY$;

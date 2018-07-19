@@ -125,3 +125,81 @@ FROM view_reparador
 UNION
 SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM view_nutricionista;
+
+
+-- View: view_operador_servico
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE view view_operador_servico AS
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		f.cpf_faxineira as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email, 
+		'F' as tipo 
+	FROM servico s
+	INNER JOIN faxina f ON f.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = f.cpf_faxineira
+)
+UNION
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		a.cpf_cozinheira as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email,  
+		'C' as tipo 
+	FROM servico s
+	INNER JOIN alimentacao a ON a.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = a.cpf_cozinheira
+)
+
+UNION
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		a.cpf_nutricionista as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email, 
+		'N' as tipo 
+	FROM servico s
+	INNER JOIN alimentacao a ON a.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = a.cpf_nutricionista
+)
+
+UNION 
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		r.cpf_reparador as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email,  
+		'R' as tipo 
+	FROM servico s
+	INNER JOIN reparo r ON r.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = r.cpf_reparador
+);

@@ -985,9 +985,34 @@ router.get('/ApagarServicos/ApagarIngrediente', function (req, res) {
 });
 
 router.get('/ApagarServicos/ApagarFaxina', function (req, res) {
-    res.render('apagar/servicos/faxina', {
+
+    db.query("SELECT * FROM view_operador_servico WHERE tipo = 'F' ORDER BY hora_inicio DESC", null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+            elemento.hora_inicio = moment(elemento.hora_inicio).format('DD/MM/YYYY hh:mm');
+            elemento.hora_fim = moment(elemento.hora_fim).format('DD/MM/YYYY hh:mm');
+        });
+
+        res.render('apagar/servicos/faxina', {
+            'faxinas': ret.rows
+        });
+
+    }, function (err) {
+        console.log(err);
+    });
+
+});
+
+router.post('/ApagarServicos/ApagarFaxina', function (req, res) {
+
+    db.query('SELECT delete_faxina ($1)', [req.body.id_servico], function (ret) {
+        res.redirect('/ApagarServicos/ApagarFaxina');
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
     });
 });
+
 
 router.get('/ApagarMorador', function (req, res) {
     db.query('SELECT * FROM view_morador ORDER BY nome_prenome ASC', null, function (ret) {
