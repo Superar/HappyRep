@@ -504,7 +504,6 @@ router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res)
       res.render('formularios/form_alimentacao', values);
     });
 });
-----
 
 // GET - Cadastrar Produto
 router.get('/CadastrarProduto', function (req, res) {
