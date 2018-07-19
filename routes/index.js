@@ -869,7 +869,19 @@ router.get('/ListaServicos/ListarIngrediente', function (req, res) {
 });
 
 router.get('/ListaServicos/Listarfaxina', function (req, res) {
-    res.render('listas/servicos/faxina', {
+    
+    db.query("SELECT * FROM view_operador_servico WHERE tipo = 'F' ORDER BY hora_inicio DESC", null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+            elemento.hora_inicio = moment(elemento.hora_inicio).format('DD/MM/YYYY hh:mm');
+            elemento.hora_fim = moment(elemento.hora_fim).format('DD/MM/YYYY hh:mm');
+        });
+        res.render('listas/servicos/faxina', {
+            'faxinas': ret.rows
+        });
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
     });
 });
 
