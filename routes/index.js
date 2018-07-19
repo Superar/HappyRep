@@ -853,7 +853,18 @@ router.get('/ListaServicos', function (req, res) {
 });
 
 router.get('/ListaServicos/ListarIngrediente', function (req, res) {
-    res.render('listas/servicos/ingredientes', {
+    
+    db.query('SELECT * FROM view_ingredientes_receita ORDER BY nome_receita, id_produto', null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+
+        });
+        res.render('listas/servicos/ingredientes', {
+            'ingredientes': ret.rows
+        });
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
     });
 });
 
@@ -993,7 +1004,7 @@ router.get('/ApagarServicos/ApagarIngrediente', function (req, res) {
 });
 
 router.post('/ApagarServicos/ApagarIngrediente', function (req, res) {
-    
+
     var aux = req.body.pk_receita.split("+");
     //1 receita, 2 produto
     db.query('SELECT delete_ingrediente ($1, $2)', [aux[0], aux[1]], function (ret) {
