@@ -372,12 +372,28 @@ router.get('/CadastrarServicos', function (req, res) {
 });
 
 router.get('/CadastrarServicos/CadastrarIngrediente', function (req, res) {
-    res.render('cadastrar/servicos/ingrediente', {
+    res.render('cadastrar/servicos/ingredientes', {
+    });
+});
+
+router.post('/CadastrarServicos/CadastrarIngrediente', function (req, res) {
+    
+    db.query('SELECT insert_ingrediente ($1, $2, $3)',
+            [req.body.id_receita, req.body.id_produto, req.body.quantidade]
+            , function (ret) {
+                res.render('sucesso');
+            }
+    , function (err) {
+        var values = {};
+        values.quantidade = req.body.quantidade;
+        values.id_receita = req.body.id_receita;
+        values.id_produto = req.body.id_produto;
+        values.erro = err;
+        res.render('cadastrar/servicos/ingredientes', values);
     });
 });
 
 /* Alterar cadastros */
-
 router.get('/AlterarFuncionario', function (req, res) {
     res.render('formularios/alterar_funcionario');
 })
