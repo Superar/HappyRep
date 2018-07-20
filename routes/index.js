@@ -465,7 +465,19 @@ router.get('/CadastrarServicos/CadastrarReparo', function (req, res) {
 });
 
 router.post('/CadastrarServicos/CadastrarReparo', function (req, res) {
-
+    db.query('SELECT insert_reparo ($1, $2)',
+            [req.body.cpf_reparador, req.body.id_servico]
+            , function (ret) {
+                res.render('sucesso');
+            }
+    , function (err) {
+        var values = {};
+        values.id_servico = req.body.id_servico;
+        values.cpf_reparador = req.body.cpf_reparador;
+        
+        values.erro = err;
+        res.render('cadastrar/servicos/reparo', values);
+    });
 });
 
 // CadastrarServico

@@ -407,3 +407,21 @@ END IF;
     		RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Inserir alimentação
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION insert_reparo(_cpf varchar, _servico integer) RETURNS void AS $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM reparador r WHERE r.cpf_pessoa = _cpf) THEN
+    RAISE EXCEPTION 'Reparador % inexistente!', _cpf;
+  END IF;
+    
+  IF NOT EXISTS (SELECT 1 FROM servico s WHERE s.id_servico = _servico) THEN
+    RAISE EXCEPTION 'Serviço % inexistente!', _servico;
+  END IF;
+
+  INSERT INTO reparo (id_servico, cpf_reparador) VALUES (_servico, _cpf);
+
+END;
+$$ LANGUAGE plpgsql;
