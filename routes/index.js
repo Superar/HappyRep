@@ -459,6 +459,15 @@ router.post('/CadastrarServicos/CadastrarIngrediente', function (req, res) {
     });
 });
 
+router.get('/CadastrarServicos/CadastrarReparo', function (req, res) {
+    res.render('cadastrar/servicos/reparo', {
+    });
+});
+
+router.post('/CadastrarServicos/CadastrarReparo', function (req, res) {
+    
+});
+
 // CadastrarServico
 router.get('/CadastrarServico', function (req, res) {
   res.render('formularios/cadastrar_servico');
@@ -1337,14 +1346,20 @@ router.get('/AlterarServicos/AlterarFaxina', function (req, res) {
     });
 });
 
+router.get('/AlterarServicos/AlterarReparo', function (req, res) {
+    res.render('alterar/servicos/reparo', {
+    });
+});
+
+router.get('/AlterarServicos/AlterarReceita', function (req, res) {
+    res.render('alterar/servicos/reparo', {
+    });
+});
+
 /* Listas */
 
 router.get('/ListaFuncionarios', function (req, res) {
     res.render('listas/funcionarios/funcionarios');
-});
-
-router.get('/ListaServicos', function (req, res) {
-  res.render('listas/servicos/servicos');
 });
 
 router.get('/ListaFuncionarios/ListaPessoa', function (req, res) {
@@ -1473,6 +1488,18 @@ router.get('/ListaServicos/Listarfaxina', function (req, res) {
         res.render('bd_error', {
             error: err
         });
+    });
+});
+
+router.get('/ListaServicos/ListarAlimentacao', function (req, res) {
+    
+    res.render('listas/servicos/alimentacao', {
+    });
+});
+
+router.get('/ListaServicos/ListarReparo', function (req, res) {
+    
+    res.render('listas/servicos/reparo', {
     });
 });
 
@@ -1730,6 +1757,34 @@ router.post('/ApagarServicos/ApagarFaxina', function (req, res) {
             error: err
         });
     });
+});
+
+router.get('/ApagarServicos/ApagarAlimentacao', function (req, res) {
+
+    res.render('apagar/servicos/alimentacao', {
+    });
+
+});
+router.post('/ApagarServicos/ApagarAlimentacao', function (req, res) {
+});
+
+
+router.get('/ApagarServicos/ApagarReceita', function (req, res) {
+
+    res.render('apagar/servicos/receita', {
+    });
+
+});
+router.post('/ApagarServicos/ApagarReceita', function (req, res) {
+});
+
+router.get('/ApagarServicos/ApagarReparo', function (req, res) {
+
+    res.render('apagar/servicos/reparo', {
+    });
+
+});
+router.post('/ApagarServicos/ApagarReparo', function (req, res) {
 });
 
 
