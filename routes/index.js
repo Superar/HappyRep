@@ -716,10 +716,19 @@ router.post('/CadastrarServicos/CadastrarNovoServicoAlimentacao', function (req,
 
 // GET - Cadastrar Produto
 router.get('/CadastrarProduto', function (req, res) {
-    res.render('formularios/form_produto', {
-        pessoa: 'Produto',
-        cadastrar: true,
-    });
+      db.query('SELECT id_fornecedor, nome_fornecedor FROM view_produto_fornecedor ', null, function (ret) {
+        res.render('formularios/form_produto', {
+            pessoa: 'Produto',
+            cadastrar: true,
+            'id_fornecedor': ret.rows,
+            'nome_fornecedor': ret.rows
+        });
+      },
+      function (err) {
+          res.render('bd_error', {
+              error: err
+          });
+      });
 });
 
 // POST - CadastrarProduto
@@ -768,7 +777,6 @@ router.get('/CadastrarFornecedor', function (req, res) {
 
 // POST - CadastrarFornecedor
 router.post('/CadastrarFornecedor', function (req, res) {
-<<<<<<< HEAD
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -786,33 +794,8 @@ router.post('/CadastrarFornecedor', function (req, res) {
     values.nome_fornecedor_value = req.body.nome_fornecedor;
     res.render('formularios/form_fornecedor', values);
     values.erro = err;
-  });
-=======
-    if (!Array.isArray(req.body.tipo)) {
-        req.body.tipo = [req.body.tipo];
-    }
-
-    db.query('SELECT inserefornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor],
-            function (ret) {
-                res.render('Sucesso');
-            },
-            function (err) {
-                var values = {};
-                values.pessoa = 'Fornecedor';
-                values.cadastrar = true;
-                values.pessoa = 'Fornecedor';
-                values.cadastrar = true;
-                values.id_fornece_value = req.body.id_fornece;
-                values.nome_fornecedor_value = req.body.nome_fornecedor;
-                res.render('formularios/form_fornecedor', values);
-                values.erro = err;
-
-                res.render('formularios/form_fornecedor', {
-                    title: 'Falhou!'
-                });
-            });
+  }); 
 });
->>>>>>> master
 
 // GET - Cadastrar Republica
 router.get('/CadastrarRepublica', function (req, res) {
