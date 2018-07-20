@@ -1,4 +1,4 @@
--- Deletar nutricionista
+﻿-- Deletar nutricionista
 -- Autor: Tiago Bachiega de Almeida
 CREATE OR REPLACE FUNCTION delete_nutricionista(_cpf VARCHAR) RETURNS void AS $$
 BEGIN
@@ -154,3 +154,28 @@ BEGIN
     END IF;    
 END;
 $BODY$;
+
+-- Deleta um serviço
+-- Autor: Isadora Gallerani
+CREATE OR REPLACE FUNCTION delete_servico (_id_servico INTEGER) RETURNS void AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
+        RAISE EXCEPTION 'Serviço não cadastrado';
+    END IF;
+
+    DELETE FROM Servico s WHERE s.id_servico = _id_servico;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION delete_pagamento(_cod_barras character varying)
+    RETURNS void
+AS $$
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = _cod_barras) THEN
+	RAISE EXCEPTION 'Pagamento inexistente';
+    END IF;
+
+    DELETE FROM Pagamento p WHERE p.cod_barars = _cod_barras;
+END;
+$$ LANGUAGE plpgsql;

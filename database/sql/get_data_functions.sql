@@ -175,3 +175,29 @@ BEGIN
    RETURN pessoas;
 END; $$
 LANGUAGE plpgsql;
+
+--
+CREATE OR REPLACE FUNCTION get_multa(_cod_barras varchar)
+    RETURNS varchar(20)
+    AS $$
+
+BEGIN
+    IF EXISTS (SELECT 1 FROM Pagamento p WHERE p.cod_barras = _cod_barras) THEN
+        RETURN (SELECT multa FROM Pagamento p WHERE p.cod_barras = _cod_barras);
+    ELSE
+        RETURN (0);
+    END IF;
+END; $$
+LANGUAGE plpgsql;
+
+-- Function: verifica se existe serviço cadastrado
+-- Autor: Isadora Gallerani
+CREATE OR REPLACE FUNCTION existe_servico(_id_servico INTEGER) RETURNS boolean AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Servico s WHERE s.id_servico = _id_servico) THEN
+        RETURN (FALSE);
+    ELSE
+        RETURN (TRUE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
