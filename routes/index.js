@@ -1565,6 +1565,21 @@ router.get('/ListaServicos/ListarReparo', function (req, res) {
     });
 });
 
+router.get('/ListaServicos/ListarReceita', function (req, res) {
+
+    db.query("SELECT * FROM receita ORDER BY nome_receita ASC", null, function (ret) {
+
+        res.render('listas/servicos/receita', {
+            'receitas': ret.rows
+        });
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
+    });
+});
+
+
 router.get('/ListaFornecedor', function (req, res) {
     db.query('SELECT * FROM public.fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
         res.render('listas/produtos/fornecedores', {
