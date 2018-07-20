@@ -918,11 +918,7 @@ router.post('/CadastrarComodo/CadastrarComodo', function (req, res) {
 /* Alterar cadastros */
 router.get('/AlterarFuncionario', function (req, res) {
     res.render('formularios/alterar_funcionario');
-})
-
-router.get('/AlterarServico', function (req, res) {
-    res.render('formularios/alterar_servico');
-})
+});
 
 router.get('/AlterarFuncionario/AlterarPessoa', function (req, res) {
     res.render('formularios/form_pessoa', {
@@ -1398,6 +1394,41 @@ router.post('/AlterarServicos/AlterarIngrediente', function (req, res) {
                 values.erro = err;
 
                 res.render('alterar/servicos/ingredientes', values);
+            });
+
+});
+
+router.get('/AlterarServicos/AlterarAlimentacao', function (req, res) {
+    res.render('alterar/servicos/alimentacao');
+});
+router.post('/AlterarServicos/AlterarAlimentacao', function (req, res) {
+
+    db.query('SELECT update_alimentacao ($1, $2, $3)',
+            [req.body.id_servico, req.body.cpf_cozinheira, req.body.cpf_nutricionista],
+            function (ret) {
+                if (ret.rows[0].update_alimentacao) {
+                    res.render('sucesso');
+                } else {
+                    var values = {};
+                    values.id_servico = req.body.id_servico;
+                    values.cpf_cozinheira = req.body.cpf_cozinheira;
+                    values.cpf_nutricionista = req.body.cpf_nutricionista;
+
+                    values.erro = 'CPF da nutricionista e/ou CPF da cozinheira não estão cadastrados no sistema';
+
+                    res.render('alterar/servicos/alimentacao', values);
+                }
+            },
+            function (err) {
+
+                var values = {};
+                values.id_servico = req.body.id_servico;
+                values.cpf_cozinheira = req.body.cpf_cozinheira;
+                values.cpf_nutricionista = req.body.cpf_nutricionista;
+
+                values.erro = err;
+
+                res.render('alterar/servicos/alimentacao', values);
             });
 
 });

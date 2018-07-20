@@ -305,3 +305,32 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+ [req.body.id_servico, req.body.cpf_cozinheira, req.body.cpf_nutricionista],
+
+-- Update alimentação
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION update_alimentacao(_servico INTEGER, _cozinheira varchar, _nutricionista varchar) RETURNS boolean AS $$
+BEGIN
+
+    IF NOT EXISTS (SELECT 1 FROM alimentacao a WHERE a.id_servico = _servico) THEN
+        RAISE EXCEPTION 'A alimentação de código % não existe!', _receita;
+        RETURN (FALSE);
+
+    ELSE
+
+        IF NOT EXISTS (SELECT 1 FROM cozinheira c WHERE c.cpf_pessoa = _cozinheira) THEN
+            RAISE EXCEPTION 'A cozinheira de CPF % não existe!', _cozinheira;
+            RETURN (FALSE);
+        END IF;
+
+        IF NOT EXISTS (SELECT 1 FROM nutricionista n WHERE n.cpf_pessoa = _nutricionista) THEN
+            RAISE EXCEPTION 'A nutricionista de CPF % não existe!', _nutricionista;
+            RETURN (FALSE);
+        END IF;
+
+        UPDATE alimentacao SET cpf_cozinheira = _cozinheira, cpf_nutricionista = _nutricionista WHERE id_servico = _servico;
+        RETURN (TRUE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
