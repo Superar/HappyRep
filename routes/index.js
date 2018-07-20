@@ -519,7 +519,7 @@ router.post('/CadastrarProduto', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('INSERTO INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
+  db.query('INSERT INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
     if (ret.rows[0].InsereProduto) {
       res.render('index', {
         title: 'Sucesso!'
@@ -582,7 +582,7 @@ router.post('/CadastrarFornecedor', function (req, res) {
     values.cadastrar = true;
     values.erro = err;
 
-    res.render('formularios/form_fornecedor')
+    res.render('formularios/form_fornecedor');
   });
 });
 
