@@ -754,9 +754,7 @@ router.post('/CadastrarFornecedor', function (req, res) {
 
 // GET - Cadastrar Republica
 router.get('/CadastrarRepublica', function (req, res) {
-  res.render('formularios/form_republica', {
-    cadastrar: true,
-  });
+  res.render('formularios/form_republica', {cadastrar: true});
 });
 
 // POST - Cadastrar Republica
@@ -789,56 +787,26 @@ router.post('/CadastrarRepublica/Cadastrar', function (req, res) {
 
 // GET - Cadastrar Comodo
 router.get('/CadastrarComodo', function (req, res) {
-  res.render('formularios/form_comodo', {
-    comodo: 'Comodo',
-    cadastrar: true,
-    cadastrar_comodo: false
-  });
+  res.render('formularios/form_comodo', {cadastrar: true});
 });
 
 // POST - Cadastrar Comodo
 router.post('/CadastrarComodo/Cadastrar', function (req, res) {
-  db.query('SELECT insert_comodo ($1)', [req.body.id_comodo], function (ret) {
-    if (ret.rows[0].insert_comodo) {
-      res.render('sucesso');
-    } else {
-      var values = {};
-      values.comodo = 'Comodo';
-      values.cadastrar = true;
-      values.cadastrar_comodo = true;
-      values.id_comodo = req.body.id_comodo;
-
-      res.render('formularios/form_comodo', values);
-    }
-  }, function (err) {
-    var values = {};
-    values.comodo = 'Comodo';
-    values.cadastrar = true;
-    values.cadastrar_comodo = false;
-    values.erro = err;
-
-    res.render('formularios/form_comodo', values);
-  });
-});
-
-router.post('/CadastrarComodo/CadastrarComodo', function (req, res) {
-  db.query('SELECT insert_republica ($1, $2)', [req.body.id_comodo,
-      req.body.id_republica
-    ],
+  db.query('SELECT insert_comodo ($1, $2)', 
+    [req.body.id_comodo, 
+    req.body.id_republica],
     function (ret) {
       res.render('sucesso');
     },
     function (err) {
       var values = {};
-      values.comodo = 'Comodo';
       values.cadastrar = true;
-      values.cadastrar_comodo = true;
       values.id_comodo = req.body.id_comodo;
       values.id_republica = req.body.id_republica;
       values.erro = err;
 
       res.render('formularios/form_comodo', values);
-    });
+  });
 });
 
 /* Alterar cadastros */
