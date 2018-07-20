@@ -547,7 +547,7 @@ router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarServicoFaxina', function (req, res) {
+router.post('/CadastrarServico/CadastrarNovoServicoFaxina', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -622,7 +622,7 @@ router.post('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res) {
+router.post('/CadastrarServico/CadastrarNovoServicoAlimentacao', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
