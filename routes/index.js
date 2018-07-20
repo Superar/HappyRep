@@ -1468,6 +1468,19 @@ router.get('/ListaRepublicas', function (req, res) {
     });
 });
 
+router.get('/ListaProduto', function (req, res) {
+  db.query('SELECT * FROM view_produto_fornecedor ', null, function (ret) {
+      res.render('listas/produtos/produtos', {
+        'produto': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
 router.get('/ListaComodos', function (req, res) {
   db.query('SELECT * FROM view_comodo ORDER BY id_republica', null, function (ret) {
       res.render('listas/republicas/comodo', {
