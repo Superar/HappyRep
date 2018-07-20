@@ -4,7 +4,7 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">Alterar Ingrediente</a>
+            <a href="#" aria-current="page">Cadastrar Receita</a>
         </li>
     </ul>
 </nav>
@@ -13,7 +13,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                Alterar Ingrediente
+                Cadastrar Receita
             </h1>
         </div>
     </div>
@@ -21,20 +21,19 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/AlterarServicos/AlterarIngrediente">
+        <form method="POST" action="/CadastrarServicos/CadastrarReceita">
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Id Receita <span class="has-text-danger">*</span>
+                                Nome Receita <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_receita" class="input" type="text" placeholder="Código da receita" value="{{id_receita}}"
-                                    {{#if alteracao}}readonly{{/if}}>
+                                    <input name="nome_receita" class="input" type="text" placeholder="Nome da receita" value="{{nome_receita}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -46,27 +45,7 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Id Produto
-                                <span class="has-text-danger">*</span>
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="id_produto" class="input" type="text" placeholder="Código do produto" value="{{id_produto}}"
-                                    {{#if alteracao}}readonly{{/if}}>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-address-card"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                Quantidade
+                                Descrição
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
@@ -74,8 +53,8 @@
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
 
-                                    <input name="quantidade" class="input" type="text" 
-                                        placeholder="Quantidade" value="{{quantidade}}">
+                                <textarea name="descricao_receita" class="input" type="text" rows="4"
+                                        placeholder="Descricao">{{descricao_receita}}</textarea>
 
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-user"></i>
@@ -85,19 +64,19 @@
                         </div>
                     </div>
 
-                    <div class="field is-horizontal" >
+                    <div class="field is-horizontal">
                         <div class="field-label"></div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <button class="button is-primary" name="alterar">
-                                        Alterar
+                                    <button class="button is-primary">
+                                        Cadastrar
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
