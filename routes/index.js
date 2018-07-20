@@ -438,6 +438,148 @@ router.get('/CadastrarServico', function (req, res) {
   res.render('formularios/cadastrar_servico');
 })
 
+// GET - Cadastrar Serviço
+router.get('/CadastrarServico/CadastrarServicoServico', function (req, res) {
+  res.render('formularios/cadastrar_servico', {
+    servico: 'Serviço',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar serviço
+router.post('/CadastrarServico/CadastrarServicoServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.id_servico, req.body.hora_inicio, req.body.hora_fim], function (ret) {
+    if (ret.rows[0].insert_servico) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_servico', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Serviço';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_servico')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarServicoServicoServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_servico', values);
+    });
+});
+
+// Cadastrar Faxina
+
+// GET - Cadastrar faxina
+router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  res.render('formularios/cadastrar_faxina', {
+    servico: 'Faxina',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar faxina
+router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2)', [req.body.cpf_faxineira, req.body.id_servico], function (ret) {
+    if (ret.rows[0].insert_faxina) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_faxina', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Faxina';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_faxina')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarServicoFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2, $3, $4)', [req.body.cpf_faxineira, req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.cpf_faxineira_value = req.body.cpf_faxineira;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_faxina', values);
+    });
+});
+
+// GET - Cadastrar alimentação
+router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+  res.render('formularios/cadastrar_alimentacao', {
+    servico: 'Alimentação',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
 // GET - Cadastrar alimentação
 router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
   res.render('formularios/cadastrar_alimentacao', {
