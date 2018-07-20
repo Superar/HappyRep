@@ -154,21 +154,43 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 #### Views
 
 - view_ingredientes_receita
+- view_alimentacao55
 
 #### Triggers
 
 - insert_receita()
-- trigger_insert_receita
-- delete_view_ingredientes_receita
-- trigger_delete_view_ingredientes_receita
+- trigger_insert_receita()
+- delete_view_ingredientes_receita()
+- trigger_delete_view_ingredientes_receita()
 
 #### Procedimentos e funções
 
-- precisa_produto_tarefa
-- insere_reparo
+- precisa_produto_tarefa()
+- insere_reparo()
+- update_alimentacao()
+- delete_receita()
+- insert_receita()
 
 ---
 ### Juan Santos
+- faxineira
+- reparador
+- cozinheira 
+- serviço
+
+#### Procedimentos e funções
+- update_ingrediente()
+- delete_ingrediente()
+- delete_alimentacao()
+- insert_ingrediente()
+- valor_receita()
+- possui_horario_atendimento()
+
+#### View
+view_operador_servico
+
+#### Triggers
+insert_view_servico
 
 ---
 ### Isadora Gallerani
@@ -192,6 +214,27 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 ---
 ### Mariana Zagatti
 
+#### Tabelas
+- fornecedor
+- fornecimento
+- produtos
+- itens
+
+#### Views
+- view_servicos
+
+#### Trigger
+- trigger_inserir_servico()
+- trigger_apagar_servico()
+
+#### Procedimentos e funções
+- update_receita()
+- delete_faxina()
+- delete_reparo()
+- verificar_coerencia_horario()
+- insert_reparo()
+- inserir_receita ()
+- inserir_alimentacao ()
 
 ---
 
