@@ -1,4 +1,4 @@
-<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+﻿<nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul>
         <li>
             <a href="/">Página Inicial</a>
@@ -76,6 +76,40 @@
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
                                     <input name="id_servico" class="input" type="text" placeholder="ID Serviço" value="{{id_servico_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Horário de Início de Serviço
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="hora_inicio" class="input" type="text" placeholder="Horário" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Horário de Fim de Serviço
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="hora_fim" class="input" type="text" placeholder="Horário" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-user"></i>
                                     </span>

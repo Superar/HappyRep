@@ -1,11 +1,11 @@
-<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+﻿<nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul>
         <li>
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
             <a href="#" aria-current="page">
-                {{#if cadastrar}} Cadastrar {{pessoa}} {{else}} Alterar {{pessoa}} {{/if}}
+                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
             </a>
         </li>
     </ul>
@@ -15,7 +15,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                {{#if cadastrar}} Cadastrar {{pessoa}} {{else}} Alterar {{pessoa}} {{/if}}
+                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
             </h1>
         </div>
     </div>
@@ -23,23 +23,23 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/Cadastrar{{{pessoa}}}"
-            {{else}} {{!-- Alterar --}} action="/AlterarFuncionario/Alterar{{{pessoa}}}" {{/if}}>
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarServico/Cadastrar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}"
+            {{else}} {{!-- Alterar --}} action="/AlterarServico/Alterar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID
+                                ID Serviço
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_fornece" class="input" type="text" placeholder="ID FORNECEDOR" value="{{id_fornece_value}}">
+                                    <input name="id_servico" class="input" type="text" placeholder="ID" value="{{id_servico_value}}">
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-address-card"></i>
                                     </span>
                                 </p>
                             </div>
@@ -49,16 +49,34 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Nome
+                                Data/Horário de Agendamento
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="nome_fornecedor" class="input" type="text" placeholder="NOME" value="{{nome_fornecedor_value}}">
+                                    <input name="hora_inicio" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                HorÃ¡rio de Fim de ServiÃ§o
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="hora_fim" class="input" type="text" placeholder="Data/HorÃ¡rio" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-calendar"></i>
                                     </span>
                                 </p>
                             </div>

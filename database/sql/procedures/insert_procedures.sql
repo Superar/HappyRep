@@ -200,6 +200,25 @@ $$ LANGUAGE plpgsql;
 
 -- Inserir pessoa
 -- Autor: Luis Felipe Tomazini
+CREATE OR REPLACE FUNCTION insert_pessoa(_cpf VARCHAR) RETURNS boolean AS $$
+BEGIN
+    IF LENGTH (_cpf) != 11 THEN
+        RAISE EXCEPTION 'CPF Invalido';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM Pessoa p WHERE p.cpf = _cpf) THEN
+        IF NOT EXISTS (SELECT 1 FROM Pessoa n WHERE n.cpf_pessoa = _cpf) THEN
+            INSERT INTO Pessoa VALUES (_cpf);
+        ELSE
+            RAISE EXCEPTION 'Pessoa já cadastrada';
+        END IF;
+        RETURN (TRUE);
+    ELSE
+        RETURN (FALSE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION insert_pessoa(_cpf VARCHAR, _sexo VARCHAR, _rg VARCHAR, _nome_prenome VARCHAR, _nome_sobrenome VARCHAR, _data_de_nascimento date, _email VARCHAR) RETURNS boolean AS $$
   
 BEGIN
@@ -310,6 +329,27 @@ BEGIN
     END IF;
     INSERT INTO Comodo (id_comodo, id_republica) VALUES (_id_comodo, _id_republica);
     RETURN (TRUE);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Inserir ingrediente
+-- Autor: Juan Henrique dos Santos
+
+CREATE OR REPLACE FUNCTION insert_ingrediente(_id_receita integer, _id_produto integer, _quantidade integer) RETURNS VOID AS $$
+BEGIN  
+    IF not EXISTS (SELECT 1 FROM produto p WHERE p.id_produto = _id_produto) THEN
+        RAISE EXCEPTION 'Produto não existe';
+    END IF;
+
+    IF not EXISTS (SELECT 1 FROM receita r WHERE r.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Receita não existe';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_produto = _id_produto AND i.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Ingrediente já está cadastrado';
+    END IF;
+
+    INSERT INTO ingredientes (id_receita, id_produto, quantidade) VALUES (_id_receita, _id_produto, _quantidade);
 END;
 $$ LANGUAGE plpgsql;
 

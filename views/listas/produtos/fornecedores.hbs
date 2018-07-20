@@ -1,0 +1,42 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Fornecedores</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Fornecedores
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {{#each fornecedor}}
+        <tr>
+            <th>{{id_fornecedor}}</th>
+            <td>{{nome_fornecedor}}</td>
+        </tr>
+        {{/each}}
+</table>
