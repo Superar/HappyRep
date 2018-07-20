@@ -439,16 +439,16 @@ router.get('/CadastrarServico', function (req, res) {
 })
 
 // GET - Cadastrar Serviço
-router.get('/CadastrarServico/CadastrarServicoServico', function (req, res) {
-  res.render('formularios/cadastrar_servico', {
-    servico: 'Serviço',
+router.get('/CadastrarServico/CadastrarNovoServico', function (req, res) {
+  res.render('formularios/form_servico', {
+    servico: 'Novo Serviço',
     cadastrar: true,
     cadastrar_servico: false
   });
 });
 
 // POST - Cadastrar serviço
-router.post('/CadastrarServico/CadastrarServicoServico', function (req, res) {
+router.post('/CadastrarServico/CadastrarNovoServico', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -460,16 +460,18 @@ router.post('/CadastrarServico/CadastrarServicoServico', function (req, res) {
       });
     } else { // Precisa cadastrar o serviço
       var values = {};
-      values.servico = 'Serviço';
+      values.servico = 'Novo Serviço';
       values.cadastrar = true;
       values.cadastrar_servico = true;
       values.id_servico_value = req.body.id_servico;
-
+	  values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+	  
       res.render('formularios/form_servico', values);
     }
   }, function (err) {
     var values = {};
-    values.servico = 'Serviço';
+    values.servico = 'Novo Serviço';
     values.cadastrar = true;
     values.cadastrar_servico = false;
     values.erro = err;
@@ -478,7 +480,7 @@ router.post('/CadastrarServico/CadastrarServicoServico', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarServicoServicoServico', function (req, res) {
+router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
