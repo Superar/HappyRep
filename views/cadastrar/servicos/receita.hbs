@@ -1,0 +1,98 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Cadastrar Receita</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Cadastrar Receita
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <form method="POST" action="/CadastrarServicos/CadastrarReceita">
+            <div class="columns is-multiline">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Nome Receita <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="nome_receita" class="input" type="text" placeholder="Nome da receita" value="{{nome_receita}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Descrição
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+
+                                <textarea name="descricao_receita" class="input" type="text" rows="4"
+                                        placeholder="Descricao">{{descricao_receita}}</textarea>
+
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary">
+                                        Cadastrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label" />
+                        <p class="help is-danger is-right">
+                            Campos com * são obrigatórios.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="column">
+    {{#if erro}}
+    <div class="notification is-danger">
+        {{erro}}
+    </div>
+    {{/if}}
+</div>

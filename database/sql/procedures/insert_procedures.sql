@@ -425,3 +425,25 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Inserir receitas
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION insert_receita(_nome varchar, _descricao varchar) RETURNS void AS $$
+declare
+
+    maior integer;	
+    cursor_receita CURSOR FOR SELECT max(id_receita) as maior FROM receita;
+
+BEGIN
+
+    open cursor_receita;
+    FETCH cursor_receita INTO maior;	
+    close cursor_receita;
+
+    maior := maior + 1;
+
+    INSERT INTO receita (id_receita, nome_receita, descricao_receita) VALUES (maior, _nome, _descricao);
+
+END;
+$$ LANGUAGE plpgsql;

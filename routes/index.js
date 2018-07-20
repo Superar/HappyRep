@@ -437,6 +437,28 @@ router.get('/CadastrarServicos', function (req, res) {
     res.render('cadastrar/servicos/servicos');
 });
 
+router.get('/CadastrarServicos/CadastrarReceita', function (req, res) {
+    res.render('cadastrar/servicos/receita', {
+    });
+});
+
+router.post('/CadastrarServicos/CadastrarReceita', function (req, res) {
+
+    db.query('SELECT insert_receita ($1, $2)',
+            [req.body.nome_receita, req.body.descricao_receita]
+            , function (ret) {
+                res.render('sucesso');
+            }
+    , function (err) {
+        var values = {};
+        values.nome_receita = req.body.nome_receita;
+        values.descricao_receita = req.body.descricao_receita;
+        values.erro = err;
+        res.render('cadastrar/servicos/receita', values);
+    });
+});
+
+
 router.get('/CadastrarServicos/CadastrarIngrediente', function (req, res) {
     res.render('cadastrar/servicos/ingredientes', {
     });
