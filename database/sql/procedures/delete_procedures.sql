@@ -114,6 +114,47 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Deletar faxina
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_faxina( _id_servico integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM faxina f WHERE f.id_servico = _id_servico) THEN
+		RAISE EXCEPTION 'Faxina nao registrada';
+	ELSE
+	
+		IF NOT EXISTS (SELECT 1 FROM servico s WHERE s.id_servico = _id_servico) THEN
+		ELSE
+			DELETE FROM faxina f WHERE f.id_servico = _id_servico;
+			PERFORM delete_servico(_id_servico);
+		END IF;
+	
+    END IF;    
+END;
+$BODY$;
+
+
+-- Deletar ingredientes
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_ingrediente( _id_receita integer, _id_produto integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_receita = _id_receita AND i.id_receita = _id_receita) THEN
+
+	RAISE EXCEPTION 'Ingrediente nao registrado';
+    ELSE
+	
+	DELETE FROM ingredientes i WHERE i.id_receita = _id_receita AND i.id_produto = _id_produto;
+    END IF;    
+END;
+$BODY$;
+
 -- Deleta um serviço
 -- Autor: Isadora Gallerani
 CREATE OR REPLACE FUNCTION delete_servico (_id_servico INTEGER) RETURNS void AS $$

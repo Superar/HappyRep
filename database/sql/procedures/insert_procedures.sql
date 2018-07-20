@@ -332,6 +332,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Inserir ingrediente
+-- Autor: Juan Henrique dos Santos
+
+CREATE OR REPLACE FUNCTION insert_ingrediente(_id_receita integer, _id_produto integer, _quantidade integer) RETURNS VOID AS $$
+BEGIN  
+    IF not EXISTS (SELECT 1 FROM produto p WHERE p.id_produto = _id_produto) THEN
+        RAISE EXCEPTION 'Produto não existe';
+    END IF;
+
+    IF not EXISTS (SELECT 1 FROM receita r WHERE r.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Receita não existe';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_produto = _id_produto AND i.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Ingrediente já está cadastrado';
+    END IF;
+
+    INSERT INTO ingredientes (id_receita, id_produto, quantidade) VALUES (_id_receita, _id_produto, _quantidade);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Inserir serviço
 -- Autor: Isadora Gallerani
 CREATE OR REPLACE FUNCTION insert_servico(_hora_inicio DATE, _hora_fim DATE, _id_servico INTEGER) RETURNS boolean AS $$
