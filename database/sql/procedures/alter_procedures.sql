@@ -279,12 +279,29 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_ingrediente(_produto INTEGER, _receita INTEGER, _quantidade INTEGER) RETURNS boolean AS $$
 BEGIN
 
-        IF not EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_produto = _produto AND i.id_receita = _receita) THEN
-            RAISE EXCEPTION 'Ingrediente não cadastrado para uma alteração!';
-            RETURN (FALSE);
-	ELSE
-		UPDATE ingredientes SET quantidade = _quantidade WHERE id_produto = _produto AND id_receita = _receita;
-		RETURN (TRUE);
-	END IF;
+    IF not EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_produto = _produto AND i.id_receita = _receita) THEN
+        RAISE EXCEPTION 'Ingrediente não cadastrado para uma alteração!';
+        RETURN (FALSE);
+    ELSE
+            UPDATE ingredientes SET quantidade = _quantidade WHERE id_produto = _produto AND id_receita = _receita;
+            RETURN (TRUE);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Update receita
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION update_receita(_receita INTEGER, _nome varchar, _descricao varchar) RETURNS boolean AS $$
+BEGIN
+
+    IF NOT EXISTS (SELECT 1 FROM receita r WHERE r.id_receita = _receita) THEN
+        RAISE EXCEPTION 'A receita de código % não existe!', _receita;
+        RETURN (FALSE);
+    ELSE
+        UPDATE receita SET 
+            nome_receita = _nome, descricao_receita = _descricao 
+            WHERE id_receita = _receita;
+        RETURN (TRUE);
+    END IF;
 END;
 $$ LANGUAGE plpgsql;

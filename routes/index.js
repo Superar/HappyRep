@@ -1370,7 +1370,6 @@ router.get('/AlterarServicos', function (req, res) {
 router.get('/AlterarServicos/AlterarIngrediente', function (req, res) {
     res.render('alterar/servicos/ingredientes');
 });
-
 router.post('/AlterarServicos/AlterarIngrediente', function (req, res) {
 
     db.query('SELECT update_ingrediente ($1, $2, $3)',
@@ -1399,6 +1398,43 @@ router.post('/AlterarServicos/AlterarIngrediente', function (req, res) {
                 values.erro = err;
 
                 res.render('alterar/servicos/ingredientes', values);
+            });
+
+});
+
+
+router.get('/AlterarServicos/AlterarReceita', function (req, res) {
+    res.render('alterar/servicos/receita');
+});
+
+router.post('/AlterarServicos/AlterarReceita', function (req, res) {
+
+    db.query('SELECT update_receita ($1, $2, $3)',
+            [req.body.id_receita, req.body.nome_receita, req.body.descricao_receita],
+            function (ret) {
+                if (ret.rows[0].update_receita) {
+                    res.render('sucesso');
+                } else {
+                    var values = {};
+                    values.id_receita = req.body.id_receita;
+                    values.nome_receita = req.body.nome_receita;
+                    values.descricao_receita = req.body.descricao_receita;
+
+                    values.erro = 'Receita não cadastrada no sistema!';
+
+                    res.render('alterar/servicos/receita', values);
+                }
+            },
+            function (err) {
+
+                var values = {};
+                values.id_receita = req.body.id_receita;
+                values.nome_receita = req.body.nome_receita;
+                values.descricao_receita = req.body.descricao_receita;
+
+                values.erro = err;
+
+                res.render('alterar/servicos/receita', values);
             });
 
 });
