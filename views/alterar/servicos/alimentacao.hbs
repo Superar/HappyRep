@@ -4,7 +4,7 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">Alterar Ingrediente</a>
+            <a href="#" aria-current="page">Alterar Alimentação</a>
         </li>
     </ul>
 </nav>
@@ -13,7 +13,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                Alterar Ingrediente
+                Alterar Alimentação
             </h1>
         </div>
     </div>
@@ -21,20 +21,20 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" action="/AlterarServicos/AlterarIngrediente">
+        <form method="POST" action="/AlterarServicos/AlterarAlimentacao">
             <div class="columns is-multiline">
                 <div class="column">
+                    
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Id Receita <span class="has-text-danger">*</span>
+                                Id serviço <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_receita" class="input" type="text" placeholder="Código da receita" value="{{id_receita}}"
-                                    {{#if alteracao}}readonly{{/if}}>
+                                    <input name="id_servico" class="input" type="text" placeholder="Código do serviço" value="{{id_servico}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -46,15 +46,13 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Id Produto
-                                <span class="has-text-danger">*</span>
+                                CPF nutricionista <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_produto" class="input" type="text" placeholder="Código do produto" value="{{id_produto}}"
-                                    {{#if alteracao}}readonly{{/if}}>
+                                    <input name="cpf_nutricionista" class="input" type="text" placeholder="CPF do nutricionista" value="{{cpf_nutricionista}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -66,19 +64,15 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                Quantidade
-                                <span class="has-text-danger">*</span>
+                                CPF cozinheira <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-
-                                    <input name="quantidade" class="input" type="text" 
-                                        placeholder="Quantidade" value="{{quantidade}}">
-
+                                    <input name="cpf_cozinheira" class="input" type="text" placeholder="CPF da cozinheira" value="{{cpf_cozinheira}}">
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-address-card"></i>
                                     </span>
                                 </p>
                             </div>

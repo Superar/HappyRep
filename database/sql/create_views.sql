@@ -227,3 +227,19 @@ Create VIEW viewPagamento AS
 select p.nome_pagador_prenome, p.nome_pagador_sobrenome, p.cnpj_beneficiario
 from Pagamento as p
 where multa > 500;
+
+--Autor: Juan
+--Exibir as alimentacoes com os nomes dos nutricionistas e cozinheiras
+CREATE OR REPLACE VIEW public.view_alimentacao55 AS
+ SELECT s.id_servico,
+    s.hora_inicio,
+    s.hora_fim,
+    nutri.nome_prenome::text || ' ' ||nutri.nome_sobrenome::text AS nutricionista,
+    cozi.nome_prenome::text || ' ' ||cozi.nome_sobrenome::text AS cozinheira
+   FROM servico s
+     JOIN alimentacao a ON a.id_servico = s.id_servico
+     JOIN pessoa nutri ON nutri.cpf = a.cpf_nutricionista
+     JOIN pessoa cozi ON cozi.cpf = a.cpf_cozinheira;
+
+ALTER TABLE public.view_alimentacao55
+    OWNER TO azjpybnuyzhimq;
