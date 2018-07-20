@@ -1137,6 +1137,19 @@ router.get('/ListaMoradores', function (req, res) {
     });
 });
 
+router.get('/ListaFornecedor', function (req, res) {
+  db.query('SELECT * FROM ornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
+      res.render('listas/produtos/fornecedor', {
+        'fornecedor': ret.rows
+      });
+    },
+    function (err) {
+      console.log(err);
+    });
+});
+
+
+
 /* Delecoes */
 
 router.get('/ApagarFuncionario', function (req, res) {
