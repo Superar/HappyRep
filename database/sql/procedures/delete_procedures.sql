@@ -179,3 +179,21 @@ BEGIN
     DELETE FROM Pagamento p WHERE p.cod_barars = _cod_barras;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Deletar alimentação
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_alimentacao( _id_servico integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM alimentacao a WHERE a.id_servico = _id_servico) THEN
+	RAISE EXCEPTION 'Serviço nao é uma alimentação!';
+    ELSE
+	
+	DELETE FROM alimentacao a WHERE a.id_servico = _id_servico;
+    END IF;    
+END;
+$BODY$;

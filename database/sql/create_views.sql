@@ -234,8 +234,8 @@ CREATE OR REPLACE VIEW public.view_alimentacao55 AS
  SELECT s.id_servico,
     s.hora_inicio,
     s.hora_fim,
-    nutri.nome_prenome::text || nutri.nome_sobrenome::text AS nutricionista,
-    cozi.nome_prenome::text || cozi.nome_sobrenome::text AS cozinheira
+    nutri.nome_prenome::text || ' ' ||nutri.nome_sobrenome::text AS nutricionista,
+    cozi.nome_prenome::text || ' ' ||cozi.nome_sobrenome::text AS cozinheira
    FROM servico s
      JOIN alimentacao a ON a.id_servico = s.id_servico
      JOIN pessoa nutri ON nutri.cpf = a.cpf_nutricionista

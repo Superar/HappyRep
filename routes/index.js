@@ -1737,7 +1737,6 @@ router.get('/ApagarServicos/ApagarIngrediente', function (req, res) {
         console.log(err);
     });
 });
-
 router.post('/ApagarServicos/ApagarIngrediente', function (req, res) {
 
     var aux = req.body.pk_receita.split("+");
@@ -1769,7 +1768,6 @@ router.get('/ApagarServicos/ApagarFaxina', function (req, res) {
     });
 
 });
-
 router.post('/ApagarServicos/ApagarFaxina', function (req, res) {
 
     db.query('SELECT delete_faxina ($1)', [req.body.id_servico], function (ret) {
@@ -1781,13 +1779,31 @@ router.post('/ApagarServicos/ApagarFaxina', function (req, res) {
     });
 });
 
+
 router.get('/ApagarServicos/ApagarAlimentacao', function (req, res) {
 
-    res.render('apagar/servicos/alimentacao', {
+    db.query('SELECT * FROM view_alimentacao55 ORDER BY hora_inicio DESC', null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+            elemento.hora_inicio = moment(elemento.hora_inicio).format('DD/MM/YYYY hh:mm');
+            elemento.hora_fim = moment(elemento.hora_fim).format('DD/MM/YYYY hh:mm');
+        });
+        res.render('apagar/servicos/alimentacao', {
+            'alimentacao': ret.rows
+        });
+    }, function (err) {
+        console.log(err);
     });
 
 });
+
 router.post('/ApagarServicos/ApagarAlimentacao', function (req, res) {
+    db.query('SELECT delete_alimentacao ($1)', [req.body.id_servico], function (ret) {
+        res.redirect('/ApagarServicos/ApagarAlimentacao');
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
+    });
 });
 
 
@@ -1799,6 +1815,7 @@ router.get('/ApagarServicos/ApagarReceita', function (req, res) {
 });
 router.post('/ApagarServicos/ApagarReceita', function (req, res) {
 });
+
 
 router.get('/ApagarServicos/ApagarReparo', function (req, res) {
 
