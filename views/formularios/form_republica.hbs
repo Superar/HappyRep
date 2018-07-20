@@ -1,11 +1,11 @@
-﻿<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul>
         <li>
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
             <a href="#" aria-current="page">
-                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
+                {{#if cadastrar}} Cadastrar {{republica}} {{else}} Alterar {{republica}} {{/if}}
             </a>
         </li>
     </ul>
@@ -15,7 +15,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                {{#if cadastrar}} Cadastrar {{servico}} {{else}} Alterar {{servico}} {{/if}}
+                {{#if cadastrar}} Cadastrar {{republica}} {{else}} Alterar {{republica}} {{/if}}
             </h1>
         </div>
     </div>
@@ -23,21 +23,61 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarServico/Cadastrar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}"
-            {{else}} {{!-- Alterar --}} action="/AlterarServico/Alterar{{#if cadastrar_servico}}servico{{/if}}{{{servico}}}" {{/if}}>
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarRepublica/Cadastrar{{{republica}}}"
+            {{else}} {{!-- Alterar --}} action="/AlterarRepublica/Alterar{{{republica}}}" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                CPF da Cozinheira
+                                ID
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="cpf_cozinheira" class="input" type="text" placeholder="CPF" value="{{cpf_cozinheira_value}}">
+                                    <input name="id" class="input" type="text" placeholder="ID" value="{{id_republica}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="field-label">
+                            <label class="label">
+                                STATUS
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="status" value="1" {{#unless cadastrar_republica}}disabled{{/unless}} {{#if ativo}}checked{{/if}}> Ativo
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="status" value="0" {{#unless cadastrar_republica}}disabled{{/unless}} {{#if inativo}}checked{{/if}}> Inativo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CEP
+                                <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cep" class="input" type="text" placeholder="CEP" value="{{endereco_cep}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -49,16 +89,40 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                CPF da Nutricionista
+                                Endereço
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="cpf_nutricionista" class="input" type="text" placeholder="RG" value="{{cpf_nutricionista_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <input name="logradouro" class="input" type="text" placeholder="Logradouro" value="{{endereco_logradouro}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-address-card"></i>
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input name="numero" class="input" type="text" placeholder="Número" value="{{endereco_numero}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Complemento
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="complemento" class="input" type="text" placeholder="Complemento" value="{{endereco_complemento}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-at"></i>
                                     </span>
                                 </p>
                             </div>
@@ -68,53 +132,20 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID Serviço
-                                <span class="has-text-danger">*</span>
+                                Observações
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_servico" class="input" type="text" placeholder="ID Serviço" value="{{id_servico_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
+                                    <input name="observacoes" class="input" type="text" placeholder="Observações" value="{{endereco_observacoes}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-at"></i>
                                     </span>
                                 </p>
                             </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                Horário de Início de Serviço
-                                <span class="has-text-danger">*</span>
-                            </label>
                         </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="hora_inicio" class="input" type="text" placeholder="Horário" value="{{hora_inicio_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                </p>
-                            </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">
-                                Horário de Fim de Serviço
-                                <span class="has-text-danger">*</span>
-                            </label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input name="hora_fim" class="input" type="text" placeholder="Horário" value="{{hora_fim_value}}" {{#unless cadastrar_servico}}disabled{{/unless}}>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                </p>
-                            </div>
+                    </div>
 
                     <div class="field is-horizontal">
                         <div class="field-label"></div>

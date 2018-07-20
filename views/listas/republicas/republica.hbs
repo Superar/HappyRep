@@ -1,0 +1,57 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Repúblicas</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Repúblicas
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>CEP</th>
+            <th>Logradouro</th>
+            <th>Numero</th>
+            <th>Complemento</th>
+            <th>Observações</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>CEP</th>
+            <th>Logradouro</th>
+            <th>Numero</th>
+            <th>Complemento</th>
+            <th>Observações</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {{#each republicas}}
+        <tr>
+            <th>{{id_republica}}</th>
+            <td>{{status}}</td>
+            <td>{{endereco_cep}}</td>
+            <td>{{endereco_logradouro}}</td>
+            <td>{{endereco_numero}}</td>
+            <td>{{endereco_complemento}}</td>
+            <td>{{endereco_observacoes}}</td>
+        </tr>
+        {{/each}}
+</table>
