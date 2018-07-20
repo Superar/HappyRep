@@ -142,10 +142,38 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 - Reparo
 - Alimentacao
 - Receita
+---
+### Alexandre Dutra
 
+#### Tabelas
+- receita
+- receita_alimentacao
+- produto
+- ingredientes
+
+#### Views
+
+- view_ingredientes_receita
+
+#### Triggers
+
+- insert_receita()
+- trigger_insert_receita
+- delete_view_ingredientes_receita
+- trigger_delete_view_ingredientes_receita
+
+#### Procedimentos e funções
+
+- precisa_produto_tarefa
+- insere_reparo
+
+---
+### Juan Santos
+
+---
 ### Isadora Gallerani
 
-### Tabelas
+#### Tabelas
 - Faxina
 - Nutricionista
 - Reparo
@@ -159,6 +187,10 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 
 
 #### Procedimentos e funções
+
+
+---
+### Mariana Zagatti
 
 
 ---
