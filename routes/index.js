@@ -1499,7 +1499,18 @@ router.get('/ListaServicos/ListarAlimentacao', function (req, res) {
 
 router.get('/ListaServicos/ListarReparo', function (req, res) {
     
-    res.render('listas/servicos/reparo', {
+    db.query("SELECT * FROM view_operador_servico WHERE tipo = 'R' ORDER BY hora_inicio DESC", null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+            elemento.hora_inicio = moment(elemento.hora_inicio).format('DD/MM/YYYY hh:mm');
+            elemento.hora_fim = moment(elemento.hora_fim).format('DD/MM/YYYY hh:mm');
+        });
+        res.render('listas/servicos/reparo', {
+            'reparos': ret.rows
+        });
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
     });
 });
 
