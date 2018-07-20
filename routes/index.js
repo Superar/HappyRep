@@ -66,7 +66,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       res.render('sucesso');
     },
@@ -272,7 +272,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaFaxineira', function (req, res
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       res.render('index', {
         title: 'Deu bom!'
@@ -438,6 +438,150 @@ router.get('/CadastrarServico', function (req, res) {
   res.render('formularios/cadastrar_servico');
 })
 
+// GET - Cadastrar Serviço
+router.get('/CadastrarServico/CadastrarNovoServico', function (req, res) {
+  res.render('formularios/form_servico', {
+    servico: 'Novo Serviço',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar serviço
+router.post('/CadastrarServico/CadastrarNovoServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.id_servico, req.body.hora_inicio, req.body.hora_fim], function (ret) {
+    if (ret.rows[0].insert_servico) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Novo Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+
+      res.render('formularios/form_servico', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Novo Serviço';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_servico')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_servico ($1, $2, $3)', [req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Serviço';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_servico', values);
+    });
+});
+
+// Cadastrar Faxina
+
+// GET - Cadastrar faxina
+router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  res.render('formularios/cadastrar_faxina', {
+    servico: 'Faxina',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
+// POST - Cadastrar faxina
+router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2)', [req.body.cpf_faxineira, req.body.id_servico], function (ret) {
+    if (ret.rows[0].insert_faxina) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    } else { // Precisa cadastrar o serviço
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.id_servico_value = req.body.id_servico;
+
+      res.render('formularios/form_faxina', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.servico = 'Faxina';
+    values.cadastrar = true;
+    values.cadastrar_servico = false;
+    values.erro = err;
+
+    res.render('formularios/form_faxina')
+  });
+});
+
+router.post('/CadastrarServico/CadastrarNovoServicoFaxina', function (req, res) {
+  if (!Array.isArray(req.body.tipo)) {
+    req.body.tipo = [req.body.tipo];
+  }
+
+  db.query('SELECT insert_faxina ($1, $2, $3, $4)', [req.body.cpf_faxineira, req.body.id_servico, req.body.hora_inicio, req.body.hora_fim],
+    function (ret) {
+      res.render('index', {
+        title: 'Sucesso!'
+      });
+    },
+    function (err) {
+      var values = {};
+      values.servico = 'Faxina';
+      values.cadastrar = true;
+      values.cadastrar_servico = true;
+      values.cpf_faxineira_value = req.body.cpf_faxineira;
+      values.id_servico_value = req.body.id_servico;
+      values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_fim_value = req.body.hora_fim;
+      values.erro = err;
+
+      res.render('formularios/form_faxina', values);
+    });
+});
+
+// GET - Cadastrar alimentação
+router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+  res.render('formularios/cadastrar_alimentacao', {
+    servico: 'Alimentação',
+    cadastrar: true,
+    cadastrar_servico: false
+  });
+});
+
 // GET - Cadastrar alimentação
 router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
   res.render('formularios/cadastrar_alimentacao', {
@@ -478,7 +622,7 @@ router.post('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarServicoAlimentacao', function (req, res) {
+router.post('/CadastrarServico/CadastrarNovoServicoAlimentacao', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -519,7 +663,7 @@ router.post('/CadastrarProduto', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('INSERT INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
+  db.query('INSERT INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto, req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria, req.body.preco, req.body.descricao], function (ret) {
     if (ret.rows[0].InsereProduto) {
       res.render('index', {
         title: 'Sucesso!'
@@ -536,7 +680,7 @@ router.post('/CadastrarProduto', function (req, res) {
       values.categoria_value = req.body.categoria;
       values.id_preco_value = req.body.id_preco;
       values.descricao_value = req.body.descricao;
-      
+
       res.render('formularios/form_produto', values);
     }
   }, function (err) {
@@ -563,27 +707,142 @@ router.post('/CadastrarFornecedor', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
-    if (ret.rows[0].InsereFornecedor) {
-      res.render('index', {
-        title: 'Sucesso!'
-      });
-    } else { // Precisa cadastrar o produto
-      var values = {};
-      values.pessoa = 'Fornecedor';
-      values.cadastrar = true;
-      values.id_fornece_value = req.body.id_fornece;
-      values.nome_fornecedor_value = req.body.nome_fornecedor;
-      res.render('formularios/form_fornecedor', values);
-    }
-  }, function (err) {
+
+  db.query('SELECT inserefornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor],
+   function (ret) { 
+      res.render('Sucesso');
+   }, 
+  function (err) {
     var values = {};
     values.pessoa = 'Fornecedor';
     values.cadastrar = true;
+    values.pessoa = 'Fornecedor';
+    values.cadastrar = true;
+    values.id_fornece_value = req.body.id_fornece;
+    values.nome_fornecedor_value = req.body.nome_fornecedor;
+    res.render('formularios/form_fornecedor', values);
     values.erro = err;
 
-    res.render('formularios/form_fornecedor');
+    res.render('formularios/form_fornecedor', {title: 'Falhou!'});
   });
+
+// GET - Cadastrar Republica
+router.get('/CadastrarRepublica', function (req, res) {
+  res.render('formularios/form_republica', {
+    republica: 'Republica',
+    cadastrar: true,
+    cadastrar_republica: false
+  });
+});
+
+// POST - Cadastrar Republica
+router.post('/CadastrarRepublica/Cadastrar', function (req, res) {
+  db.query('SELECT insert_republica ($1)', [req.body.id_republica], function (ret) {
+    if (ret.rows[0].insert_republica) {
+      res.render('sucesso');
+    } else { // Precisa cadastrar a republica
+      var values = {};
+      values.republica = 'Republica';
+      values.cadastrar = true;
+      values.cadastrar_republica = true;
+      values.id_republica = req.body.id_republica;
+
+      res.render('formularios/form_pessoa', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.republica = 'Republica';
+    values.cadastrar = true;
+    values.cadastrar_republica = false;
+    values.erro = err;
+
+    res.render('formularios/form_republica', values);
+  });
+});
+
+router.post('/CadastrarRepublica/CadastrarRepublica', function (req, res) {
+  db.query('SELECT insert_republica ($1, $2, $3, $4, $5, $6, $7)', [req.body.id_republica,
+      req.body.status,
+      req.body.endereco_cep,
+      req.body.endereco_logradouro,
+      req.body.endereco_numero,
+      req.body.endereco_complemento,
+      req.body.endereco_observacoes
+    ],
+    function (ret) {
+      res.render('sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.republica = 'Republica';
+      values.cadastrar = true;
+      values.cadastrar_republica = true;
+      values.id_republica = req.body.id_republica;
+      values.status = req.body.status;
+      values.endereco_cep = req.body.endereco_cep;
+      values.endereco_logradouro = req.body.endereco_logradouro;
+      values.endereco_complemento = req.body.endereco_complemento;
+      values.endereco_observacoes = req.body.endereco_observacoes;
+      values.ativo = (req.body.ativo == '1' ? true : false);
+      values.inativo = (req.body.inativo == '0' ? true : false);
+      values.erro = err;
+
+      res.render('formularios/form_republica', values);
+    });
+});
+
+// GET - Cadastrar Comodo
+router.get('/CadastrarComodo', function (req, res) {
+  res.render('formularios/form_comodo', {
+    comodo: 'Comodo',
+    cadastrar: true,
+    cadastrar_comodo: false
+  });
+});
+
+// POST - Cadastrar Comodo
+router.post('/CadastrarComodo/Cadastrar', function (req, res) {
+  db.query('SELECT insert_comodo ($1)', [req.body.id_comodo], function (ret) {
+    if (ret.rows[0].insert_comodo) {
+      res.render('sucesso');
+    } else {
+      var values = {};
+      values.comodo = 'Comodo';
+      values.cadastrar = true;
+      values.cadastrar_comodo = true;
+      values.id_comodo = req.body.id_comodo;
+
+      res.render('formularios/form_comodo', values);
+    }
+  }, function (err) {
+    var values = {};
+    values.comodo = 'Comodo';
+    values.cadastrar = true;
+    values.cadastrar_comodo = false;
+    values.erro = err;
+
+    res.render('formularios/form_comodo', values);
+  });
+});
+
+router.post('/CadastrarComodo/CadastrarComodo', function (req, res) {
+  db.query('SELECT insert_republica ($1, $2)', [req.body.id_comodo,
+      req.body.id_republica
+    ],
+    function (ret) {
+      res.render('sucesso');
+    },
+    function (err) {
+      var values = {};
+      values.comodo = 'Comodo';
+      values.cadastrar = true;
+      values.cadastrar_comodo = true;
+      values.id_comodo = req.body.id_comodo;
+      values.id_republica = req.body.id_republica;
+      values.erro = err;
+
+      res.render('formularios/form_comodo', values);
+    });
 });
 
 /* Alterar cadastros */
@@ -1138,9 +1397,35 @@ router.get('/ListaMoradores', function (req, res) {
 });
 
 router.get('/ListaFornecedor', function (req, res) {
-  db.query('SELECT * FROM public.fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
+  db.query('SELECT * FROM public.fornecedor ORDER BY id_fornecedor ASC', null, function (ret) {
       res.render('listas/produtos/fornecedores', {
         'fornecedor': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
+router.get('/ListaRepublicas', function (req, res) {
+  db.query('SELECT * FROM view_republica ORDER BY id_republica', null, function (ret) {
+      res.render('listas/republicas/republica', {
+        'republicas': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
+router.get('/ListaComodos', function (req, res) {
+  db.query('SELECT * FROM view_comodo ORDER BY id_republica', null, function (ret) {
+      res.render('listas/republicas/comodo', {
+        'comodos': ret.rows
       });
     },
     function (err) {
