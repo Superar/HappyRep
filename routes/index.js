@@ -1138,7 +1138,7 @@ router.get('/ListaMoradores', function (req, res) {
 });
 
 router.get('/ListaFornecedor', function (req, res) {
-  db.query('SELECT * FROM fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
+  db.query('SELECT * FROM public.fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
       res.render('listas/produtos/fornecedores', {
         'fornecedor': ret.rows
       });
