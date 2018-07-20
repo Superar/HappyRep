@@ -433,13 +433,13 @@ router.post('/CadastrarPessoaMorador', function (req, res) {
     });
 });
 
-// CadastrarServico
-router.get('/CadastrarServico', function (req, res) {
+// CadastrarServicos
+router.get('/CadastrarServicos', function (req, res) {
   res.render('formularios/cadastrar_servico');
 })
 
 // GET - Cadastrar Serviço
-router.get('/CadastrarServico/CadastrarNovoServico', function (req, res) {
+router.get('/CadastrarServicos/CadastrarNovoServico', function (req, res) {
   res.render('formularios/form_servico', {
     servico: 'Novo Serviço',
     cadastrar: true,
@@ -448,7 +448,7 @@ router.get('/CadastrarServico/CadastrarNovoServico', function (req, res) {
 });
 
 // POST - Cadastrar serviço
-router.post('/CadastrarServico/CadastrarNovoServico', function (req, res) {
+router.post('/CadastrarServicos/CadastrarNovoServico', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -480,7 +480,7 @@ router.post('/CadastrarServico/CadastrarNovoServico', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, res) {
+router.post('/CadastrarServicos/CadastrarNovoServicoNovoServico', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -508,7 +508,7 @@ router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, 
 // Cadastrar Faxina
 
 // GET - Cadastrar faxina
-router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
+router.get('/CadastrarServicos/CadastrarFaxina', function (req, res) {
   res.render('formularios/form_faxina', {
     servico: 'Faxina',
     cadastrar: true,
@@ -517,7 +517,7 @@ router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
 });
 
 // POST - Cadastrar faxina
-router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
+router.post('/CadastrarServicos/CadastrarFaxina', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -547,7 +547,7 @@ router.post('/CadastrarServico/CadastrarFaxina', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarNovoServicoFaxina', function (req, res) {
+router.post('/CadastrarServicos/CadastrarNovoServicoFaxina', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -574,7 +574,7 @@ router.post('/CadastrarServico/CadastrarNovoServicoFaxina', function (req, res) 
 });
 
 // GET - Cadastrar alimentação
-router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+router.get('/CadastrarServicos/CadastrarAlimentacao', function (req, res) {
   res.render('formularios/form_alimentacao', {
     servico: 'Alimentação',
     cadastrar: true,
@@ -583,7 +583,7 @@ router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
 });
 
 // GET - Cadastrar alimentação
-router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+router.get('/CadastrarServicos/CadastrarAlimentacao', function (req, res) {
   res.render('formularios/cadastrar_alimentacao', {
     servico: 'Alimentação',
     cadastrar: true,
@@ -592,7 +592,7 @@ router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
 });
 
 // POST - Cadastrar alimentação
-router.post('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
+router.post('/CadastrarServicos/CadastrarAlimentacao', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
@@ -622,7 +622,7 @@ router.post('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
   });
 });
 
-router.post('/CadastrarServico/CadastrarNovoServicoAlimentacao', function (req, res) {
+router.post('/CadastrarServicos/CadastrarNovoServicoAlimentacao', function (req, res) {
   if (!Array.isArray(req.body.tipo)) {
     req.body.tipo = [req.body.tipo];
   }
