@@ -1139,15 +1139,16 @@ router.get('/ListaMoradores', function (req, res) {
 
 router.get('/ListaFornecedor', function (req, res) {
   db.query('SELECT * FROM fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
-      res.render('listas/produtos/fornecedor', {
+      res.render('listas/produtos/fornecedores', {
         'fornecedor': ret.rows
       });
     },
     function (err) {
-      console.log(err);
+      res.render('bd_error', {
+        error: err
+      });
     });
 });
-
 
 
 /* Delecoes */
