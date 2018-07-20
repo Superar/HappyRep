@@ -1,0 +1,60 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Produtos</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Produtos
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>ID_Forn.</th>
+            <th>ID_Prod</th>
+            <th>Nome Fornecedor</th>
+            <th>Nome Produto</th>
+            <th>Marca</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Descricao</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>ID_Forn.</th>
+            <th>ID_Prod</th>
+            <th>Nome Fornecedor</th>
+            <th>Nome Produto</th>
+            <th>Marca</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Descricao</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {{#each produto}}
+        <tr>
+            <th>{{id_fornecedor}}</th>
+            <td>{{id_prod}}</td>
+            <th>{{nome_fornecedor}}</th>
+            <td>{{nome_produto}}</td>
+            <th>{{marca}}</th>
+            <td>{{categoria}}</td>
+            <th>{{preco}}</th>
+            <td>{{descricao}}</td>
+        </tr>
+        {{/each}}
+</table>
