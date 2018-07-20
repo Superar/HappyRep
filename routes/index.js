@@ -563,28 +563,24 @@ router.post('/CadastrarFornecedor', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
-    if (ret.rows[0].InsereFornecedor) {
-      res.render('index', {
-        title: 'Sucesso!'
-      });
-    } else { // Precisa cadastrar o produto
-      var values = {};
-      values.pessoa = 'Fornecedor';
-      values.cadastrar = true;
-      values.id_fornece_value = req.body.id_fornece;
-      values.nome_fornecedor_value = req.body.nome_fornecedor;
-      res.render('formularios/form_fornecedor', values);
-    }
-  }, function (err) {
+
+  db.query('SELECT inserefornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor],
+   function (ret) { 
+      res.render('Sucesso');
+   }, 
+  function (err) {
     var values = {};
     values.pessoa = 'Fornecedor';
     values.cadastrar = true;
+    values.pessoa = 'Fornecedor';
+    values.cadastrar = true;
+    values.id_fornece_value = req.body.id_fornece;
+    values.nome_fornecedor_value = req.body.nome_fornecedor;
+    res.render('formularios/form_fornecedor', values);
     values.erro = err;
 
-    res.render('formularios/form_fornecedor');
+    res.render('formularios/form_fornecedor', {title: 'Falhou!'});
   });
-});
 
 /* Alterar cadastros */
 
@@ -1138,7 +1134,7 @@ router.get('/ListaMoradores', function (req, res) {
 });
 
 router.get('/ListaFornecedor', function (req, res) {
-  db.query('SELECT * FROM public.fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
+  db.query('SELECT * FROM public.fornecedor ORDER BY id_fornecedor ASC', null, function (ret) {
       res.render('listas/produtos/fornecedores', {
         'fornecedor': ret.rows
       });
