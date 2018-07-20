@@ -214,3 +214,20 @@ BEGIN
     END IF;    
 END;
 $BODY$;
+
+-- Deletar receita
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_receita(_id_receita integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM receita r WHERE r.id_receita = _id_receita) THEN
+	RAISE EXCEPTION 'Serviço nao é um receita!';
+    ELSE
+	
+	DELETE FROM receita r WHERE r.id_receita = _id_receita;
+    END IF;    
+END;
+$BODY$;

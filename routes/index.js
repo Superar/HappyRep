@@ -1808,11 +1808,25 @@ router.post('/ApagarServicos/ApagarAlimentacao', function (req, res) {
 
 router.get('/ApagarServicos/ApagarReceita', function (req, res) {
 
-    res.render('apagar/servicos/receita', {
+    db.query('SELECT * FROM receita ORDER BY nome_receita asc', null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+        });
+        res.render('apagar/servicos/receita', {
+            'receitas': ret.rows
+        });
+    }, function (err) {
+        console.log(err);
     });
 
 });
 router.post('/ApagarServicos/ApagarReceita', function (req, res) {
+    db.query('SELECT delete_receita ($1)', [req.body.id_receita], function (ret) {
+        res.redirect('/ApagarServicos/ApagarReceita');
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
+    });
 });
 
 
