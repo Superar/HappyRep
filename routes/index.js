@@ -1493,7 +1493,18 @@ router.get('/ListaServicos/Listarfaxina', function (req, res) {
 
 router.get('/ListaServicos/ListarAlimentacao', function (req, res) {
     
-    res.render('listas/servicos/alimentacao', {
+    db.query("SELECT * FROM view_alimentacao55 ORDER BY hora_inicio DESC", null, function (ret) {
+        ret.rows.forEach(function (elemento) {
+            elemento.hora_inicio = moment(elemento.hora_inicio).format('DD/MM/YYYY hh:mm');
+            elemento.hora_fim = moment(elemento.hora_fim).format('DD/MM/YYYY hh:mm');
+        });
+        res.render('listas/servicos/alimentacao', {
+            'alimentacao': ret.rows
+        });
+    }, function (err) {
+        res.render('bd_error', {
+            error: err
+        });
     });
 });
 

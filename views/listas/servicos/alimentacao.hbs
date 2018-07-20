@@ -1,0 +1,51 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Alimentacao</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Alimentacao
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>Id servico</th>
+            <th>Hora inicio</th>
+            <th>Hora fim</th>
+            <th>Nutricionista</th>
+            <th>Cozinheira</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Id servico</th>
+            <th>Hora inicio</th>
+            <th>Hora fim</th>
+            <th>Nutricionista</th>
+            <th>Cozinheira</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {{#each alimentacao}}
+        <tr>
+            <th>{{id_servico}}</th>
+            <td>{{hora_inicio}}</td>
+            <td>{{hora_fim}}</td>
+            <td>{{nutricionista}}</td>
+            <td>{{cozinheira}}</td>
+        </tr>
+        {{/each}}
+</table>
