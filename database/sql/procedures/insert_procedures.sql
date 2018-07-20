@@ -332,6 +332,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Inserir ingrediente
+-- Autor: Juan Henrique dos Santos
+
+CREATE OR REPLACE FUNCTION insert_ingrediente(_id_receita integer, _id_produto integer, _quantidade integer) RETURNS VOID AS $$
+BEGIN  
+    IF not EXISTS (SELECT 1 FROM produto p WHERE p.id_produto = _id_produto) THEN
+        RAISE EXCEPTION 'Produto não existe';
+    END IF;
+
+    IF not EXISTS (SELECT 1 FROM receita r WHERE r.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Receita não existe';
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM ingredientes i WHERE i.id_produto = _id_produto AND i.id_receita = _id_receita) THEN
+        RAISE EXCEPTION 'Ingrediente já está cadastrado';
+    END IF;
+
+    INSERT INTO ingredientes (id_receita, id_produto, quantidade) VALUES (_id_receita, _id_produto, _quantidade);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Inserir serviço
 -- Autor: Isadora Gallerani
 CREATE OR REPLACE FUNCTION insert_servico(_hora_inicio DATE, _hora_fim DATE, _id_servico INTEGER) RETURNS boolean AS $$
@@ -384,5 +405,45 @@ END IF;
         INSERT INTO Pagamento VALUES (NEW.cod_barras);
      	END IF;
     		RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Inserir alimentação
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION insert_reparo(_cpf varchar, _servico integer) RETURNS void AS $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM reparador r WHERE r.cpf_pessoa = _cpf) THEN
+    RAISE EXCEPTION 'Reparador % inexistente!', _cpf;
+  END IF;
+    
+  IF NOT EXISTS (SELECT 1 FROM servico s WHERE s.id_servico = _servico) THEN
+    RAISE EXCEPTION 'Serviço % inexistente!', _servico;
+  END IF;
+
+  INSERT INTO reparo (id_servico, cpf_reparador) VALUES (_servico, _cpf);
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Inserir receitas
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION insert_receita(_nome varchar, _descricao varchar) RETURNS void AS $$
+declare
+
+    maior integer;	
+    cursor_receita CURSOR FOR SELECT max(id_receita) as maior FROM receita;
+
+BEGIN
+
+    open cursor_receita;
+    FETCH cursor_receita INTO maior;	
+    close cursor_receita;
+
+    maior := maior + 1;
+
+    INSERT INTO receita (id_receita, nome_receita, descricao_receita) VALUES (maior, _nome, _descricao);
+
 END;
 $$ LANGUAGE plpgsql;

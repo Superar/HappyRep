@@ -4,9 +4,7 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">
-                {{#if cadastrar}} Cadastrar Cômodo {{else}} Alterar Cômodo {{/if}}
-            </a>
+            <a href="#" aria-current="page">Alterar Alimentação</a>
         </li>
     </ul>
 </nav>
@@ -15,7 +13,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                {{#if cadastrar}} Cadastrar Cômodo {{else}} Alterar Cômodo {{/if}}
+                Alterar Alimentação
             </h1>
         </div>
     </div>
@@ -23,22 +21,20 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarComodo/Cadastrar"
-            {{else}} {{!-- Alterar --}} action="/AlterarComodo/Alterar" {{/if}}>
+        <form method="POST" action="/AlterarServicos/AlterarAlimentacao">
             <div class="columns is-multiline">
                 <div class="column">
-
+                    
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID Comodo
-                                <span class="has-text-danger">*</span>
+                                Id serviço <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_comodo" class="input" type="text" placeholder="ID" value="{{id_comodo}}">
+                                    <input name="id_servico" class="input" type="text" placeholder="Código do serviço" value="{{id_servico}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -50,14 +46,13 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID República
-                                <span class="has-text-danger">*</span>
+                                CPF nutricionista <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_republica" class="input" type="text" placeholder="ID" value="{{id_republica}}">
+                                    <input name="cpf_nutricionista" class="input" type="text" placeholder="CPF do nutricionista" value="{{cpf_nutricionista}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -67,25 +62,42 @@
                     </div>
 
                     <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                CPF cozinheira <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="cpf_cozinheira" class="input" type="text" placeholder="CPF da cozinheira" value="{{cpf_cozinheira}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal" >
                         <div class="field-label"></div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <button class="button is-primary">
-                                        {{#if cadastrar}} Cadastrar {{else}} Alterar {{/if}}
+                                    <button class="button is-primary" name="alterar">
+                                        Alterar
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="field is-horizontal">
                         <div class="field-label" />
                         <p class="help is-danger is-right">
                             Campos com * são obrigatórios.
                         </p>
                     </div>
-
                 </div>
             </div>
         </form>

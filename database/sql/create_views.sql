@@ -127,6 +127,99 @@ UNION
 SELECT cpf, sexo, rg, nome_prenome, nome_sobrenome, data_de_nascimento, email
 FROM view_nutricionista;
 
+-- View: view_operador_servico
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE view view_operador_servico AS
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		f.cpf_faxineira as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email, 
+		'F' as tipo 
+	FROM servico s
+	INNER JOIN faxina f ON f.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = f.cpf_faxineira
+)
+UNION
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		a.cpf_cozinheira as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email,  
+		'C' as tipo 
+	FROM servico s
+	INNER JOIN alimentacao a ON a.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = a.cpf_cozinheira
+)
+
+UNION
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		a.cpf_nutricionista as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email, 
+		'N' as tipo 
+	FROM servico s
+	INNER JOIN alimentacao a ON a.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = a.cpf_nutricionista
+)
+
+UNION 
+(
+	SELECT 
+		s.id_servico as id_servico, 
+		s.hora_inicio as hora_inicio,
+		s.hora_fim as hora_fim, 
+		r.cpf_reparador as cpf, 
+		p.sexo as sexo, 
+		p.rg as rg, 
+		p.nome_prenome as nome_prenome, 
+		p.nome_sobrenome as nome_sobrenome, 
+		p.data_de_nascimento as data_de_nascimento, 
+		p.email as email,  
+		'R' as tipo 
+	FROM servico s
+	INNER JOIN reparo r ON r.id_servico = s.id_servico
+	INNER JOIN pessoa p ON p.cpf = r.cpf_reparador
+);
+
+-- View: view_ingredientes_receita
+-- Autor: Alexandre Dutra
+CREATE OR REPLACE VIEW public.view_ingredientes_receita AS
+ SELECT i.quantidade AS quant,
+    i.id_receita,
+    i.id_produto,
+    p.nome,
+    p.descricao,
+    p.marca,
+    p.categoria,
+    r.nome_receita,
+    r.descricao_receita
+   FROM ingredientes i
+     JOIN receita r ON r.id_receita = i.id_receita
+     JOIN produto p ON p.id_produto = i.id_produto;
+
 --Autor: Jorge Bernardo
 --Ver nome de todas as pessoas que estao registaradas com multa acima de 500
 
@@ -134,3 +227,19 @@ Create VIEW viewPagamento AS
 select p.nome_pagador_prenome, p.nome_pagador_sobrenome, p.cnpj_beneficiario
 from Pagamento as p
 where multa > 500;
+
+--Autor: Juan
+--Exibir as alimentacoes com os nomes dos nutricionistas e cozinheiras
+CREATE OR REPLACE VIEW public.view_alimentacao55 AS
+ SELECT s.id_servico,
+    s.hora_inicio,
+    s.hora_fim,
+    nutri.nome_prenome::text || ' ' ||nutri.nome_sobrenome::text AS nutricionista,
+    cozi.nome_prenome::text || ' ' ||cozi.nome_sobrenome::text AS cozinheira
+   FROM servico s
+     JOIN alimentacao a ON a.id_servico = s.id_servico
+     JOIN pessoa nutri ON nutri.cpf = a.cpf_nutricionista
+     JOIN pessoa cozi ON cozi.cpf = a.cpf_cozinheira;
+
+ALTER TABLE public.view_alimentacao55
+    OWNER TO azjpybnuyzhimq;

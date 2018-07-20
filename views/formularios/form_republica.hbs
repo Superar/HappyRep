@@ -5,7 +5,7 @@
         </li>
         <li class="is-active">
             <a href="#" aria-current="page">
-                {{#if cadastrar}} Cadastrar {{republica}} {{else}} Alterar {{republica}} {{/if}}
+                {{#if cadastrar}} Cadastrar República {{else}} Alterar República {{/if}}
             </a>
         </li>
     </ul>
@@ -15,7 +15,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                {{#if cadastrar}} Cadastrar {{republica}} {{else}} Alterar {{republica}} {{/if}}
+                {{#if cadastrar}} Cadastrar República {{else}} Alterar República {{/if}}
             </h1>
         </div>
     </div>
@@ -23,8 +23,8 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarRepublica/Cadastrar{{{republica}}}"
-            {{else}} {{!-- Alterar --}} action="/AlterarRepublica/Alterar{{{republica}}}" {{/if}}>
+        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarRepublica/Cadastrar"
+            {{else}} {{!-- Alterar --}} action="/AlterarRepublica/Alterar" {{/if}}>
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="field is-horizontal">
@@ -57,10 +57,10 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <label class="radio">
-                                        <input type="radio" name="status" value="1" {{#unless cadastrar_republica}}disabled{{/unless}} {{#if ativo}}checked{{/if}}> Ativo
+                                        <input type="radio" name="status" value="1" {{#if ativo}}checked{{/if}}> Ativo
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" name="status" value="0" {{#unless cadastrar_republica}}disabled{{/unless}} {{#if inativo}}checked{{/if}}> Inativo
+                                        <input type="radio" name="status" value="0" {{#if inativo}}checked{{/if}}> Inativo
                                     </label>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="cep" class="input" type="text" placeholder="CEP" value="{{endereco_cep}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <input name="cep" class="input" type="text" placeholder="CEP" value="{{endereco_cep}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -96,7 +96,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="logradouro" class="input" type="text" placeholder="Logradouro" value="{{endereco_logradouro}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <input name="logradouro" class="input" type="text" placeholder="Logradouro" value="{{endereco_logradouro}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-user"></i>
                                     </span>
@@ -105,7 +105,7 @@
 
                             <div class="field">
                                 <p class="control is-expanded">
-                                    <input name="numero" class="input" type="text" placeholder="Número" value="{{endereco_numero}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <input name="numero" class="input" type="text" placeholder="Número" value="{{endereco_numero}}">
                                 </p>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="complemento" class="input" type="text" placeholder="Complemento" value="{{endereco_complemento}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <input name="complemento" class="input" type="text" placeholder="Complemento" value="{{endereco_complemento}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-at"></i>
                                     </span>
@@ -138,7 +138,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="observacoes" class="input" type="text" placeholder="Observações" value="{{endereco_observacoes}}" {{#unless cadastrar_republica}}disabled{{/unless}}>
+                                    <input name="observacoes" class="input" type="text" placeholder="Observações" value="{{endereco_observacoes}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-at"></i>
                                     </span>

@@ -4,9 +4,7 @@
             <a href="/">Página Inicial</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">
-                {{#if cadastrar}} Cadastrar Cômodo {{else}} Alterar Cômodo {{/if}}
-            </a>
+            <a href="#" aria-current="page">Alterar Receita</a>
         </li>
     </ul>
 </nav>
@@ -15,7 +13,7 @@
     <div class="level-left">
         <div class="level-item">
             <h1 class="title">
-                {{#if cadastrar}} Cadastrar Cômodo {{else}} Alterar Cômodo {{/if}}
+                Alterar Receita
             </h1>
         </div>
     </div>
@@ -23,22 +21,20 @@
 
 <div class="columns">
     <div class="column">
-        <form method="POST" {{#if cadastrar}} {{!-- Cadastrar --}} action="/CadastrarComodo/Cadastrar"
-            {{else}} {{!-- Alterar --}} action="/AlterarComodo/Alterar" {{/if}}>
+        <form method="POST" action="/AlterarServicos/AlterarReceita">
             <div class="columns is-multiline">
                 <div class="column">
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID Comodo
-                                <span class="has-text-danger">*</span>
+                                Id Receita <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_comodo" class="input" type="text" placeholder="ID" value="{{id_comodo}}">
+                                    <input name="id_receita" class="input" type="text" placeholder="Id da receita" value="{{id_receita}}">
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-address-card"></i>
                                     </span>
@@ -50,16 +46,37 @@
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">
-                                ID República
+                                Nome Receita <span class="has-text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <input name="nome_receita" class="input" type="text" placeholder="Nome da receita" value="{{nome_receita}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-address-card"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">
+                                Descrição
                                 <span class="has-text-danger">*</span>
                             </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded has-icons-left">
-                                    <input name="id_republica" class="input" type="text" placeholder="ID" value="{{id_republica}}">
+
+                                <textarea name="descricao_receita" class="input" type="text" rows="4"
+                                        placeholder="Descricao">{{descricao_receita}}</textarea>
+
                                     <span class="icon is-small is-left">
-                                        <i class="fa fa-address-card"></i>
+                                        <i class="fa fa-user"></i>
                                     </span>
                                 </p>
                             </div>
@@ -72,7 +89,7 @@
                             <div class="field">
                                 <div class="control">
                                     <button class="button is-primary">
-                                        {{#if cadastrar}} Cadastrar {{else}} Alterar {{/if}}
+                                        Alterar
                                     </button>
                                 </div>
                             </div>
@@ -85,7 +102,6 @@
                             Campos com * são obrigatórios.
                         </p>
                     </div>
-
                 </div>
             </div>
         </form>
