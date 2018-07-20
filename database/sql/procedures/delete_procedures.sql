@@ -197,3 +197,20 @@ BEGIN
     END IF;    
 END;
 $BODY$;
+
+-- Deletar reparo
+-- Autor: Juan Henrique dos Santos
+CREATE OR REPLACE FUNCTION public.delete_reparo( _id_servico integer)
+    RETURNS void
+    LANGUAGE 'plpgsql' AS $BODY$
+declare
+
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM reparo r WHERE r.id_servico = _id_servico) THEN
+	RAISE EXCEPTION 'Serviço nao é um reparo!';
+    ELSE
+	
+	DELETE FROM reparo r WHERE r.id_servico = _id_servico;
+    END IF;    
+END;
+$BODY$;

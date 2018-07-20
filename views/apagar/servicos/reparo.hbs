@@ -1,0 +1,72 @@
+<nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="/">Página Inicial</a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">Lista de Reparo</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h1 class="title">
+                Lista de Reparo
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id servico</th>
+            <th>Hora inicio</th>
+            <th>Hora fim</th>
+            <th>CPF</th>
+            <th>Primeiro Nome</th>
+            <th>Sobrenome</th>
+            <th>Sexo</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>Id servico</th>
+            <th>Hora inicio</th>
+            <th>Hora fim</th>
+            <th>CPF</th>
+            <th>Primeiro Nome</th>
+            <th>Sobrenome</th>
+            <th>Sexo</th>
+            <th>Email</th>
+        </tr>
+    </tfoot>
+    <form method="POST" action="/ApagarServicos/ApagarReparo">
+        <tbody>
+            {{#each reparos}}
+            <tr>
+                <th>
+                    <button name="id_servico" type="submit" value="{{id_servico}}">
+                        <span class="icon is-small">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </button>
+                </th>
+                <th>{{id_servico}}</th>
+                <td>{{hora_inicio}}</td>
+                <td>{{hora_fim}}</td>
+                <td>{{cpf}}</td>
+                <td>{{nome_prenome}}</td>
+                <td>{{nome_sobrenome}}</td>
+                <td>{{sexo}}</td>
+                <td>{{email}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </form>
+</table>
