@@ -710,20 +710,16 @@ router.post('/CadastrarFornecedor', function (req, res) {
 
   db.query('SELECT inserefornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor],
    function (ret) { 
-      res.render('Sucesso');
+      res.render('sucesso');
    }, 
   function (err) {
     var values = {};
-    values.pessoa = 'Fornecedor';
-    values.cadastrar = true;
     values.pessoa = 'Fornecedor';
     values.cadastrar = true;
     values.id_fornece_value = req.body.id_fornece;
     values.nome_fornecedor_value = req.body.nome_fornecedor;
     res.render('formularios/form_fornecedor', values);
     values.erro = err;
-
-    res.render('formularios/form_fornecedor', {title: 'Falhou!'});
   });
 
 // GET - Cadastrar Republica
