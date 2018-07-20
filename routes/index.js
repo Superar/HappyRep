@@ -1439,16 +1439,6 @@ router.post('/AlterarServicos/AlterarReceita', function (req, res) {
 
 });
 
-router.get('/AlterarServicos/AlterarFaxina', function (req, res) {
-    res.render('alterar/servicos/faxina', {
-    });
-});
-
-router.get('/AlterarServicos/AlterarReparo', function (req, res) {
-    res.render('alterar/servicos/reparo', {
-    });
-});
-
 router.get('/AlterarServicos/AlterarReceita', function (req, res) {
     res.render('alterar/servicos/reparo', {
     });
