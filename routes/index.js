@@ -509,7 +509,7 @@ router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, 
 
 // GET - Cadastrar faxina
 router.get('/CadastrarServico/CadastrarFaxina', function (req, res) {
-  res.render('formularios/cadastrar_faxina', {
+  res.render('formularios/form_faxina', {
     servico: 'Faxina',
     cadastrar: true,
     cadastrar_servico: false
@@ -575,7 +575,7 @@ router.post('/CadastrarServico/CadastrarNovoServicoFaxina', function (req, res) 
 
 // GET - Cadastrar alimentação
 router.get('/CadastrarServico/CadastrarAlimentacao', function (req, res) {
-  res.render('formularios/cadastrar_alimentacao', {
+  res.render('formularios/form_alimentacao', {
     servico: 'Alimentação',
     cadastrar: true,
     cadastrar_servico: false
