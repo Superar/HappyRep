@@ -474,7 +474,7 @@ router.post('/CadastrarServicos/CadastrarReparo', function (req, res) {
         var values = {};
         values.id_servico = req.body.id_servico;
         values.cpf_reparador = req.body.cpf_reparador;
-        
+
         values.erro = err;
         res.render('cadastrar/servicos/reparo', values);
     });
@@ -1349,8 +1349,39 @@ router.get('/AlterarServicos', function (req, res) {
 });
 
 router.get('/AlterarServicos/AlterarIngrediente', function (req, res) {
-    res.render('alterar/servicos/ingredientes', {
-    });
+    res.render('alterar/servicos/ingredientes');
+});
+
+router.post('/AlterarServicos/AlterarIngrediente', function (req, res) {
+
+    db.query('SELECT update_ingrediente ($1, $2, $3)',
+            [req.body.id_produto, req.body.id_receita, req.body.quantidade],
+            function (ret) {
+                if (ret.rows[0].update_ingrediente) {
+                    res.render('sucesso');
+                } else {
+                    var values = {};
+                    values.id_produto = req.body.id_produto;
+                    values.quantidade = req.body.quantidade;
+                    values.id_receita = req.body.id_receita;
+
+                    values.erro = 'CPF e/ou receita não cadastrados';
+
+                    res.render('alterar/servicos/ingredientes', values);
+                }
+            },
+            function (err) {
+
+                var values = {};
+                values.id_produto = req.body.id_produto;
+                values.quantidade = req.body.quantidade;
+                values.id_receita = req.body.id_receita;
+
+                values.erro = err;
+
+                res.render('alterar/servicos/ingredientes', values);
+            });
+
 });
 
 router.get('/AlterarServicos/AlterarFaxina', function (req, res) {
