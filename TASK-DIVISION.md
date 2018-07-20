@@ -146,7 +146,7 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 ### Alexandre Dutra
 
 #### Tabelas
-- receita
+
 - receita_alimentacao
 - produto
 - ingredientes
@@ -154,6 +154,7 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 #### Views
 
 - view_ingredientes_receita
+- view_alimentacao55
 
 #### Triggers
 
@@ -169,6 +170,25 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 
 ---
 ### Juan Santos
+#### Tabelas
+
+- Alimentação
+- serviço
+- receita
+
+#### Procedimentos e funções
+- update_ingrediente()
+- delete_ingrediente()
+- delete_alimentacao()
+- insert_ingrediente()
+- valor_receita()
+- possui_horario_atendimento()
+
+#### View
+view_operador_servico
+
+#### Triggers
+insert_view_servico
 
 ---
 ### Isadora Gallerani
@@ -177,7 +197,7 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 - Faxina
 - Nutricionista
 - Reparo
-- Alimentação
+
 
 #### Views
 
@@ -191,6 +211,27 @@ O grupo 2 ficou responsável pelas implementações referentes às tabelas:
 
 ---
 ### Mariana Zagatti
+#### Tabelas
+- fornecedor
+- fornecimento
+- produtos
+- itens
+
+#### Views
+- view_servicos
+
+#### Trigger
+- trigger_inserir_servico()
+- trigger_apagar_servico()
+
+#### Procedimentos e funções
+- update_receita()
+- delete_faxina()
+- delete_reparo()
+- verificar_coerencia_horario()
+- insert_reparo()
+- inserir_receita ()
+- inserir_alimentacao ()
 
 
 ---
