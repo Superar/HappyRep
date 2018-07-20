@@ -66,7 +66,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaPessoa', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_pessoa ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       res.render('sucesso');
     },
@@ -272,7 +272,7 @@ router.post('/CadastrarFuncionario/CadastrarPessoaFaxineira', function (req, res
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento , req.body.email],
+  db.query('SELECT insert_faxineira ($1, $2, $3, $4, $5, $6, $7)', [req.body.cpf, req.body.sexo, req.body.rg, req.body.prenome, req.body.sobrenome, req.body.data_de_nascimento, req.body.email],
     function (ret) {
       res.render('index', {
         title: 'Deu bom!'
@@ -464,9 +464,9 @@ router.post('/CadastrarServico/CadastrarNovoServico', function (req, res) {
       values.cadastrar = true;
       values.cadastrar_servico = true;
       values.id_servico_value = req.body.id_servico;
-	  values.hora_inicio_value = req.body.hora_inicio;
+      values.hora_inicio_value = req.body.hora_inicio;
       values.hora_fim_value = req.body.hora_fim;
-	  
+
       res.render('formularios/form_servico', values);
     }
   }, function (err) {
@@ -663,7 +663,7 @@ router.post('/CadastrarProduto', function (req, res) {
     req.body.tipo = [req.body.tipo];
   }
 
-  db.query('INSERTO INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto ,  req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria ,req.body.preco, req.body.descricao ], function (ret) {
+  db.query('INSERT INTO view_produto_fornecedor ($1, $2, $3, $4, $5, $6, $7, $8)', [req.body.id_fornecedor, req.body.id_produto, req.body.nome_fornecedor, req.body.nome, req.body.marca, req.body.categoria, req.body.preco, req.body.descricao], function (ret) {
     if (ret.rows[0].InsereProduto) {
       res.render('index', {
         title: 'Sucesso!'
@@ -680,7 +680,7 @@ router.post('/CadastrarProduto', function (req, res) {
       values.categoria_value = req.body.categoria;
       values.id_preco_value = req.body.id_preco;
       values.descricao_value = req.body.descricao;
-      
+
       res.render('formularios/form_produto', values);
     }
   }, function (err) {
@@ -708,7 +708,7 @@ router.post('/CadastrarFornecedor', function (req, res) {
   }
 
   db.query('SELECT InsereFornecedor ($1, $2)', [req.body.id_fornece, req.body.nome_fornecedor], function (ret) {
-    if (ret.rows[0].InsereProduto) {
+    if (ret.rows[0].InsereFornecedor) {
       res.render('index', {
         title: 'Sucesso!'
       });
@@ -726,7 +726,7 @@ router.post('/CadastrarFornecedor', function (req, res) {
     values.cadastrar = true;
     values.erro = err;
 
-    res.render('formularios/form_fornecedor')
+    res.render('formularios/form_fornecedor');
   });
 });
 
@@ -765,14 +765,14 @@ router.post('/CadastrarRepublica/Cadastrar', function (req, res) {
 });
 
 router.post('/CadastrarRepublica/CadastrarRepublica', function (req, res) {
-  db.query('SELECT insert_republica ($1, $2, $3, $4, $5, $6, $7)', 
-    [req.body.id_republica, 
-    req.body.status, 
-    req.body.endereco_cep, 
-    req.body.endereco_logradouro, 
-    req.body.endereco_numero, 
-    req.body.endereco_complemento, 
-    req.body.endereco_observacoes],
+  db.query('SELECT insert_republica ($1, $2, $3, $4, $5, $6, $7)', [req.body.id_republica,
+      req.body.status,
+      req.body.endereco_cep,
+      req.body.endereco_logradouro,
+      req.body.endereco_numero,
+      req.body.endereco_complemento,
+      req.body.endereco_observacoes
+    ],
     function (ret) {
       res.render('sucesso');
     },
@@ -830,9 +830,9 @@ router.post('/CadastrarComodo/Cadastrar', function (req, res) {
 });
 
 router.post('/CadastrarComodo/CadastrarComodo', function (req, res) {
-  db.query('SELECT insert_republica ($1, $2)', 
-    [req.body.id_comodo, 
-    req.body.id_republica],
+  db.query('SELECT insert_republica ($1, $2)', [req.body.id_comodo,
+      req.body.id_republica
+    ],
     function (ret) {
       res.render('sucesso');
     },
@@ -1391,6 +1391,19 @@ router.get('/ListaMoradores', function (req, res) {
       });
       res.render('listas/moradores', {
         'morador': ret.rows
+      });
+    },
+    function (err) {
+      res.render('bd_error', {
+        error: err
+      });
+    });
+});
+
+router.get('/ListaFornecedor', function (req, res) {
+  db.query('SELECT * FROM public.fornecedor ORDER BY nome_fornecedor ASC', null, function (ret) {
+      res.render('listas/produtos/fornecedores', {
+        'fornecedor': ret.rows
       });
     },
     function (err) {
