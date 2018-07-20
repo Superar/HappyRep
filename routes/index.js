@@ -493,7 +493,7 @@ router.post('/CadastrarServico/CadastrarNovoServicoNovoServico', function (req, 
     },
     function (err) {
       var values = {};
-      values.servico = 'Serviço';
+      values.servico = 'Novo Serviço';
       values.cadastrar = true;
       values.cadastrar_servico = true;
       values.id_servico_value = req.body.id_servico;
